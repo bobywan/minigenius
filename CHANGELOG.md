@@ -21,5 +21,10 @@ Format basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
 - Design system : `GlassCard` (gradients glossy), `NeonButton` (effet 3D cartoon), `StarRating`, `BadgeModule`, `DifficultyBadge`, `ProgressDots`
 - Icônes Lucide React — zéro emoji dans l'UI
 - PWA — manifest et icônes pour installation mobile
+
+### Modifié
+
+- PWA : remplacement de `@ducanh2912/next-pwa` par un service worker statique natif (`public/sw.js`) — incompatible avec Turbopack
+- PWA : correction du `purpose` des icônes dans le manifest (séparation `any` / `maskable` en entrées distinctes)
 - Page design system (`/design`) — référence des tokens et composants
 - Support Framer Motion pour les animations de résultat

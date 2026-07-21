@@ -73,4 +73,16 @@
 
 **Conséquences :** Prérequis supplémentaire (`uv` + `serena-agent`). En contrepartie, l'agent peut renommer un symbole dans tout le projet en un appel MCP au lieu de plusieurs grep + replace successifs. Le projet TypeScript est supporté nativement via `typescript-language-server`.
 
+## [2026-07-21] Service worker statique natif à la place de @ducanh2912/next-pwa
+
+**Contexte :** `@ducanh2912/next-pwa` est un plugin Webpack qui génère `sw.js` au build. Next.js 16 avec `turbopack: {}` utilise Turbopack, qui ignore les plugins Webpack → `sw.js` jamais généré en production → PWA non installable sur mobile.
+
+**Décision :** Service worker statique dans `public/sw.js` (API native browser, aucune dépendance). Enregistrement via un composant `"use client"` minimal (`components/ServiceWorkerRegistration.tsx`) injecté dans le root layout. Stratégie : network-first sur les navigations, cache-first sur les assets statiques.
+
+**Alternatives écartées :**
+- Désactiver Turbopack : perte des gains de performance en dev, contre l'intention du projet
+- `serwist` (successeur de next-pwa compatible Turbopack) : nouvelle dépendance non justifiée, le SW natif couvre 100% du besoin ici
+
+**Conséquences :** Pas de précaching automatique des routes Next.js (chunks JS). Seules `/` et `/maths` sont précachées explicitement. Si de nouvelles routes critiques sont ajoutées, les ajouter au tableau `PRECACHE` dans `public/sw.js`.
+
 <!-- Ajoute tes décisions ci-dessous en suivant le même format -->

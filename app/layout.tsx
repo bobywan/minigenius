@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Nunito, Titan_One } from "next/font/google";
+import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
 import "./globals.css";
 
 const titanOne = Titan_One({
@@ -41,7 +42,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${titanOne.variable} ${nunito.variable}`}>
-      <body>{children}</body>
+      <body>
+        <ServiceWorkerRegistration />
+        {children}
+      </body>
     </html>
   );
 }
