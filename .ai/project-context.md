@@ -7,23 +7,24 @@
 
 ## Objectif du projet
 
-<!-- Décris en 2-3 phrases ce que ce projet fait et pourquoi il existe. -->
-
-boby-boilerplate est un template Next.js (App Router) fullstack, prêt à l'emploi.
-Il sert de base réutilisable pour démarrer rapidement de nouveaux projets web modernes
-avec une configuration IA avancée intégrée.
+MiniGenius est une application web éducative gamifiée pour les enfants (6–12 ans).
+Elle propose des exercices de maths interactifs avec progression par étoiles, déverrouillage de niveaux, effets sonores et confettis — pensée pour être utilisée sur tablette.
 
 ---
 
 ## Stack technique
 
 | Outil | Version | Rôle |
-|-------|---------|------|
+|---|---|---|
 | Next.js | 16 (App Router) | Framework fullstack |
 | React | 19 | UI |
 | TypeScript | 5 (strict) | Typage |
 | Tailwind CSS | v4 | Styles (via CSS, sans config file) |
-| BiomeJS | v2 | Lint + format (remplace ESLint + Prettier) |
+| BiomeJS | v2 | Lint + format |
+| Zustand | v5 | État de progression (localStorage) |
+| Framer Motion | v12 | Animations |
+| Lucide React | — | Icônes (zéro emoji dans l'UI) |
+| canvas-confetti | — | Confettis fin de série |
 | Node.js | 24 LTS | Runtime |
 
 ---
@@ -31,56 +32,84 @@ avec une configuration IA avancée intégrée.
 ## Architecture
 
 ```
-app/                    # App Router — pages, layouts, routes
-public/                 # Assets statiques
-scripts/                # Scripts utilitaires (init, sync, dev)
-.cursor/                # Configuration Cursor + règles IA
-.ai/                    # Mémoire projet IA (ce dossier)
-.github/workflows/      # CI GitHub Actions
+app/
+  page.tsx                     # Accueil — choix de matière
+  maths/
+    page.tsx                   # Choix de l'opération (4 modules)
+    [module]/
+      page.tsx                 # Choix de la difficulté (3 niveaux)
+      [difficulty]/page.tsx    # Jeu — série de 10 exercices
+  design/page.tsx              # Design system (référence)
+components/
+  game/                        # Composants de jeu
+  ui/                          # Composants réutilisables
+lib/
+  types.ts                     # Types, constantes, helpers
+  exercises/generators/math.ts # Génération d'exercices aléatoires
+  store/progressStore.ts       # Zustand — progression persistante
+  audio/sounds.ts              # Sons (Web Audio API)
+public/
+  icons/                       # Icônes PWA
+  manifest.json                # PWA manifest
 ```
 
 **Principes :**
-- Server Components par défaut — `"use client"` uniquement si nécessaire
+- Server Components par défaut — `"use client"` uniquement si nécessaire (jeu, store)
 - Imports internes via l'alias `@/`
 - Pas de `var`, pas d'`any` explicite
 
 ---
 
-## Contraintes métier
+## Système de progression
 
-<!-- Liste les contraintes non techniques qui influencent le code. -->
-
-- Le boilerplate doit rester utilisable pour plusieurs types de projets : web apps, APIs, scripts, Docker
-- Aucune dépendance inutile — préférer les solutions natives
-- Configuration portable : pas de secrets hardcodés, tout via `.env.local`
+- Chaque niveau (module × difficulté) donne 0–3 étoiles selon le score sur 10
+- Score < 6 → 0 étoile (niveau non validé, pas de déverrouillage)
+- Score 6–7 → 1 étoile, 8–9 → 2 étoiles, 10 → 3 étoiles
+- La difficulté suivante se déverrouille à ≥ 1 étoile
+- Le module suivant se déverrouille quand toutes les difficultés du précédent ont ≥ 1 étoile
+- Progression sauvegardée en localStorage via Zustand persist
 
 ---
 
-## Outils IA configurés
+## Design system
 
-| Outil | Rôle |
-|-------|------|
-| Context Mode | Serveur MCP — protection de la fenêtre de contexte, session persistante |
-| Headroom | Serveur MCP — compression de contexte (60-95% de tokens économisés) |
-| Serena | Serveur MCP — navigation symbolique IDE (find refs, rename cross-file, refactoring LSP) |
-| Ponytail | Règle Cursor — mode "lazy senior dev" (YAGNI ladder) |
-| Règles 00-06 | Règles Cursor — comportement de l'agent, qualité, sécurité, git, Docker |
+Thème cartoon/Fall Guys — fond bleu vif → cyan, composants glossy.
+
+| Token | Valeur |
+|---|---|
+| `--color-bg-deep` | `#115ded` |
+| `--color-bg-surface` | `#49ebfe` |
+| `--font-display` | Titan One |
+| `--font-body` | Nunito |
+| `--text-shadow-solid` | Contour noir cartoon |
+
+Composants clés : `GlassCard` (gradients par variante), `NeonButton` (3D cartoon), `StarRating`, `BadgeModule`, `DifficultyBadge`, `ProgressDots`.
+
+---
+
+## Contraintes métier
+
+- Utilisateurs cibles : enfants 6–12 ans sur tablette → NumPad tactile, gros boutons, contrastes élevés
+- Zéro emoji dans l'UI — uniquement des icônes Lucide
+- Progression non réinitialisable depuis l'interface (localStorage uniquement)
+- Pas d'authentification, pas de backend — 100% client-side
+
+---
+
+## Matières disponibles
+
+| Matière | Statut |
+|---|---|
+| Maths | Actif |
+| Français | Bientôt |
+| Anglais | Bientôt |
+| Histoire | Bientôt |
 
 ---
 
 ## Points d'entrée importants
 
 - `npm run dev` — lance le serveur de développement
-- `npm run init-project` — initialise un nouveau projet depuis le boilerplate
-- `npm run sync` — synchronise les configs depuis le boilerplate distant
+- `npm run build` — build de production
 - `npm run check` — lint + format + imports (BiomeJS)
-
----
-
-## À compléter par le projet dérivé
-
-Quand tu utilises ce boilerplate pour un nouveau projet, remplace ou complète les sections ci-dessus avec :
-- L'objectif réel du projet
-- Les dépendances supplémentaires installées
-- Les contraintes métier spécifiques
-- L'URL de production et les environnements
+- `/design` — page design system (tokens + composants)
