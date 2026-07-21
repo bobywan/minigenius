@@ -1,5 +1,6 @@
 # MiniGenius
 
+[![Démo](https://img.shields.io/badge/Demo-minigenius.vercel.app-black?logo=vercel)](https://minigenius.vercel.app)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![Node](https://img.shields.io/badge/Node.js-24%20LTS-green?logo=node.js)](https://nodejs.org/)

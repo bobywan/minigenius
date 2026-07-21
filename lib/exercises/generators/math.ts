@@ -99,6 +99,38 @@ function exerciseKey(e: Exercise): string {
   return `${e.left ?? "?"}${e.op}${e.right ?? "?"}=${e.result ?? "?"}`;
 }
 
+export function generateOne(op: MathModule, difficulty: Difficulty): Exercise {
+  return generators[op](difficulty);
+}
+
+function generateMixed(difficulty: Difficulty): Exercise {
+  const ops: MathModule[] = ["addition", "soustraction", "multiplication", "division"];
+  const op = ops[Math.floor(Math.random() * ops.length)] as MathModule;
+  return generators[op](difficulty);
+}
+
+export function generateMixedSeries(difficulty: Difficulty): Exercise[] {
+  const series: Exercise[] = [];
+  const seen = new Set<string>();
+  let attempts = 0;
+
+  while (series.length < SERIES_LENGTH && attempts < 200) {
+    attempts++;
+    const ex = generateMixed(difficulty);
+    const key = exerciseKey(ex);
+    if (!seen.has(key)) {
+      seen.add(key);
+      series.push(ex);
+    }
+  }
+
+  while (series.length < SERIES_LENGTH) {
+    series.push(generateMixed(difficulty));
+  }
+
+  return series;
+}
+
 export function generateSeries(op: MathModule, difficulty: Difficulty): Exercise[] {
   const gen = generators[op];
   const series: Exercise[] = [];

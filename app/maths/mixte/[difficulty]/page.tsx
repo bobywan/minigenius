@@ -10,31 +10,21 @@ import { neonBtnCls } from "@/components/ui/NeonButton";
 import { NumPad } from "@/components/ui/NumPad";
 import { ProgressDots } from "@/components/ui/ProgressDots";
 import { playError, playSuccess } from "@/lib/audio/sounds";
-import { generateSeries } from "@/lib/exercises/generators/math";
-import { useProgressStore } from "@/lib/store/progressStore";
-import type { Difficulty, Exercise, MathModule } from "@/lib/types";
-import { computeStars, DIFFICULTIES, MATH_MODULES } from "@/lib/types";
+import { generateMixedSeries } from "@/lib/exercises/generators/math";
+import type { Difficulty, Exercise } from "@/lib/types";
+import { DIFFICULTIES } from "@/lib/types";
 
 type DotState = "idle" | "correct" | "wrong";
 type InputState = "idle" | "correct" | "wrong";
 type Phase = "playing" | "feedback" | "finished";
 
-export default function GamePage({
-  params,
-}: {
-  params: Promise<{ module: string; difficulty: string }>;
-}) {
-  const { module: mod, difficulty: diff } = use(params);
+export default function MixteGamePage({ params }: { params: Promise<{ difficulty: string }> }) {
+  const { difficulty: diff } = use(params);
 
-  if (!MATH_MODULES.includes(mod as MathModule)) notFound();
   if (!DIFFICULTIES.includes(diff as Difficulty)) notFound();
-
-  const mathMod = mod as MathModule;
   const difficulty = diff as Difficulty;
 
-  const { saveResult } = useProgressStore();
-
-  // null initial pour éviter la désynchronisation SSR/client (Math.random côté serveur ≠ client)
+  // null initial pour éviter la désynchronisation SSR/client
   const [series, setSeries] = useState<Exercise[] | null>(null);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [inputValue, setInputValue] = useState("");
@@ -45,8 +35,8 @@ export default function GamePage({
   const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    setSeries(generateSeries(mathMod, difficulty));
-  }, [mathMod, difficulty]);
+    setSeries(generateMixedSeries(difficulty));
+  }, [difficulty]);
 
   const currentExercise = series?.[currentIdx];
 
@@ -87,18 +77,6 @@ export default function GamePage({
     feedbackTimer.current = setTimeout(advance, isCorrect ? 900 : 1800);
   }, [phase, currentExercise, inputValue, currentIdx, advance]);
 
-  // Sauvegarde en fin de série
-  useEffect(() => {
-    if (phase !== "finished") return;
-    const stars = computeStars(correctCount);
-    saveResult("maths", mathMod, difficulty, {
-      correct: correctCount,
-      stars,
-      completedAt: new Date().toISOString(),
-    });
-  }, [phase, correctCount, mathMod, difficulty, saveResult]);
-
-  // Cleanup timer on unmount
   useEffect(
     () => () => {
       if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
@@ -107,7 +85,7 @@ export default function GamePage({
   );
 
   function handleReplay() {
-    setSeries(generateSeries(mathMod, difficulty));
+    setSeries(generateMixedSeries(difficulty));
     setCurrentIdx(0);
     setInputValue("");
     setDotStates(Array(10).fill("idle") as DotState[]);
@@ -118,20 +96,17 @@ export default function GamePage({
 
   if (!series) return null;
 
-  // Next difficulty href
-  const nextDiffIdx = DIFFICULTIES.indexOf(difficulty) + 1;
-  const nextDiff = DIFFICULTIES[nextDiffIdx];
-  const nextHref = nextDiff ? `/maths/${mathMod}/${nextDiff}` : `/maths/${mathMod}`;
-
   if (phase === "finished") {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
+        {/* ponytail: mixte n'a pas de module MathModule — on passe "addition" symboliquement,
+            SeriesResultScreen ne l'affiche pas dans l'UI */}
         <SeriesResultScreen
           correct={correctCount}
-          module={mathMod}
+          module="addition"
           difficulty={difficulty}
           onReplay={handleReplay}
-          nextHref={nextHref}
+          nextHref="/maths/mixte"
         />
       </main>
     );
@@ -140,7 +115,7 @@ export default function GamePage({
   return (
     <main className="min-h-screen flex flex-col items-center gap-8 px-4 py-12">
       <header className="w-full max-w-md flex items-center justify-between">
-        <Link href={`/maths/${mathMod}`} className={neonBtnCls("ghost", "sm")}>
+        <Link href="/maths/mixte" className={neonBtnCls("ghost", "sm")}>
           ← Quitter
         </Link>
         <p className="text-ms font-display text-white drop-shadow-lg">

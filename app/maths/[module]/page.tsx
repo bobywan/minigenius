@@ -3,7 +3,7 @@
 import { Lock } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { use } from "react";
+import { use, useEffect, useState } from "react";
 import { DifficultyBadge } from "@/components/ui/DifficultyBadge";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { neonBtnCls } from "@/components/ui/NeonButton";
@@ -32,6 +32,12 @@ export default function ModulePage({ params }: { params: Promise<{ module: strin
 
   const { isDifficultyLocked, getStars } = useProgressStore();
 
+  // mounted = false pendant SSR et le premier render client → store ignoré → pas de mismatch
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <main className="min-h-screen flex flex-col items-center gap-10 px-4 py-12">
       <header className="text-center flex flex-col items-center gap-2">
@@ -52,8 +58,11 @@ export default function ModulePage({ params }: { params: Promise<{ module: strin
 
       <div className="flex flex-col gap-4 w-full max-w-md">
         {DIFFICULTIES.map((diff) => {
-          const locked = isDifficultyLocked("maths", mathMod, diff);
-          const stars = getStars("maths", mathMod, diff) as Stars;
+          // quand non monté : reproduire l'état serveur (progress vide → seul "facile" débloqué)
+          const locked = mounted
+            ? isDifficultyLocked("maths", mathMod, diff)
+            : DIFFICULTIES.indexOf(diff) > 0;
+          const stars = (mounted ? getStars("maths", mathMod, diff) : 0) as Stars;
 
           if (locked) {
             return (
@@ -86,6 +95,20 @@ export default function ModulePage({ params }: { params: Promise<{ module: strin
             </Link>
           );
         })}
+
+        <Link href={`/maths/${mathMod}/libre`} className="group">
+          <GlassCard
+            variant="yellow"
+            className="p-4 flex items-center justify-between cursor-pointer group-hover:scale-[1.02] group-hover:-translate-y-0.5"
+          >
+            <div className="flex flex-col gap-1">
+              <p className="text-base font-display text-white">Jeu libre</p>
+              <p className="text-sm text-white/80 mt-1 font-body">
+                Sans limite — réponds jusqu'à trouver la bonne réponse
+              </p>
+            </div>
+          </GlassCard>
+        </Link>
       </div>
     </main>
   );
