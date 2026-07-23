@@ -18,6 +18,14 @@ const GAMES = [
     active: true,
     variant: "brand" as const,
   },
+  {
+    id: "runner",
+    label: "Endless Runner",
+    description: "Saute par-dessus les obstacles !",
+    href: "/mini-jeux/runner",
+    active: true,
+    variant: "accent" as const,
+  },
 ];
 
 export default function MiniJeuxPage() {
