@@ -16,7 +16,8 @@
     "lint": "biome lint .",
     "format": "biome format --write .",
     "check": "biome check --write .",
-    "ci": "biome ci ."
+    "ci": "biome ci .",
+    "prepush": "biome ci . && tsc --noEmit && next build"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.3.0",

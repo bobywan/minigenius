@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { DifficultyBadge } from "@/components/ui/DifficultyBadge";
+import { GlassCard } from "@/components/ui/GlassCard";
 import { neonBtnCls } from "@/components/ui/NeonButton";
 import { DIFFICULTIES, DIFFICULTY_LABELS } from "@/lib/types";
 

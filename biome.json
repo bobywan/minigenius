@@ -57,7 +57,7 @@
   },
   "overrides": [
     {
-      "includes": ["components/ui/ProgressDots.tsx"],
+      "includes": ["components/ui/ProgressDots.tsx", "app/mini-jeux/pendu/PenduGame.tsx"],
       "linter": {
         "rules": {
           "suspicious": {

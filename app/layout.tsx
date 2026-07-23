@@ -44,7 +44,7 @@ export default function RootLayout({
     <html lang="fr" className={`${titanOne.variable} ${nunito.variable}`}>
       <body>
         <ServiceWorkerRegistration />
-        {children}
+        <div className="max-w-[500px] mx-auto w-full min-h-screen">{children}</div>
       </body>
     </html>
   );

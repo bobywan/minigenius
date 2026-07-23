@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Lock } from "lucide-react";
+import Link from "next/link";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { StarRating } from "@/components/ui/StarRating";
 import type { MathModule, Stars } from "@/lib/types";

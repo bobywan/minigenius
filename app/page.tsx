@@ -1,4 +1,4 @@
-import { BookOpen, Calculator, Globe, Landmark } from "lucide-react";
+import { BookOpen, Calculator, Gamepad2, Globe, Landmark } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { GlassCard } from "@/components/ui/GlassCard";
@@ -41,6 +41,15 @@ const SUBJECTS = [
     description: "Dates, personnages, événements",
     active: false,
     href: null,
+  },
+  {
+    id: "mini-jeux",
+    label: "Mini-jeux",
+    icon: Gamepad2,
+    description: "Pendu, devinettes et autres jeux",
+    active: true,
+    href: "/mini-jeux",
+    variant: "brand" as const,
   },
 ];
 

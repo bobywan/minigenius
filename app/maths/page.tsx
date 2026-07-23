@@ -12,7 +12,9 @@ import { MATH_MODULES } from "@/lib/types";
 export default function MathsPage() {
   const { isModuleLocked, getTotalStars } = useProgressStore();
   const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   return (
     <main className="min-h-screen flex flex-col items-center gap-10 px-4 py-12">
       <header className="text-center flex flex-col items-center gap-4">
