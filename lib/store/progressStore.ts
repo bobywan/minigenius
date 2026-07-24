@@ -54,21 +54,12 @@ export const useProgressStore = create<ProgressStore>()(
         return get().progress[subject]?.[module]?.[difficulty]?.stars ?? 0;
       },
 
-      isModuleLocked(subject, module) {
-        const idx = MATH_MODULES.indexOf(module);
-        if (idx === 0) return false; // premier module toujours débloqué
-        const prev = MATH_MODULES[idx - 1];
-        if (!prev) return true;
-        // débloqué si le module précédent a au moins 1★ à n'importe quelle difficulté
-        return !DIFFICULTIES.some((d) => (get().progress[subject]?.[prev]?.[d]?.stars ?? 0) >= 1);
+      isModuleLocked(_subject, _module) {
+        return false;
       },
 
-      isDifficultyLocked(subject, module, difficulty) {
-        const idx = DIFFICULTIES.indexOf(difficulty);
-        if (idx === 0) return false; // facile toujours débloqué
-        const prev = DIFFICULTIES[idx - 1];
-        if (!prev) return true;
-        return (get().progress[subject]?.[module]?.[prev]?.stars ?? 0) < 1;
+      isDifficultyLocked(_subject, _module, _difficulty) {
+        return false;
       },
 
       getTotalStars(subject, module) {
