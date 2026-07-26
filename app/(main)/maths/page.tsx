@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { BackLink } from "@/components/ui/BackLink";
 import { BadgeModule } from "@/components/ui/BadgeModule";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { neonBtnCls } from "@/components/ui/NeonButton";
+import { PageSubtitle } from "@/components/ui/PageSubtitle";
+import { PageTitle } from "@/components/ui/PageTitle";
 import { useProgressStore } from "@/lib/store/progressStore";
 import type { MathModule, Stars } from "@/lib/types";
 import { MATH_MODULES } from "@/lib/types";
@@ -18,18 +20,9 @@ export default function MathsPage() {
   return (
     <main className="min-h-screen flex flex-col items-center gap-10 px-4 py-12">
       <header className="text-center flex flex-col items-center gap-4">
-        <Link href="/" className={neonBtnCls("ghost", "sm")}>
-          ← Retour
-        </Link>
-        <h1 className="text-5xl font-display text-white">
-          <span className="text-yellow-500">Maths</span>
-        </h1>
-        <p
-          className="text-white font-display text-xl"
-          style={{ textShadow: "var(--text-shadow-solid)" }}
-        >
-          Choisis ton opération
-        </p>
+        <BackLink href="/" />
+        <PageTitle size="5xl">Maths</PageTitle>
+        <PageSubtitle>Choisis ton opération</PageSubtitle>
       </header>
 
       <div className="grid grid-cols-2 gap-4 w-full max-w-md">
@@ -49,10 +42,7 @@ export default function MathsPage() {
         })}
 
         <Link href="/maths/mixte" className="group col-span-2">
-          <GlassCard
-            variant="accent"
-            className="p-3 flex items-center justify-center gap-3 cursor-pointer group-hover:scale-[1.02] group-hover:-translate-y-1 transition-transform duration-200"
-          >
+          <GlassCard className="p-3 flex items-center justify-center gap-3 cursor-pointer group-hover:scale-[1.02] group-hover:-translate-y-1 transition-transform duration-200">
             <span className="text-4xl font-display leading-none">±</span>
             <p className="text-base font-display text-white">Tout mélanger</p>
           </GlassCard>

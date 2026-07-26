@@ -61,8 +61,6 @@ export function SeriesResultScreen({
     return undefined;
   }, [won, stars]);
 
-  const cardVariant = won ? (stars === 3 ? "success" : "brand") : "error";
-
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.85 }}
@@ -70,7 +68,7 @@ export function SeriesResultScreen({
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
       className="flex flex-col items-center gap-6 w-full max-w-md mx-auto"
     >
-      <GlassCard variant={cardVariant} className="p-8 w-full flex flex-col items-center gap-6">
+      <GlassCard className="p-8 w-full flex flex-col items-center gap-6">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}

@@ -1,8 +1,10 @@
 import { Gamepad2 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BackLink } from "@/components/ui/BackLink";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { neonBtnCls } from "@/components/ui/NeonButton";
+import { PageSubtitle } from "@/components/ui/PageSubtitle";
+import { PageTitle } from "@/components/ui/PageTitle";
 
 export const metadata: Metadata = {
   title: "MiniGenius — Mini-jeux",
@@ -16,7 +18,6 @@ const GAMES = [
     description: "Devine le mot lettre par lettre",
     href: "/mini-jeux/pendu",
     active: true,
-    variant: "brand" as const,
   },
   {
     id: "runner",
@@ -24,7 +25,6 @@ const GAMES = [
     description: "Saute par-dessus les obstacles !",
     href: "/mini-jeux/runner",
     active: true,
-    variant: "accent" as const,
   },
 ];
 
@@ -32,28 +32,16 @@ export default function MiniJeuxPage() {
   return (
     <main className="min-h-screen flex flex-col items-center gap-10 px-4 py-12">
       <header className="text-center flex flex-col items-center gap-4">
-        <Link href="/" className={neonBtnCls("ghost", "sm")}>
-          ← Retour
-        </Link>
-        <h1 className="text-5xl font-display text-white">
-          <span className="text-[#e040fb]">Mini-jeux</span>
-        </h1>
-        <p
-          className="text-white font-display text-xl"
-          style={{ textShadow: "var(--text-shadow-solid)" }}
-        >
-          Choisis ton jeu
-        </p>
+        <BackLink href="/" />
+        <PageTitle size="5xl">Mini-jeux</PageTitle>
+        <PageSubtitle>Choisis ton jeu</PageSubtitle>
       </header>
 
       <div className="grid gap-4 w-full max-w-sm">
         {GAMES.map((game) =>
           game.active ? (
             <Link key={game.id} href={game.href} className="group">
-              <GlassCard
-                variant={game.variant}
-                className="p-4 flex flex-row items-center gap-4 cursor-pointer group-hover:scale-[1.02] group-hover:-translate-y-0.5"
-              >
+              <GlassCard className="p-4 flex flex-row items-center gap-4 cursor-pointer group-hover:scale-[1.02] group-hover:-translate-y-0.5">
                 <Gamepad2 size={32} className="shrink-0 text-white" />
                 <div className="flex flex-col gap-0.5">
                   <p className="text-xl font-display text-white drop-shadow-lg">{game.label}</p>
