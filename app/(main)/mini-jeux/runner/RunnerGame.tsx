@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { neonBtnCls } from "@/components/ui/NeonButton";
+import { BackLink } from "@/components/ui/BackLink";
+import { PageTitle } from "@/components/ui/PageTitle";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const VW = 800;
@@ -509,13 +509,9 @@ export function RunnerGame() {
 
   return (
     <div className="w-full max-w-3xl flex flex-col items-center gap-6">
-      <header className="w-full flex flex-col items-center gap-4">
-        <Link href="/mini-jeux" className={neonBtnCls("ghost", "sm")}>
-          ← Mini-jeux
-        </Link>
-        <h1 className="text-4xl font-display text-white">
-          <span className="text-[#e040fb]">Endless Runner</span>
-        </h1>
+      <header className="text-center flex flex-col items-center gap-4">
+        <BackLink href="/mini-jeux" />
+        <PageTitle>Endless Runner</PageTitle>
       </header>
 
       <div className="w-full rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(224,64,251,0.3)]">

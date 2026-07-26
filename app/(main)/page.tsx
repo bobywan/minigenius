@@ -2,6 +2,8 @@ import { BookOpen, Calculator, Gamepad2, Globe, Landmark } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Logo } from "@/components/ui/Logo";
+import { PageSubtitle } from "@/components/ui/PageSubtitle";
 
 export const metadata: Metadata = {
   title: "MiniGenius — Choisis ta matière",
@@ -16,7 +18,6 @@ const SUBJECTS = [
     description: "Addition, soustraction, multiplication, division",
     active: true,
     href: "/maths",
-    variant: "success" as const,
   },
   {
     id: "francais",
@@ -49,23 +50,15 @@ const SUBJECTS = [
     description: "Pendu, devinettes et autres jeux",
     active: true,
     href: "/mini-jeux",
-    variant: "brand" as const,
   },
 ];
 
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center gap-10 px-4 py-12">
-      <header className="text-center flex flex-col gap-3">
-        <h1 className="text-6xl font-display text-white drop-shadow-lg">
-          Mini<span className="text-yellow-500">Genius</span>
-        </h1>
-        <p
-          className="text-white text-xl font-display"
-          style={{ textShadow: "var(--text-shadow-solid)" }}
-        >
-          Choisis ta matière pour commencer !
-        </p>
+      <header className="text-center flex flex-col gap-4">
+        <Logo className="drop-shadow-lg" />
+        <PageSubtitle>Choisis ta matière pour commencer !</PageSubtitle>
       </header>
 
       <div className="grid gap-4 w-full max-w-sm">
@@ -73,10 +66,7 @@ export default function Home() {
           const Icon = s.icon;
           return s.active && s.href ? (
             <Link key={s.id} href={s.href} className="group">
-              <GlassCard
-                variant={s.variant}
-                className="p-4 flex flex-row items-center gap-4 cursor-pointer group-hover:scale-[1.02] group-hover:-translate-y-0.5"
-              >
+              <GlassCard className="p-4 flex flex-row items-center gap-4 cursor-pointer group-hover:scale-[1.02] group-hover:-translate-y-0.5">
                 <Icon size={32} className="shrink-0 text-white" />
                 <div className="flex flex-col gap-0.5">
                   <p className="text-xl font-display text-white drop-shadow-lg">{s.label}</p>

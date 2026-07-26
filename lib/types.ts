@@ -39,13 +39,6 @@ export const MATH_MODULES: MathModule[] = [
 
 export const DIFFICULTIES: Difficulty[] = ["facile", "moyen", "expert"];
 
-export const SUBJECT_LABELS: Record<Subject, string> = {
-  maths: "Maths",
-  francais: "Français",
-  anglais: "Anglais",
-  histoire: "Histoire",
-};
-
 export const MODULE_LABELS: Record<MathModule, string> = {
   addition: "Addition",
   soustraction: "Soustraction",

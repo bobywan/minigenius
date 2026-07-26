@@ -43,10 +43,10 @@ export function NumPad({ value, onChange, onValidate, disabled = false }: NumPad
               "transition-colors duration-100",
               "disabled:opacity-30 disabled:cursor-not-allowed",
               isValidate
-                ? "bg-success-500 text-neutral-900 border-2 border-success-400 shadow-[var(--shadow-success)]"
+                ? "bg-green-500 text-neutral-900 border-2 border-green-400 shadow-[var(--shadow-green)]"
                 : isDelete
-                  ? "bg-error-500 text-white border-2 border-error-400 shadow-[var(--shadow-error)]"
-                  : "bg-neutral-900/80 hover:bg-neutral-900/95 text-white border-2 border-white/30 shadow-[var(--shadow-btn)]",
+                  ? "bg-red-500 text-white border-2 border-red-400 shadow-[var(--shadow-red)]"
+                  : "bg-purple hover:bg-purple/80 text-white border-2 border-white/30 shadow-[var(--shadow-btn)]",
             ].join(" ")}
           >
             {key}

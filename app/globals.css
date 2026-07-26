@@ -1,62 +1,54 @@
 @import "tailwindcss";
 
 @theme {
-  /* Fond — violet profond Fall Guys */
-  --color-bg-deep: #115ded;
-  --color-bg-surface: #49ebfe;
-  --color-bg-card: #3a2480;
-  --color-bg-card-hover: #4a2fa0;
+  /* Fond */
+  --color-blue: #115ded;
+  --color-cyan: #49ebfe;
+  --color-purple: #3a2480;
+  --color-purple-light: #4a2fa0;
 
-  /* Brand — rose vif */
-  --color-brand-400: #ff6ec7;
-  --color-brand-500: #ff4eb8;
+  /* Rose vif */
+  --color-pink-400: #ff6ec7;
+  --color-pink-500: #ff4eb8;
 
-  /* Accent — orange */
-  --color-accent-400: #ffaa4d;
-  --color-accent-500: #ff8c00;
+  /* Orange */
+  --color-orange-400: #ffaa4d;
+  --color-orange-500: #ff8c00;
 
   /* Jaune — titres / highlights */
   --color-yellow-400: #ffe566;
   --color-yellow-500: #ffe600;
 
-  /* Succès — vert lime */
-  --color-success-400: #7fff6e;
-  --color-success-500: #3dff91;
+  /* Vert lime */
+  --color-green-400: #7fff6e;
+  --color-green-500: #3dff91;
 
-  /* Erreur — rouge-orange */
-  --color-error-400: #ff6b6b;
-  --color-error-500: #ff4757;
-
-  /* Étoiles */
-  --color-star: #ffe600;
+  /* Rouge-orange */
+  --color-red-400: #ff6b6b;
+  --color-red-500: #ff4757;
 
   /* Neutres — chauds violacés */
   --color-neutral-900: #0f0826;
-  --color-neutral-800: #1a1040;
   --color-neutral-700: #2d1b69;
   --color-neutral-600: #4a3a7a;
-  --color-neutral-500: #7a6a9a;
-  --color-neutral-300: #b0a0d0;
   --color-neutral-100: #e8e0ff;
   --color-neutral-50: #f5f0ff;
 
   /* Typographie */
   --font-display: var(--font-titan-one), ui-rounded, sans-serif;
   --font-body: var(--font-nunito), ui-sans-serif, sans-serif;
-  --font-sans: var(--font-nunito), ui-sans-serif, sans-serif;
 
   /* Rayons — cartoon arrondis */
   --radius-card: 1.5rem;
   --radius-btn: 1rem;
-  --radius-full: 9999px;
 
   /* Ombres — effet 3D cartoon */
   --shadow-card: 0 6px 0 #0f0826, 0 10px 30px rgba(0, 0, 0, 0.4);
   --shadow-btn: 0 5px 0 #0f0826;
-  --shadow-brand: 0 5px 0 #8b1a5a;
-  --shadow-accent: 0 5px 0 #8b4a00;
-  --shadow-success: 0 5px 0 #1a6b3a;
-  --shadow-error: 0 5px 0 #8b1a1a;
+  --shadow-pink: 0 5px 0 #8b1a5a;
+  --shadow-orange: 0 5px 0 #8b4a00;
+  --shadow-green: 0 5px 0 #1a6b3a;
+  --shadow-red: 0 5px 0 #8b1a1a;
 
   /* Text-shadow cartoon — contour noir solide */
   --text-shadow-solid: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0 2px 0 #000;
@@ -81,7 +73,7 @@
 
   body {
     min-height: 100%;
-    background: linear-gradient(160deg, var(--color-bg-deep) 0%, var(--color-bg-surface) 100%);
+    background: linear-gradient(160deg, var(--color-blue) 0%, var(--color-cyan) 100%);
     background-attachment: fixed;
     color: var(--color-neutral-100);
     font-family: var(--font-body);

@@ -12,8 +12,8 @@ interface ProgressDotsProps {
 
 const dotColors: Record<DotState, string> = {
   idle: "bg-neutral-700 border-neutral-600",
-  correct: "bg-success-500 border-success-400 shadow-[0_0_8px_var(--color-success-500)]",
-  wrong: "bg-error-500 border-error-400 shadow-[0_0_8px_var(--color-error-500)]",
+  correct: "bg-green-500 border-green-400 shadow-[0_0_8px_var(--color-green-500)]",
+  wrong: "bg-red-500 border-red-400 shadow-[0_0_8px_var(--color-red-500)]",
 };
 
 export function ProgressDots({ total = 10, states, current }: ProgressDotsProps) {

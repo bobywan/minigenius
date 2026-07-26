@@ -12,16 +12,8 @@ interface BadgeModuleProps {
   locked?: boolean;
 }
 
-const moduleVariants: Record<MathModule, "brand" | "accent" | "success" | "yellow"> = {
-  addition: "success",
-  soustraction: "brand",
-  multiplication: "accent",
-  division: "yellow",
-};
-
 export function BadgeModule({ module, href, totalStars, locked = false }: BadgeModuleProps) {
   const clampedStars = Math.min(3, totalStars) as Stars;
-  const variant = moduleVariants[module];
 
   if (locked) {
     return (
@@ -40,10 +32,7 @@ export function BadgeModule({ module, href, totalStars, locked = false }: BadgeM
 
   return (
     <Link href={href} className="group">
-      <GlassCard
-        variant={variant}
-        className="p-3 flex flex-col items-center gap-2 cursor-pointer group-hover:scale-105 group-hover:-translate-y-1 transition-transform duration-200"
-      >
+      <GlassCard className="p-3 flex flex-col items-center gap-2 cursor-pointer group-hover:scale-105 group-hover:-translate-y-1 transition-transform duration-200">
         <span className="text-4xl font-display leading-none">{MODULE_ICONS[module]}</span>
         <p className="text-base font-display text-white">{MODULE_LABELS[module]}</p>
         <StarRating stars={clampedStars} />

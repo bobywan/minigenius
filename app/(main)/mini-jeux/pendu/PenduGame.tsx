@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { BackLink } from "@/components/ui/BackLink";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { neonBtnCls } from "@/components/ui/NeonButton";
+import { PageTitle } from "@/components/ui/PageTitle";
 
 const WORDS = [
   "CHEVAL",
@@ -265,25 +266,20 @@ export function PenduGame() {
 
   return (
     <div className="flex flex-col items-center gap-6 w-full max-w-lg">
-      <header className="flex flex-col items-center gap-4 w-full">
-        <Link href="/mini-jeux" className={neonBtnCls("ghost", "sm")}>
-          ← Retour
-        </Link>
-        <h1 className="text-5xl font-display text-white">
-          Le <span className="text-[#e040fb]">Pendu</span>
-        </h1>
+      <header className="text-center flex flex-col items-center gap-4">
+        <BackLink href="/mini-jeux" />
+        <PageTitle size="5xl">Le Pendu</PageTitle>
       </header>
 
       {/* Pendu SVG */}
-      <GlassCard className="p-4 flex items-center justify-center w-full">
-        <HangmanSVG errors={game.errors} />
-      </GlassCard>
+      <HangmanSVG errors={game.errors} />
 
       {/* Mot masqué */}
       <p className="sr-only" aria-live="polite">{`Mot : ${maskedWord.join(" ")}`}</p>
       <div className="flex flex-wrap justify-center gap-2">
         {maskedWord.map((l, i) => (
           <span
+            // biome-ignore lint/suspicious/noArrayIndexKey: letter positions in a word are stable
             key={i}
             className="w-8 h-10 flex items-end justify-center border-b-4 border-white text-2xl font-display text-white"
           >
@@ -300,10 +296,7 @@ export function PenduGame() {
 
       {/* État victoire / défaite */}
       {game.status !== "playing" && (
-        <GlassCard
-          variant={game.status === "win" ? "success" : "error"}
-          className="p-4 flex flex-col items-center gap-3 w-full"
-        >
+        <GlassCard className="p-4 flex flex-col items-center gap-3 w-full">
           <p className="text-2xl font-display text-white drop-shadow-lg">
             {game.status === "win"
               ? "Bravo ! Tu as gagné !"
@@ -340,9 +333,9 @@ export function PenduGame() {
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white",
                 "disabled:cursor-not-allowed",
                 correct
-                  ? "bg-success-500 border-success-400 shadow-[var(--shadow-success)] opacity-70"
+                  ? "bg-green-500 border-green-400 shadow-[var(--shadow-green)] opacity-70"
                   : wrong
-                    ? "bg-error-500 border-error-400 shadow-[var(--shadow-error)] opacity-50"
+                    ? "bg-red-500 border-red-400 shadow-[var(--shadow-red)] opacity-50"
                     : "bg-neutral-900/80 hover:bg-neutral-900/95 border-white/30 shadow-[var(--shadow-btn)] cursor-pointer",
               ]
                 .filter(Boolean)

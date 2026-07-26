@@ -70,7 +70,7 @@ export default function LibrePage({ params }: { params: Promise<{ module: string
 
   return (
     <main className="min-h-screen flex flex-col items-center gap-8 px-4 py-12">
-      <header className="w-full max-w-md flex items-center justify-between">
+      <header className="w-full max-w-md flex items-center justify-between gap-4">
         <Link href={`/maths/${mathMod}`} className={neonBtnCls("ghost", "sm")}>
           ← Quitter
         </Link>
