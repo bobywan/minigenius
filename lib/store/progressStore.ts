@@ -10,7 +10,7 @@ import type {
   Stars,
   Subject,
 } from "@/lib/types";
-import { DIFFICULTIES, MATH_MODULES } from "@/lib/types";
+import { DIFFICULTIES } from "@/lib/types";
 
 interface ProgressStore {
   progress: ProgressState;

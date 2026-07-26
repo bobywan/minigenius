@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { NumPadDemo } from "@/app/design/NumPadDemo";
+import { ExerciseDisplay } from "@/components/game/ExerciseDisplay";
+import { AnswerInput } from "@/components/ui/AnswerInput";
 import { BackLink } from "@/components/ui/BackLink";
 import { BadgeModule } from "@/components/ui/BadgeModule";
 import { DifficultyBadge } from "@/components/ui/DifficultyBadge";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Logo } from "@/components/ui/Logo";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { PageSubtitle } from "@/components/ui/PageSubtitle";
 import { PageTitle } from "@/components/ui/PageTitle";
@@ -49,6 +53,7 @@ const NAV_LINKS = [
   { href: "#couleurs", label: "Couleurs" },
   { href: "#typographie", label: "Typographie" },
   { href: "#composants", label: "Composants" },
+  { href: "#jeu", label: "Jeu" },
   { href: "#navigation", label: "Navigation" },
 ];
 
@@ -192,7 +197,7 @@ export default function DesignPage() {
             <div>
               <PageSubtitle>Neutres — chauds violacés</PageSubtitle>
               <div className="flex gap-4 flex-wrap">
-                {(["900", "800", "700", "600", "500", "300", "100", "50"] as const).map((n) => (
+                {(["900", "700", "600", "100", "50"] as const).map((n) => (
                   <Swatch key={n} name={`neutral-${n}`} className={`bg-neutral-${n}`} />
                 ))}
               </div>
@@ -288,9 +293,6 @@ export default function DesignPage() {
                 <DifficultyBadge difficulty="facile" />
                 <DifficultyBadge difficulty="moyen" />
                 <DifficultyBadge difficulty="expert" />
-                <DifficultyBadge difficulty="facile" />
-                <DifficultyBadge difficulty="moyen" />
-                <DifficultyBadge difficulty="expert" />
               </div>
             </div>
 
@@ -360,6 +362,52 @@ export default function DesignPage() {
           </div>
         </Section>
 
+        {/* JEU */}
+        <Section id="jeu" title="Composants de jeu">
+          <div className="flex flex-col gap-10">
+            {/* Logo */}
+            <div className="flex flex-col gap-3">
+              <PageSubtitle>Logo</PageSubtitle>
+              <Logo />
+            </div>
+
+            {/* ExerciseDisplay */}
+            <div className="flex flex-col gap-3">
+              <PageSubtitle>ExerciseDisplay</PageSubtitle>
+              <GlassCard className="p-6 flex items-center justify-center">
+                <ExerciseDisplay
+                  exercise={{ left: 7, op: "+", right: null, result: 12, answer: 5 }}
+                />
+              </GlassCard>
+              <GlassCard className="p-6 flex items-center justify-center">
+                <ExerciseDisplay
+                  exercise={{ left: 7, op: "+", right: null, result: 12, answer: 5 }}
+                  revealAnswer
+                />
+              </GlassCard>
+            </div>
+
+            {/* AnswerInput */}
+            <div className="flex flex-col gap-3">
+              <PageSubtitle>AnswerInput — 3 états</PageSubtitle>
+              <div className="flex gap-6 flex-wrap items-center justify-center">
+                <AnswerInput value="" state="idle" />
+                <AnswerInput value="42" state="idle" />
+                <AnswerInput value="9" state="correct" />
+                <AnswerInput value="3" state="wrong" />
+              </div>
+            </div>
+
+            {/* NumPad */}
+            <div className="flex flex-col gap-3">
+              <PageSubtitle>NumPad</PageSubtitle>
+              <div className="max-w-xs mx-auto w-full">
+                <NumPadDemo />
+              </div>
+            </div>
+          </div>
+        </Section>
+
         {/* NAVIGATION & TYPOGRAPHIE DE PAGE */}
         <Section id="navigation" title="Navigation & typographie de page">
           <div className="flex flex-col gap-8">
@@ -401,8 +449,7 @@ export default function DesignPage() {
               <p className="text-xs text-neutral-50 font-body">
                 Texte en{" "}
                 <code className="text-neutral-50 bg-white/5 px-1 rounded">font-display xl</code>{" "}
-                avec{" "}
-                <code className="text-neutral-50 bg-white/5 px-1 rounded">--text-shadow-solid</code>
+                avec <code className="text-neutral-50 bg-white/5 px-1 rounded">drop-shadow-lg</code>
                 .
               </p>
             </div>

@@ -12,13 +12,7 @@ import { PageTitle } from "@/components/ui/PageTitle";
 import { StarRating } from "@/components/ui/StarRating";
 import { useProgressStore } from "@/lib/store/progressStore";
 import type { Difficulty, MathModule, Stars } from "@/lib/types";
-import {
-  DIFFICULTIES,
-  DIFFICULTY_LABELS,
-  MATH_MODULES,
-  MODULE_ICONS,
-  MODULE_LABELS,
-} from "@/lib/types";
+import { DIFFICULTIES, MATH_MODULES, MODULE_ICONS, MODULE_LABELS } from "@/lib/types";
 
 const DIFFICULTY_DESC: Record<Difficulty, string> = {
   facile: "Nombres de 1 à 20 — calcul direct",

@@ -29,23 +29,18 @@
 
   /* Neutres — chauds violacés */
   --color-neutral-900: #0f0826;
-  --color-neutral-800: #1a1040;
   --color-neutral-700: #2d1b69;
   --color-neutral-600: #4a3a7a;
-  --color-neutral-500: #7a6a9a;
-  --color-neutral-300: #b0a0d0;
   --color-neutral-100: #e8e0ff;
   --color-neutral-50: #f5f0ff;
 
   /* Typographie */
   --font-display: var(--font-titan-one), ui-rounded, sans-serif;
   --font-body: var(--font-nunito), ui-sans-serif, sans-serif;
-  --font-sans: var(--font-nunito), ui-sans-serif, sans-serif;
 
   /* Rayons — cartoon arrondis */
   --radius-card: 1.5rem;
   --radius-btn: 1rem;
-  --radius-full: 9999px;
 
   /* Ombres — effet 3D cartoon */
   --shadow-card: 0 6px 0 #0f0826, 0 10px 30px rgba(0, 0, 0, 0.4);
