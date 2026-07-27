@@ -1,3 +1,4 @@
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import { Nunito, Titan_One } from "next/font/google";
 import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
@@ -45,6 +46,7 @@ export default function RootLayout({
       <body>
         <ServiceWorkerRegistration />
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );
