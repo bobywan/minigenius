@@ -1,5 +1,5 @@
 const CACHE = "minigenius-v1";
-const PRECACHE = ["/", "/maths"];
+const PRECACHE = ["/", "/maths", "/anglais"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(PRECACHE)));

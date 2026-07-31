@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ChoiceGridDemo } from "@/app/design/ChoiceGridDemo";
 import { NumPadDemo } from "@/app/design/NumPadDemo";
 import { ExerciseDisplay } from "@/components/game/ExerciseDisplay";
+import { WordPrompt } from "@/components/game/WordPrompt";
 import { AnswerInput } from "@/components/ui/AnswerInput";
 import { BackLink } from "@/components/ui/BackLink";
 import { BadgeModule } from "@/components/ui/BadgeModule";
@@ -403,6 +405,23 @@ export default function DesignPage() {
               <PageSubtitle>NumPad</PageSubtitle>
               <div className="max-w-xs mx-auto w-full">
                 <NumPadDemo />
+              </div>
+            </div>
+
+            {/* WordPrompt */}
+            <div className="flex flex-col gap-3">
+              <PageSubtitle>WordPrompt — SpeakButton intégré</PageSubtitle>
+              <div className="max-w-md mx-auto w-full flex flex-col gap-4">
+                <WordPrompt prompt="Dog" sourceLabel="Anglais" speakText="Dog" />
+                <WordPrompt prompt="Chien" sourceLabel="Français" revealText="Dog" />
+              </div>
+            </div>
+
+            {/* ChoiceGrid */}
+            <div className="flex flex-col gap-3">
+              <PageSubtitle>ChoiceGrid — clique pour révéler</PageSubtitle>
+              <div className="max-w-md mx-auto w-full">
+                <ChoiceGridDemo />
               </div>
             </div>
           </div>

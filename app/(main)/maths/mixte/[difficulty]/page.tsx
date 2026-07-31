@@ -99,12 +99,8 @@ export default function MixteGamePage({ params }: { params: Promise<{ difficulty
   if (phase === "finished") {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
-        {/* ponytail: mixte n'a pas de module MathModule — on passe "addition" symboliquement,
-            SeriesResultScreen ne l'affiche pas dans l'UI */}
         <SeriesResultScreen
           correct={correctCount}
-          module="addition"
-          difficulty={difficulty}
           onReplay={handleReplay}
           nextHref="/maths/mixte"
         />

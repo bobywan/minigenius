@@ -2,6 +2,10 @@ export type Subject = "maths" | "francais" | "anglais" | "histoire";
 
 export type MathModule = "addition" | "soustraction" | "multiplication" | "division";
 
+export type EnglishModule = "en-fr" | "fr-en" | "mixte";
+
+export type ModuleId = MathModule | EnglishModule;
+
 export type Difficulty = "facile" | "moyen" | "expert";
 
 export type Stars = 0 | 1 | 2 | 3;
@@ -12,6 +16,12 @@ export interface Exercise {
   right: number | null; // null = trou
   result: number | null; // null = trou
   answer: number; // toujours la bonne réponse
+}
+
+export interface QuizQuestion {
+  prompt: string; // mot affiché
+  choices: string[]; // 4 traductions
+  answerIndex: number; // index de la bonne réponse dans choices
 }
 
 export interface SeriesResult {
@@ -26,7 +36,7 @@ export interface ModuleProgress {
   expert?: SeriesResult;
 }
 
-export type SubjectProgress = Partial<Record<MathModule, ModuleProgress>>;
+export type SubjectProgress = Partial<Record<ModuleId, ModuleProgress>>;
 
 export type ProgressState = Partial<Record<Subject, SubjectProgress>>;
 
@@ -36,6 +46,14 @@ export const MATH_MODULES: MathModule[] = [
   "multiplication",
   "division",
 ];
+
+export const ENGLISH_MODULES: EnglishModule[] = ["en-fr", "fr-en"];
+
+export const ENGLISH_MODULE_LABELS: Record<EnglishModule, string> = {
+  "en-fr": "Anglais → Français",
+  "fr-en": "Français → Anglais",
+  mixte: "Tout mélanger",
+};
 
 export const DIFFICULTIES: Difficulty[] = ["facile", "moyen", "expert"];
 

@@ -32,8 +32,8 @@ const SUBJECTS = [
     label: "Anglais",
     icon: Globe,
     description: "Vocabulaire, phrases, conjugaison",
-    active: false,
-    href: null,
+    active: true,
+    href: "/anglais",
   },
   {
     id: "histoire",
