@@ -83,6 +83,27 @@
 - Désactiver Turbopack : perte des gains de performance en dev, contre l'intention du projet
 - `serwist` (successeur de next-pwa compatible Turbopack) : nouvelle dépendance non justifiée, le SW natif couvre 100% du besoin ici
 
-**Conséquences :** Pas de précaching automatique des routes Next.js (chunks JS). Seules `/` et `/maths` sont précachées explicitement. Si de nouvelles routes critiques sont ajoutées, les ajouter au tableau `PRECACHE` dans `public/sw.js`.
+**Conséquences :** Pas de précaching automatique des routes Next.js (chunks JS). Seules `/`, `/maths` et `/anglais` sont précachées explicitement. Si de nouvelles routes critiques sont ajoutées, les ajouter au tableau `PRECACHE` dans `public/sw.js`.
+
+---
+
+## [2026-07-31] Matière Anglais — QCM générique et prononciation native
+
+**Contexte :** L'ouverture de la matière Anglais introduit un format d'exercice absent du projet (choix multiples) et un besoin de prononciation. Le store et `SeriesResultScreen` étaient par ailleurs typés sur `MathModule`, ce qui bloquait toute matière non mathématique.
+
+**Décision :**
+- Introduction de `ModuleId = MathModule | EnglishModule` dans `lib/types.ts` ; `SubjectProgress` et les signatures de `progressStore` sont élargies à `ModuleId`. Aucune page maths impactée.
+- Les deux sens de traduction (`traduction-en-fr`, `traduction-fr-en`) sont des modules distincts et non un paramètre d'un module unique — ils ont donc leurs propres étoiles, et la liste `/anglais` reste extensible (Phrases, Conjugaison).
+- QCM générique en deux composants : `ChoiceGrid` (4 boutons, feedback vert/rouge repris du clavier du Pendu) et `WordPrompt`.
+- Prononciation via `speechSynthesis` natif (`lib/audio/speech.ts`), sur le modèle silencieux de `lib/audio/sounds.ts`. `SpeakButton` ne se rend pas si l'API est absente.
+- La difficulté encode la fréquence du mot (courant → rare), pas la proximité des distracteurs. Les distracteurs sont tirés dans le même niveau, dédoublonnés sur la chaîne affichée.
+- Vocabulaire (342 mots) et générateur dans un seul fichier `lib/exercises/generators/english.ts`, comme `math.ts` : le fichier reste exécutable directement par Node, ce qui permet à `english.check.mjs` de le vérifier sans résolution d'alias ni dépendance de test.
+
+**Alternatives écartées :**
+- Élargir le type des props mortes `module`/`difficulty` de `SeriesResultScreen` : elles n'étaient jamais lues, elles ont été supprimées.
+- Une bibliothèque de TTS : `speechSynthesis` couvre 100 % du besoin, aucune dépendance justifiée.
+- Vocabulaire dans un fichier séparé importé via `@/` : casse l'exécution directe sous Node (alias non résolu), donc le check exécutable.
+
+**Conséquences :** Toute nouvelle matière peut réutiliser `ChoiceGrid` + `SeriesResultScreen` + `ProgressDots`. Ajouter un module non mathématique ne demande plus qu'une extension de `ModuleId`. Le fichier `english.ts` est volumineux (données + logique) — si une troisième matière à vocabulaire apparaît, extraire un format de données partagé et un runner de check commun.
 
 <!-- Ajoute tes décisions ci-dessous en suivant le même format -->

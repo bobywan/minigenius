@@ -9,24 +9,16 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { StarRating } from "@/components/ui/StarRating";
 import { playUnlock } from "@/lib/audio/sounds";
-import type { Difficulty, MathModule, Stars } from "@/lib/types";
+import type { Stars } from "@/lib/types";
 import { computeStars } from "@/lib/types";
 
 interface SeriesResultScreenProps {
   correct: number;
-  module: MathModule;
-  difficulty: Difficulty;
   onReplay: () => void;
   nextHref?: string;
 }
 
-export function SeriesResultScreen({
-  correct,
-  module: _module,
-  difficulty: _difficulty,
-  onReplay,
-  nextHref,
-}: SeriesResultScreenProps) {
+export function SeriesResultScreen({ correct, onReplay, nextHref }: SeriesResultScreenProps) {
   const stars = computeStars(correct) as Stars;
   const won = stars >= 1;
 

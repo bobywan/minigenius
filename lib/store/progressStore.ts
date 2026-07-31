@@ -4,7 +4,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type {
   Difficulty,
-  MathModule,
+  ModuleId,
   ProgressState,
   SeriesResult,
   Stars,
@@ -16,14 +16,14 @@ interface ProgressStore {
   progress: ProgressState;
   saveResult: (
     subject: Subject,
-    module: MathModule,
+    module: ModuleId,
     difficulty: Difficulty,
     result: SeriesResult,
   ) => void;
-  getStars: (subject: Subject, module: MathModule, difficulty: Difficulty) => Stars;
-  isModuleLocked: (subject: Subject, module: MathModule) => boolean;
-  isDifficultyLocked: (subject: Subject, module: MathModule, difficulty: Difficulty) => boolean;
-  getTotalStars: (subject: Subject, module: MathModule) => number;
+  getStars: (subject: Subject, module: ModuleId, difficulty: Difficulty) => Stars;
+  isModuleLocked: (subject: Subject, module: ModuleId) => boolean;
+  isDifficultyLocked: (subject: Subject, module: ModuleId, difficulty: Difficulty) => boolean;
+  getTotalStars: (subject: Subject, module: ModuleId) => number;
   reset: () => void;
 }
 

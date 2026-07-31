@@ -8,7 +8,7 @@
 ## Objectif du projet
 
 MiniGenius est une application web éducative gamifiée pour les enfants (6–12 ans).
-Elle propose des exercices de maths interactifs avec progression par étoiles, déverrouillage de niveaux, effets sonores et confettis — pensée pour être utilisée sur tablette.
+Elle propose des exercices de maths et de vocabulaire anglais interactifs avec progression par étoiles, déverrouillage de niveaux, effets sonores et confettis — pensée pour être utilisée sur tablette.
 
 ---
 
@@ -39,15 +39,22 @@ app/
     [module]/
       page.tsx                 # Choix de la difficulté (3 niveaux)
       [difficulty]/page.tsx    # Jeu — série de 10 exercices
+  anglais/
+    page.tsx                   # Choix du mode (2 sens de traduction)
+    [mode]/
+      page.tsx                 # Choix de la difficulté (3 niveaux)
+      [difficulty]/page.tsx    # Quiz — série de 10 QCM à 4 choix
   design/page.tsx              # Design system (référence)
 components/
   game/                        # Composants de jeu
   ui/                          # Composants réutilisables
 lib/
   types.ts                     # Types, constantes, helpers
-  exercises/generators/math.ts # Génération d'exercices aléatoires
+  exercises/generators/math.ts    # Génération d'exercices aléatoires
+  exercises/generators/english.ts # Vocabulaire + génération de QCM
   store/progressStore.ts       # Zustand — progression persistante
   audio/sounds.ts              # Sons (Web Audio API)
+  audio/speech.ts              # Prononciation anglaise (speechSynthesis)
 public/
   icons/                       # Icônes PWA
   manifest.json                # PWA manifest
@@ -83,7 +90,7 @@ Thème cartoon/Fall Guys — fond bleu vif → cyan, composants glossy.
 | `--font-body` | Nunito |
 | `--text-shadow-solid` | Contour noir cartoon |
 
-Composants clés : `GlassCard` (gradients par variante), `NeonButton` (3D cartoon), `StarRating`, `BadgeModule`, `DifficultyBadge`, `ProgressDots`.
+Composants clés : `GlassCard` (gradients par variante), `NeonButton` (3D cartoon), `StarRating`, `BadgeModule`, `DifficultyBadge`, `ProgressDots`, `ChoiceGrid` (QCM), `WordPrompt`, `SpeakButton`.
 
 ---
 
@@ -100,9 +107,9 @@ Composants clés : `GlassCard` (gradients par variante), `NeonButton` (3D cartoo
 
 | Matière | Statut |
 |---|---|
-| Maths | Actif |
+| Maths | Actif — 4 opérations × 3 difficultés + mode mixte |
+| Anglais | Actif — traduction QCM dans les deux sens × 3 difficultés |
 | Français | Bientôt |
-| Anglais | Bientôt |
 | Histoire | Bientôt |
 
 ---
