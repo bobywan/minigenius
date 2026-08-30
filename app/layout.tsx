@@ -42,7 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${titanOne.variable} ${nunito.variable}`}>
-      <body>
+      <body className="bg-sky-800 min-w-[320px]">
         <ServiceWorkerRegistration />
         {children}
       </body>

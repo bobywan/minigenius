@@ -26,7 +26,7 @@ export function StarRating({ stars, size = "md", animate = false }: StarRatingPr
             transition={{ delay: (s - 1) * 0.15, type: "spring", stiffness: 400 }}
           >
             {filled ? (
-              <Star size={sz} fill="currentColor" className="text-yellow-400" />
+              <Star size={sz} fill="currentColor" className="text-amber-500" />
             ) : (
               <Star size={sz} className="text-white/30" />
             )}
@@ -34,9 +34,9 @@ export function StarRating({ stars, size = "md", animate = false }: StarRatingPr
         ) : (
           <span key={s}>
             {filled ? (
-              <Star size={sz} fill="currentColor" className="text-yellow-400" />
+              <Star size={sz} fill="currentColor" className="text-amber-500" />
             ) : (
-              <Star size={sz} className="text-white/30" />
+              <Star size={sz} className="text-amber-500/30" />
             )}
           </span>
         );

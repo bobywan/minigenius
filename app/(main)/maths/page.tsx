@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BackLink } from "@/components/ui/BackLink";
 import { BadgeModule } from "@/components/ui/BadgeModule";
-import { GlassCard } from "@/components/ui/GlassCard";
+import { Card } from "@/components/ui/Card";
 import { PageSubtitle } from "@/components/ui/PageSubtitle";
 import { PageTitle } from "@/components/ui/PageTitle";
 import { useProgressStore } from "@/lib/store/progressStore";
@@ -17,19 +17,23 @@ export default function MathsPage() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
   return (
-    <main className="min-h-screen flex flex-col items-center gap-10 px-4 py-12">
-      <header className="text-center flex flex-col items-center gap-4">
-        <BackLink href="/" />
+    <main className="flex flex-col px-8 lg:px-16 py-8 lg:py-16 gap-8 lg:gap-16">
+      <BackLink href="/" />
+
+      <header className="grid gap-4 w-full text-center">
         <PageTitle size="5xl">Maths</PageTitle>
+
         <PageSubtitle>Choisis ton opération</PageSubtitle>
       </header>
 
-      <div className="grid grid-cols-2 gap-4 w-full max-w-md">
+      <div className="grid gap-4 w-full lg:grid-cols-2">
         {MATH_MODULES.map((mod) => {
           // quand non monté : reproduire l'état serveur (progress vide → seul "addition" débloqué)
           const locked = mounted ? isModuleLocked("maths", mod) : MATH_MODULES.indexOf(mod) > 0;
           const total = (mounted ? getTotalStars("maths", mod) : 0) as Stars;
+
           return (
             <BadgeModule
               key={mod}
@@ -41,11 +45,10 @@ export default function MathsPage() {
           );
         })}
 
-        <Link href="/maths/mixte" className="group col-span-2">
-          <GlassCard className="p-3 flex items-center justify-center gap-3 cursor-pointer group-hover:scale-[1.02] group-hover:-translate-y-1 transition-transform duration-200">
-            <span className="text-4xl font-display leading-none">±</span>
-            <p className="text-base font-display text-white">Tout mélanger</p>
-          </GlassCard>
+        <Link href="/maths/mixte" className="group lg:col-span-2">
+          <Card className="justify-center">
+            <p className="text-2xl font-display">Tout mélanger</p>
+          </Card>
         </Link>
       </div>
     </main>

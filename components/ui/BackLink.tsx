@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { neonBtnCls } from "@/components/ui/NeonButton";
 
 interface BackLinkProps {
   href: string;
@@ -8,7 +7,10 @@ interface BackLinkProps {
 
 export function BackLink({ href, label = "← Retour" }: BackLinkProps) {
   return (
-    <Link href={href} className={neonBtnCls("ghost", "sm")}>
+    <Link
+      href={href}
+      className="self-start bg-amber-500 text-white font-bold font-display px-4 py-2 rounded-md"
+    >
       {label}
     </Link>
   );

@@ -1,9 +1,10 @@
 import { BookOpen, Calculator, Gamepad2, Globe, Landmark } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { GlassCard } from "@/components/ui/GlassCard";
+import { Card } from "@/components/ui/Card";
 import { Logo } from "@/components/ui/Logo";
 import { PageSubtitle } from "@/components/ui/PageSubtitle";
+import { PageTitle } from "@/components/ui/PageTitle";
 
 export const metadata: Metadata = {
   title: "MiniGenius — Choisis ta matière",
@@ -55,40 +56,49 @@ const SUBJECTS = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center gap-10 px-4 py-12">
+    <main className="flex flex-col items-center px-8 lg:px-16 py-16 gap-16">
       <header className="text-center flex flex-col gap-4">
-        <Logo className="drop-shadow-lg" />
+        <Logo size="large" />
+
         <PageSubtitle>Choisis ta matière pour commencer !</PageSubtitle>
       </header>
 
-      <div className="grid gap-4 w-full max-w-sm">
+      <div className="grid gap-4 w-full lg:grid-cols-2">
         {SUBJECTS.map((s) => {
           const Icon = s.icon;
+
           return s.active && s.href ? (
             <Link key={s.id} href={s.href} className="group">
-              <GlassCard className="p-4 flex flex-row items-center gap-4 cursor-pointer group-hover:scale-[1.02] group-hover:-translate-y-0.5">
-                <Icon size={32} className="shrink-0 text-white" />
-                <div className="flex flex-col gap-0.5">
-                  <p className="text-xl font-display text-white drop-shadow-lg">{s.label}</p>
-                  <p className="text-xs font-display text-white drop-shadow-lg">{s.description}</p>
+              <Card>
+                <Icon size={40} className="shrink-0" />
+
+                <div className="flex flex-col content-center gap-1">
+                  <p className="text-2xl font-display">{s.label}</p>
+                  <p className="text-lg text-slate-700 font-body">{s.description}</p>
                 </div>
-              </GlassCard>
+              </Card>
             </Link>
           ) : (
-            <div key={s.id} className="relative cursor-not-allowed">
-              <GlassCard className="p-4 flex flex-row items-center gap-4 opacity-40">
-                <Icon size={32} className="shrink-0 text-white" />
-                <div className="flex flex-col gap-0.5">
-                  <p className="text-xl font-display text-white">{s.label}</p>
-                  <p className="text-sm text-white/80 font-body">{s.description}</p>
+            <div key={s.id} className="relative">
+              <Card className="opacity-40 cursor-not-allowed">
+                <Icon size={40} className="shrink-0" />
+
+                <div className="flex flex-col content-center gap-1">
+                  <p className="text-2xl font-display">{s.label}</p>
+                  <p className="text-base font-body">{s.description}</p>
                 </div>
-              </GlassCard>
-              <span className="absolute top-3 right-3 text-xs font-display uppercase tracking-wide text-white bg-neutral-600 rounded-full px-3 py-1 shadow-[0_2px_0_#0f0826]">
-                Bientôt
-              </span>
+
+                <span className="absolute top-3 right-3 text-xs font-display uppercase tracking-wide text-white bg-neutral-600 rounded-full px-3 py-1 shadow-[0_2px_0_#0f0826]">
+                  Bientôt
+                </span>
+              </Card>
             </div>
           );
         })}
+      </div>
+
+      <div className="grid gap-4 w-full lg:grid-cols-2">
+        <PageTitle>Bientôt disponible</PageTitle>
       </div>
     </main>
   );

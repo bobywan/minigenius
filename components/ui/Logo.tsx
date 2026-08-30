@@ -1,11 +1,20 @@
 interface LogoProps {
   className?: string;
+  size?: "small" | "medium" | "large";
 }
 
-export function Logo({ className = "" }: LogoProps) {
+const sizeClasses = {
+  small: "text-2xl",
+  medium: "text-4xl",
+  large: "text-6xl",
+};
+
+export function Logo({ className = "", size = "medium" }: LogoProps) {
   return (
-    <h1 className={["text-6xl font-display text-white", className].join(" ")}>
-      Mini<span className="text-yellow-500">Genius</span>
+    <h1
+      className={["font-display text-white drop-shadow-lg", sizeClasses[size], className].join(" ")}
+    >
+      Mini<span className="text-emerald-500">Genius</span>
     </h1>
   );
 }
