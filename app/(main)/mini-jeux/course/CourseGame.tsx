@@ -4,39 +4,36 @@ import { useEffect, useRef } from "react";
 import { BackLink } from "@/components/ui/BackLink";
 import { PageTitle } from "@/components/ui/PageTitle";
 
-const VW = 640;
-const VH = 480;
-const GROUND_Y = 420;
-const CEILING_Y = 24;
-const PLAYER_W = 28;
-const PLAYER_H = 36;
-const PLAYER_X = 90;
-const GRAVITY = 0.55;
-const THRUST = -0.95;
-const MAX_FALL = 12;
-const MAX_RISE = -10;
-const INITIAL_SPEED = 5;
-const ACCELERATION = 0.0014;
-const MAX_SPEED = 12;
-const HIT_PADDING = 4;
-const LS_KEY = "vol_hiscore";
+const VW = 480;
+const VH = 640;
+const LANES = 3;
+const LANE_PAD = 28;
+const LANE_W = (VW - LANE_PAD * 2) / LANES;
+const PLAYER_W = 42;
+const PLAYER_H = 48;
+const PLAYER_Y = 520;
+const JUMP_FRAMES = 28;
+const LANE_LERP = 0.2;
+const INITIAL_SPEED = 4.2;
+const ACCELERATION = 0.0016;
+const MAX_SPEED = 11;
+const DOUBLE_LANE_AFTER = 900;
+const LS_KEY = "course_hiscore";
 
 const COLOR = {
   skyTop: "#e0f2fe",
   skyBottom: "#7dd3fc",
-  sun: "#f59e0b",
-  sunGlow: "#fde68a",
-  mountains: "#94a3b8",
-  hills: "#6ee7b7",
+  laneA: "#ecfdf5",
+  laneB: "#d1fae5",
   ground: "#10b981",
   groundDark: "#059669",
   player: "#10b981",
   playerDark: "#059669",
   playerGameOver: "#ef4444",
-  obstacleTall: "#f59e0b",
-  obstacleTallDark: "#d97706",
-  obstacle: "#0369a1",
-  obstacleDark: "#075985",
+  hurdle: "#f59e0b",
+  hurdleDark: "#d97706",
+  wall: "#0369a1",
+  wallDark: "#075985",
   coin: "#f59e0b",
   coinInner: "#fde68a",
   text: "#075985",
@@ -46,11 +43,15 @@ const COLOR = {
 } as const;
 
 type GameState = "IDLE" | "RUNNING" | "GAMEOVER";
+type ObstacleKind = "hurdle" | "wall";
+type Obstacle = { lane: number; y: number; h: number; kind: ObstacleKind };
+type Coin = { lane: number; y: number; r: number; taken: boolean };
 
-type Obstacle = { x: number; y: number; w: number; h: number };
-type Coin = { x: number; y: number; r: number; taken: boolean };
+function laneCenter(lane: number): number {
+  return LANE_PAD + lane * LANE_W + LANE_W / 2;
+}
 
-class VolEngine {
+class CourseEngine {
   private canvas: HTMLCanvasElement;
   // biome-ignore lint/correctness/noUnusedPrivateClassMembers: accessed via destructuring
   private ctx: CanvasRenderingContext2D;
@@ -62,17 +63,17 @@ class VolEngine {
   private coins = 0;
   private hiScore = 0;
   private speed = INITIAL_SPEED;
-  private thrusting = false;
 
-  private playerY = GROUND_Y - PLAYER_H;
-  private velocityY = 0;
+  private lane = 1;
+  private displayX = laneCenter(1);
+  private jumpLeft = 0;
 
   private obstacles: Obstacle[] = [];
   private pickups: Coin[] = [];
-  private nextSpawnIn = 280;
+  private nextSpawnIn = 220;
 
-  private bgOffset = 0;
-  private mgOffset = 0;
+  private pointerX = 0;
+  private pointerY = 0;
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -99,43 +100,70 @@ class VolEngine {
 
   private bindInput() {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.code === "Space" || e.code === "ArrowUp") {
+      if (e.code === "ArrowLeft") {
         e.preventDefault();
-        this.setThrust(true);
-      }
-    };
-    const onKeyUp = (e: KeyboardEvent) => {
-      if (e.code === "Space" || e.code === "ArrowUp") {
+        this.move(-1);
+      } else if (e.code === "ArrowRight") {
         e.preventDefault();
-        this.setThrust(false);
+        this.move(1);
+      } else if (e.code === "Space" || e.code === "ArrowUp") {
+        e.preventDefault();
+        this.jump();
       }
     };
     const onPointerDown = (e: PointerEvent) => {
       e.preventDefault();
       this.canvas.setPointerCapture(e.pointerId);
-      this.setThrust(true);
+      const p = this.toWorld(e);
+      this.pointerX = p.x;
+      this.pointerY = p.y;
+      if (this.state === "IDLE" || this.state === "GAMEOVER") this.restart();
     };
     const onPointerUp = (e: PointerEvent) => {
       e.preventDefault();
-      this.setThrust(false);
+      if (this.state !== "RUNNING") return;
+      const p = this.toWorld(e);
+      const dx = p.x - this.pointerX;
+      const dy = p.y - this.pointerY;
+      if (Math.abs(dy) > Math.abs(dx) && dy < -28) {
+        this.jump();
+        return;
+      }
+      if (dx > 28) {
+        this.move(1);
+        return;
+      }
+      if (dx < -28) {
+        this.move(-1);
+        return;
+      }
+      if (p.x < VW / 3) this.move(-1);
+      else if (p.x > (VW * 2) / 3) this.move(1);
+      else this.jump();
     };
     window.addEventListener("keydown", onKeyDown);
-    window.addEventListener("keyup", onKeyUp);
     this.canvas.addEventListener("pointerdown", onPointerDown);
     this.canvas.addEventListener("pointerup", onPointerUp);
-    this.canvas.addEventListener("pointercancel", onPointerUp);
     const r = this as unknown as Record<string, unknown>;
     r._onKeyDown = onKeyDown;
-    r._onKeyUp = onKeyUp;
     r._onPointerDown = onPointerDown;
     r._onPointerUp = onPointerUp;
   }
 
-  private setThrust(on: boolean) {
-    if (on && (this.state === "IDLE" || this.state === "GAMEOVER")) {
-      this.restart();
+  private move(dir: number) {
+    if (this.state !== "RUNNING") {
+      if (this.state === "IDLE" || this.state === "GAMEOVER") this.restart();
+      return;
     }
-    this.thrusting = on && this.state === "RUNNING";
+    this.lane = Math.max(0, Math.min(LANES - 1, this.lane + dir));
+  }
+
+  private jump() {
+    if (this.state !== "RUNNING") {
+      if (this.state === "IDLE" || this.state === "GAMEOVER") this.restart();
+      return;
+    }
+    if (this.jumpLeft === 0) this.jumpLeft = JUMP_FRAMES;
   }
 
   private restart() {
@@ -143,22 +171,26 @@ class VolEngine {
     this.score = 0;
     this.coins = 0;
     this.speed = INITIAL_SPEED;
-    this.playerY = GROUND_Y - PLAYER_H;
-    this.velocityY = 0;
+    this.lane = 1;
+    this.displayX = laneCenter(1);
+    this.jumpLeft = 0;
     this.obstacles = [];
     this.pickups = [];
-    this.nextSpawnIn = 280;
-    this.bgOffset = 0;
-    this.mgOffset = 0;
-    this.thrusting = true;
+    this.nextSpawnIn = 220;
   }
 
-  private meters() {
-    return Math.floor(this.score / 8);
+  private toWorld(e: PointerEvent): { x: number; y: number } {
+    const rect = this.canvas.getBoundingClientRect();
+    const cssX = e.clientX - rect.left;
+    const cssY = e.clientY - rect.top;
+    const scale = Math.min(rect.width / VW, rect.height / VH);
+    const ox = (rect.width - VW * scale) / 2;
+    const oy = (rect.height - VH * scale) / 2;
+    return { x: (cssX - ox) / scale, y: (cssY - oy) / scale };
   }
 
   private totalScore() {
-    return this.meters() + this.coins * 5;
+    return Math.floor(this.score / 6) + this.coins * 5;
   }
 
   private update() {
@@ -166,35 +198,20 @@ class VolEngine {
 
     this.score++;
     this.speed = Math.min(MAX_SPEED, INITIAL_SPEED + this.score * ACCELERATION);
-    this.bgOffset = (this.bgOffset + this.speed * 0.15) % VW;
-    this.mgOffset = (this.mgOffset + this.speed * 0.4) % VW;
-
-    this.velocityY += this.thrusting ? THRUST : GRAVITY;
-    this.velocityY = Math.max(MAX_RISE, Math.min(MAX_FALL, this.velocityY));
-    this.playerY += this.velocityY;
-
-    const groundLevel = GROUND_Y - PLAYER_H;
-    if (this.playerY >= groundLevel) {
-      this.playerY = groundLevel;
-      this.velocityY = 0;
-    }
-    if (this.playerY < CEILING_Y) {
-      this.playerY = CEILING_Y;
-      this.velocityY = 0;
-    }
+    if (this.jumpLeft > 0) this.jumpLeft--;
+    this.displayX += (laneCenter(this.lane) - this.displayX) * LANE_LERP;
 
     this.nextSpawnIn -= this.speed;
     if (this.nextSpawnIn <= 0) {
       this.spawn();
-      const gap = Math.max(240, 420 - this.speed * 8) + Math.random() * 80;
-      this.nextSpawnIn = gap;
+      this.nextSpawnIn = Math.max(220, 400 - this.speed * 8) + Math.random() * 80;
     }
 
     for (let i = this.obstacles.length - 1; i >= 0; i--) {
       const obs = this.obstacles[i];
       if (!obs) continue;
-      obs.x -= this.speed;
-      if (obs.x + obs.w < 0) {
+      obs.y += this.speed;
+      if (obs.y > VH + 20) {
         this.obstacles.splice(i, 1);
         continue;
       }
@@ -206,60 +223,54 @@ class VolEngine {
 
     for (const coin of this.pickups) {
       if (coin.taken) continue;
-      coin.x -= this.speed;
-      const cx = PLAYER_X + PLAYER_W / 2;
-      const cy = this.playerY + PLAYER_H / 2;
-      const dx = coin.x - cx;
-      const dy = coin.y - cy;
-      if (dx * dx + dy * dy < (coin.r + 14) ** 2) {
+      coin.y += this.speed;
+      if (coin.lane === this.lane && Math.abs(coin.y - PLAYER_Y) < 28) {
         coin.taken = true;
         this.coins++;
       }
     }
-    this.pickups = this.pickups.filter((c) => !c.taken && c.x + c.r > 0);
+    this.pickups = this.pickups.filter((c) => !c.taken && c.y < VH + 20);
   }
 
   private spawn() {
     const roll = Math.random();
-    const startX = VW + 20;
-    if (roll < 0.28) {
-      const h = 40 + Math.random() * 50;
-      this.obstacles.push({ x: startX, y: GROUND_Y - h, w: 28 + Math.random() * 18, h });
-    } else if (roll < 0.5) {
-      const h = 50 + Math.random() * 60;
-      this.obstacles.push({ x: startX, y: CEILING_Y, w: 26 + Math.random() * 16, h });
-    } else if (roll < 0.68) {
-      const h = 32 + Math.random() * 28;
-      const y = 120 + Math.random() * 160;
-      this.obstacles.push({ x: startX, y, w: 70 + Math.random() * 30, h });
-    } else {
-      this.spawnCoins(startX);
+    if (roll < 0.35) {
+      this.pickups.push({
+        lane: Math.floor(Math.random() * LANES),
+        y: -30,
+        r: 10,
+        taken: false,
+      });
+      return;
     }
-  }
 
-  private spawnCoins(startX: number) {
-    const kind = Math.floor(Math.random() * 3);
-    const baseY = 120 + Math.random() * 180;
-    for (let i = 0; i < 7; i++) {
-      let y = baseY;
-      if (kind === 1) y = baseY + Math.sin(i * 0.9) * 50;
-      if (kind === 2) y = baseY - i * 12;
-      this.pickups.push({ x: startX + i * 34, y, r: 9, taken: false });
+    const canDouble = this.score > DOUBLE_LANE_AFTER && Math.random() < 0.12;
+    const blocked = canDouble ? 2 : 1;
+    const laneA = Math.floor(Math.random() * LANES);
+    let laneB = Math.floor(Math.random() * LANES);
+    while (laneB === laneA) laneB = Math.floor(Math.random() * LANES);
+    const chosen = blocked === 2 ? [laneA, laneB] : [laneA];
+    for (const lane of chosen) {
+      const kind: ObstacleKind = Math.random() < 0.55 ? "hurdle" : "wall";
+      this.obstacles.push({
+        lane,
+        y: -70,
+        h: kind === "hurdle" ? 36 : 64,
+        kind,
+      });
     }
   }
 
   private hits(obs: Obstacle): boolean {
-    const p = HIT_PADDING;
-    const px1 = PLAYER_X + p;
-    const px2 = PLAYER_X + PLAYER_W - p;
-    const py1 = this.playerY + p;
-    const py2 = this.playerY + PLAYER_H - p;
-    return px1 < obs.x + obs.w && px2 > obs.x && py1 < obs.y + obs.h && py2 > obs.y;
+    if (obs.lane !== this.lane) return false;
+    if (obs.kind === "hurdle" && this.jumpLeft > 0) return false;
+    const py1 = PLAYER_Y;
+    const py2 = PLAYER_Y + PLAYER_H * (this.jumpLeft > 0 ? 0.55 : 1);
+    return py1 < obs.y + obs.h && py2 > obs.y;
   }
 
   private gameOver() {
     this.state = "GAMEOVER";
-    this.thrusting = false;
     const total = this.totalScore();
     if (total > this.hiScore) {
       this.hiScore = total;
@@ -284,14 +295,28 @@ class VolEngine {
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, VW, VH);
 
-    this.drawSun();
-    this.drawMountains();
-    this.drawHills();
-
-    ctx.fillStyle = COLOR.ground;
-    ctx.fillRect(0, GROUND_Y, VW, VH - GROUND_Y);
-    ctx.fillStyle = COLOR.groundDark;
-    ctx.fillRect(0, GROUND_Y, VW, 6);
+    for (let i = 0; i < LANES; i++) {
+      ctx.fillStyle = i === 1 ? COLOR.laneB : COLOR.laneA;
+      ctx.fillRect(LANE_PAD + i * LANE_W, 0, LANE_W, VH);
+    }
+    ctx.strokeStyle = COLOR.ground;
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(LANE_PAD, 0);
+    ctx.lineTo(LANE_PAD, VH);
+    ctx.moveTo(VW - LANE_PAD, 0);
+    ctx.lineTo(VW - LANE_PAD, VH);
+    ctx.stroke();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = COLOR.groundDark;
+    ctx.setLineDash([12, 16]);
+    ctx.beginPath();
+    ctx.moveTo(LANE_PAD + LANE_W, 0);
+    ctx.lineTo(LANE_PAD + LANE_W, VH);
+    ctx.moveTo(LANE_PAD + LANE_W * 2, 0);
+    ctx.lineTo(LANE_PAD + LANE_W * 2, VH);
+    ctx.stroke();
+    ctx.setLineDash([]);
 
     for (const obs of this.obstacles) this.drawObstacle(obs);
     for (const coin of this.pickups) this.drawCoin(coin);
@@ -300,57 +325,6 @@ class VolEngine {
     if (this.state === "IDLE") this.drawIdle();
     if (this.state === "GAMEOVER") this.drawGameOver();
 
-    ctx.restore();
-  }
-
-  private drawSun() {
-    const { ctx } = this;
-    ctx.fillStyle = COLOR.sunGlow;
-    ctx.beginPath();
-    ctx.arc(560, 70, 42, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = COLOR.sun;
-    ctx.beginPath();
-    ctx.arc(560, 70, 28, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  private drawMountains() {
-    const { ctx } = this;
-    ctx.save();
-    ctx.globalAlpha = 0.45;
-    ctx.fillStyle = COLOR.mountains;
-    const peaks = [0, 160, 320, 480, 640, 800];
-    for (const baseX of peaks) {
-      const x = baseX - (this.bgOffset % 160);
-      ctx.beginPath();
-      ctx.moveTo(x - 80, GROUND_Y);
-      ctx.lineTo(x, GROUND_Y - 110);
-      ctx.lineTo(x + 80, GROUND_Y);
-      ctx.closePath();
-      ctx.fill();
-    }
-    ctx.restore();
-  }
-
-  private drawHills() {
-    const { ctx } = this;
-    ctx.save();
-    ctx.globalAlpha = 0.5;
-    ctx.fillStyle = COLOR.hills;
-    const period = 280;
-    const offset = this.mgOffset % period;
-    ctx.beginPath();
-    ctx.moveTo(0, GROUND_Y);
-    for (let i = -1; i <= Math.ceil(VW / period) + 1; i++) {
-      const cx = i * period - offset + period / 2;
-      ctx.quadraticCurveTo(cx - period / 4, GROUND_Y - 55, cx, GROUND_Y);
-      ctx.quadraticCurveTo(cx + period / 4, GROUND_Y + 10, cx + period / 2, GROUND_Y);
-    }
-    ctx.lineTo(VW, GROUND_Y);
-    ctx.lineTo(0, GROUND_Y);
-    ctx.closePath();
-    ctx.fill();
     ctx.restore();
   }
 
@@ -377,62 +351,60 @@ class VolEngine {
 
   private drawObstacle(obs: Obstacle) {
     const { ctx } = this;
-    const hanging = obs.y <= CEILING_Y + 2;
-    const tall = obs.h > 90;
-    ctx.save();
-    const top = hanging || tall ? COLOR.obstacleTall : COLOR.obstacle;
-    const bot = hanging || tall ? COLOR.obstacleTallDark : COLOR.obstacleDark;
-    const grad = ctx.createLinearGradient(obs.x, obs.y, obs.x, obs.y + obs.h);
+    const cx = laneCenter(obs.lane);
+    const w = LANE_W - 24;
+    const x = cx - w / 2;
+    const top = obs.kind === "wall" ? COLOR.wall : COLOR.hurdle;
+    const bot = obs.kind === "wall" ? COLOR.wallDark : COLOR.hurdleDark;
+    const grad = ctx.createLinearGradient(x, obs.y, x, obs.y + obs.h);
     grad.addColorStop(0, top);
     grad.addColorStop(1, bot);
     ctx.fillStyle = grad;
-    this.roundRect(ctx, obs.x, obs.y, obs.w, obs.h, 6);
+    this.roundRect(ctx, x, obs.y, w, obs.h, 8);
     ctx.fill();
-    ctx.restore();
   }
 
   private drawCoin(coin: Coin) {
     if (coin.taken) return;
     const { ctx } = this;
+    const x = laneCenter(coin.lane);
     ctx.fillStyle = COLOR.coin;
     ctx.beginPath();
-    ctx.arc(coin.x, coin.y, coin.r, 0, Math.PI * 2);
+    ctx.arc(x, coin.y, coin.r, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = COLOR.coinInner;
     ctx.beginPath();
-    ctx.arc(coin.x - 1, coin.y - 1, coin.r * 0.45, 0, Math.PI * 2);
+    ctx.arc(x - 1, coin.y - 1, coin.r * 0.45, 0, Math.PI * 2);
     ctx.fill();
   }
 
   private drawPlayer() {
     const { ctx } = this;
-    const x = PLAYER_X;
-    const y = this.playerY;
+    const lift = this.jumpLeft > 0 ? 18 : 0;
+    const y = PLAYER_Y - lift;
+    const targetX = laneCenter(this.lane);
+    const tilt = Math.max(-0.25, Math.min(0.25, Math.atan((targetX - this.displayX) / 60)));
+
     ctx.save();
-    if (this.thrusting && this.state === "RUNNING") {
-      ctx.fillStyle = COLOR.sun;
-      ctx.beginPath();
-      ctx.moveTo(x + 6, y + PLAYER_H);
-      ctx.lineTo(x + PLAYER_W / 2, y + PLAYER_H + 16 + Math.random() * 6);
-      ctx.lineTo(x + PLAYER_W - 6, y + PLAYER_H);
-      ctx.closePath();
-      ctx.fill();
-    }
+    ctx.translate(this.displayX, y + PLAYER_H / 2);
+    ctx.rotate(tilt);
+    ctx.translate(-PLAYER_W / 2, -PLAYER_H / 2);
+
     ctx.fillStyle = this.state === "GAMEOVER" ? COLOR.playerGameOver : COLOR.player;
-    this.roundRect(ctx, x, y, PLAYER_W, PLAYER_H, 8);
+    this.roundRect(ctx, 0, 0, PLAYER_W, PLAYER_H, 10);
     ctx.fill();
     ctx.fillStyle = "rgba(255,255,255,0.9)";
     ctx.beginPath();
-    ctx.arc(x + PLAYER_W - 9, y + 12, 4, 0, Math.PI * 2);
+    ctx.arc(PLAYER_W / 2 + 6, 16, 5, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = COLOR.text;
     ctx.beginPath();
-    ctx.arc(x + PLAYER_W - 8, y + 12, 2, 0, Math.PI * 2);
+    ctx.arc(PLAYER_W / 2 + 7, 16, 2.5, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = COLOR.playerDark;
-    this.roundRect(ctx, x + 4, y + PLAYER_H - 4, 8, 6, 2);
+    this.roundRect(ctx, 6, PLAYER_H - 8, 10, 8, 3);
     ctx.fill();
-    this.roundRect(ctx, x + PLAYER_W - 12, y + PLAYER_H - 4, 8, 6, 2);
+    this.roundRect(ctx, PLAYER_W - 16, PLAYER_H - 8, 10, 8, 3);
     ctx.fill();
     ctx.restore();
   }
@@ -447,9 +419,7 @@ class VolEngine {
     ctx.font = "12px system-ui, sans-serif";
     ctx.fillStyle = COLOR.groundDark;
     ctx.fillText(`${this.coins} pièces`, VW - 16, 46);
-    if (this.hiScore > 0) {
-      ctx.fillText(`Meilleur : ${this.hiScore}`, VW - 16, 62);
-    }
+    if (this.hiScore > 0) ctx.fillText(`Meilleur : ${this.hiScore}`, VW - 16, 62);
     ctx.textAlign = "left";
   }
 
@@ -460,10 +430,12 @@ class VolEngine {
     ctx.textAlign = "center";
     ctx.font = "bold 32px system-ui, sans-serif";
     ctx.fillStyle = COLOR.title;
-    ctx.fillText("Vol", VW / 2, VH / 2 - 16);
+    ctx.fillText("Course", VW / 2, VH / 2 - 20);
     ctx.font = "16px system-ui, sans-serif";
     ctx.fillStyle = COLOR.text;
-    ctx.fillText("Appuie pour voler", VW / 2, VH / 2 + 16);
+    ctx.fillText("Glisse pour changer de couloir", VW / 2, VH / 2 + 12);
+    ctx.font = "13px system-ui, sans-serif";
+    ctx.fillText("Swipe haut ou Espace pour sauter", VW / 2, VH / 2 + 36);
     ctx.textAlign = "left";
   }
 
@@ -496,13 +468,11 @@ class VolEngine {
     cancelAnimationFrame(this.rafId);
     const r = this as unknown as Record<string, unknown>;
     if (r._onKeyDown) window.removeEventListener("keydown", r._onKeyDown as EventListener);
-    if (r._onKeyUp) window.removeEventListener("keyup", r._onKeyUp as EventListener);
     if (r._onPointerDown) {
       this.canvas.removeEventListener("pointerdown", r._onPointerDown as EventListener);
     }
     if (r._onPointerUp) {
       this.canvas.removeEventListener("pointerup", r._onPointerUp as EventListener);
-      this.canvas.removeEventListener("pointercancel", r._onPointerUp as EventListener);
     }
   }
 }
@@ -510,13 +480,13 @@ class VolEngine {
 const SHELL =
   "w-screen max-w-none relative left-1/2 -translate-x-1/2 flex flex-col px-4 py-4 gap-3 min-h-dvh";
 
-export function RunnerGame() {
+export function CourseGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const game = new VolEngine(canvas);
+    const game = new CourseEngine(canvas);
 
     const onResize = () => game.resize();
     window.addEventListener("resize", onResize);
@@ -535,7 +505,7 @@ export function RunnerGame() {
     <main className={SHELL}>
       <div className="flex items-center gap-4 w-full">
         <BackLink href="/mini-jeux" />
-        <PageTitle>Vol</PageTitle>
+        <PageTitle>Course</PageTitle>
       </div>
       <div className="w-full min-h-[55dvh] h-[calc(100dvh-7rem)] rounded-xl overflow-hidden bg-white landscape:min-h-[75dvh]">
         <canvas

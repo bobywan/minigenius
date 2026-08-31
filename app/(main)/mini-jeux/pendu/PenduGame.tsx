@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
 import { BackLink } from "@/components/ui/BackLink";
 import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
 import { PageTitle } from "@/components/ui/PageTitle";
 
 const WORDS = [
@@ -123,7 +122,7 @@ function HangmanSVG({ errors }: { errors: number }) {
   return (
     <svg
       viewBox="0 0 200 220"
-      className="w-48 h-48 sm:w-56 sm:h-56"
+      className="w-48 h-48 sm:w-56 sm:h-56 text-sky-800"
       aria-label={`Pendu : ${errors} erreur${errors > 1 ? "s" : ""} sur 6`}
       role="img"
     >
@@ -134,7 +133,7 @@ function HangmanSVG({ errors }: { errors: number }) {
           y1="210"
           x2="180"
           y2="210"
-          stroke="white"
+          stroke="currentColor"
           strokeWidth="6"
           strokeLinecap="round"
         />
@@ -143,7 +142,7 @@ function HangmanSVG({ errors }: { errors: number }) {
           y1="210"
           x2="60"
           y2="20"
-          stroke="white"
+          stroke="currentColor"
           strokeWidth="6"
           strokeLinecap="round"
         />
@@ -155,7 +154,7 @@ function HangmanSVG({ errors }: { errors: number }) {
           y1="20"
           x2="140"
           y2="20"
-          stroke="white"
+          stroke="currentColor"
           strokeWidth="6"
           strokeLinecap="round"
         />
@@ -167,14 +166,14 @@ function HangmanSVG({ errors }: { errors: number }) {
           y1="20"
           x2="140"
           y2="50"
-          stroke="white"
+          stroke="currentColor"
           strokeWidth="4"
           strokeLinecap="round"
         />
       </g>
       {/* Tête */}
       <g style={show(4)}>
-        <circle cx="140" cy="68" r="18" stroke="white" strokeWidth="4" fill="none" />
+        <circle cx="140" cy="68" r="18" stroke="currentColor" strokeWidth="4" fill="none" />
       </g>
       {/* Tronc */}
       <g style={show(5)}>
@@ -183,7 +182,7 @@ function HangmanSVG({ errors }: { errors: number }) {
           y1="86"
           x2="140"
           y2="145"
-          stroke="white"
+          stroke="currentColor"
           strokeWidth="4"
           strokeLinecap="round"
         />
@@ -195,7 +194,7 @@ function HangmanSVG({ errors }: { errors: number }) {
           y1="100"
           x2="115"
           y2="125"
-          stroke="white"
+          stroke="currentColor"
           strokeWidth="4"
           strokeLinecap="round"
         />
@@ -204,7 +203,7 @@ function HangmanSVG({ errors }: { errors: number }) {
           y1="100"
           x2="165"
           y2="125"
-          stroke="white"
+          stroke="currentColor"
           strokeWidth="4"
           strokeLinecap="round"
         />
@@ -213,7 +212,7 @@ function HangmanSVG({ errors }: { errors: number }) {
           y1="145"
           x2="115"
           y2="175"
-          stroke="white"
+          stroke="currentColor"
           strokeWidth="4"
           strokeLinecap="round"
         />
@@ -222,7 +221,7 @@ function HangmanSVG({ errors }: { errors: number }) {
           y1="145"
           x2="165"
           y2="175"
-          stroke="white"
+          stroke="currentColor"
           strokeWidth="4"
           strokeLinecap="round"
         />
@@ -265,87 +264,86 @@ export function PenduGame() {
   const restart = () => setGame(initGame());
 
   return (
-    <div className="flex flex-col items-center gap-6 w-full max-w-lg">
-      <header className="text-center flex flex-col items-center gap-4">
-        <BackLink href="/mini-jeux" />
-        <PageTitle size="5xl">Le Pendu</PageTitle>
+    <main className="flex flex-col items-center px-8 lg:px-16 py-8 lg:py-16 gap-8">
+      <BackLink href="/mini-jeux" />
+
+      <header className="grid gap-4 w-full text-center">
+        <PageTitle>Le Pendu</PageTitle>
       </header>
 
-      {/* Pendu SVG */}
-      <HangmanSVG errors={game.errors} />
+      <div className="flex flex-col items-center gap-8 w-full bg-white p-8 rounded-xl">
+        <HangmanSVG errors={game.errors} />
 
-      {/* Mot masqué */}
-      <p className="sr-only" aria-live="polite">{`Mot : ${maskedWord.join(" ")}`}</p>
-      <div className="flex flex-wrap justify-center gap-2">
-        {maskedWord.map((l, i) => (
-          <span
-            // biome-ignore lint/suspicious/noArrayIndexKey: letter positions in a word are stable
-            key={i}
-            className="w-8 h-10 flex items-end justify-center border-b-4 border-white text-2xl font-display text-white"
-          >
-            {l !== "_" ? l : ""}
-          </span>
-        ))}
-      </div>
-
-      {/* Compteur d'erreurs */}
-      <p className="font-display text-white text-lg" aria-live="polite">
-        Erreurs :{" "}
-        <span className={game.errors >= 4 ? "text-red-400" : "text-white"}>{game.errors} / 6</span>
-      </p>
-
-      {/* État victoire / défaite */}
-      {game.status !== "playing" && (
-        <Card padding="md" className="flex-col items-center gap-3 w-full" hover={false}>
-          <p className="text-2xl font-display text-center">
-            {game.status === "win"
-              ? "Bravo ! Tu as gagné !"
-              : `Perdu ! Le mot était : ${game.word}`}
-          </p>
-          <Button variant="primary" size="md" onClick={restart}>
-            Rejouer
-          </Button>
-        </Card>
-      )}
-
-      {/* Clavier virtuel */}
-      <fieldset className="flex flex-wrap justify-center gap-1.5 w-full border-0 p-0 m-0">
-        <legend className="sr-only">Clavier virtuel</legend>
-        {ALPHABET.map((letter) => {
-          const played = game.guessed.has(letter);
-          const correct = played && game.word.includes(letter);
-          const wrong = played && !game.word.includes(letter);
-          const inactive = played || game.status !== "playing";
-          return (
-            <motion.button
-              key={letter}
-              type="button"
-              onClick={() => guess(letter)}
-              disabled={inactive}
-              aria-pressed={played}
-              aria-label={`Lettre ${letter}`}
-              whileTap={inactive ? undefined : { y: 4, boxShadow: "0 1px 0 #0f0826" }}
-              style={{ textShadow: "var(--text-shadow-solid)" }}
-              className={[
-                "w-[46px] min-h-[52px] rounded-[var(--radius-btn)]",
-                "font-body font-bold text-lg text-white select-none",
-                "border-2 transition-colors duration-100",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white",
-                "disabled:cursor-not-allowed",
-                correct
-                  ? "bg-green-500 border-green-400 shadow-[var(--shadow-green)] opacity-70"
-                  : wrong
-                    ? "bg-red-500 border-red-400 shadow-[var(--shadow-red)] opacity-50"
-                    : "bg-neutral-900/80 hover:bg-neutral-900/95 border-white/30 shadow-[var(--shadow-btn)] cursor-pointer",
-              ]
-                .filter(Boolean)
-                .join(" ")}
+        <p className="sr-only" aria-live="polite">{`Mot : ${maskedWord.join(" ")}`}</p>
+        <div className="flex flex-wrap justify-center gap-2">
+          {maskedWord.map((l, i) => (
+            <span
+              // biome-ignore lint/suspicious/noArrayIndexKey: letter positions in a word are stable
+              key={i}
+              className="w-8 h-10 flex items-end justify-center border-b-4 border-sky-800 text-2xl font-display text-sky-800"
             >
-              {letter}
-            </motion.button>
-          );
-        })}
-      </fieldset>
-    </div>
+              {l !== "_" ? l : ""}
+            </span>
+          ))}
+        </div>
+
+        <p className="font-display text-sky-800 text-lg" aria-live="polite">
+          Erreurs :{" "}
+          <span className={game.errors >= 4 ? "text-red-500" : "text-sky-800"}>
+            {game.errors} / 6
+          </span>
+        </p>
+
+        {game.status !== "playing" && (
+          <div className="flex flex-col items-center gap-3">
+            <p className="text-2xl font-display text-sky-800 text-center">
+              {game.status === "win"
+                ? "Bravo ! Tu as gagné !"
+                : `Perdu ! Le mot était : ${game.word}`}
+            </p>
+            <Button variant="primary" size="md" onClick={restart}>
+              Rejouer
+            </Button>
+          </div>
+        )}
+
+        <fieldset className="flex flex-wrap justify-center gap-1.5 w-full border-0 p-0 m-0">
+          <legend className="sr-only">Clavier virtuel</legend>
+          {ALPHABET.map((letter) => {
+            const played = game.guessed.has(letter);
+            const correct = played && game.word.includes(letter);
+            const wrong = played && !game.word.includes(letter);
+            const inactive = played || game.status !== "playing";
+            return (
+              <motion.button
+                key={letter}
+                type="button"
+                onClick={() => guess(letter)}
+                disabled={inactive}
+                aria-pressed={played}
+                aria-label={`Lettre ${letter}`}
+                whileTap={inactive ? undefined : { y: 4, boxShadow: "0 1px 0 #0f0826" }}
+                className={[
+                  "w-[46px] min-h-[52px] rounded-[var(--radius-btn)]",
+                  "font-body font-bold text-lg text-white select-none",
+                  "transition-colors duration-100",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-800",
+                  "disabled:cursor-not-allowed",
+                  correct
+                    ? "bg-emerald-500 opacity-70"
+                    : wrong
+                      ? "bg-red-500 opacity-50"
+                      : "bg-sky-800 hover:bg-sky-800/80 cursor-pointer",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+              >
+                {letter}
+              </motion.button>
+            );
+          })}
+        </fieldset>
+      </div>
+    </main>
   );
 }

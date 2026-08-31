@@ -48,7 +48,7 @@ const SUBJECTS = [
     id: "mini-jeux",
     label: "Mini-jeux",
     icon: Gamepad2,
-    description: "Pendu, devinettes et autres jeux",
+    description: "Pendu, vol et course",
     active: true,
     href: "/mini-jeux",
   },
