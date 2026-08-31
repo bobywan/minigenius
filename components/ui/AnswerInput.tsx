@@ -12,9 +12,9 @@ interface AnswerInputProps {
 }
 
 const stateMap: Record<InputState, string> = {
-  idle: "border-white/30 text-neutral-50",
-  correct: "border-green-500 text-green-400 shadow-[var(--shadow-green)] bg-[#0a4020]",
-  wrong: "border-red-500 text-red-400 shadow-[var(--shadow-red)] bg-[#4a1020]",
+  idle: "border-sky-300 text-sky-800 bg-sky-50",
+  correct: "border-emerald-500 text-emerald-700 bg-emerald-100",
+  wrong: "border-red-500 text-red-700 bg-red-100",
 };
 
 export function AnswerInput({ value, state, placeholder = "?" }: AnswerInputProps) {
@@ -38,12 +38,10 @@ export function AnswerInput({ value, state, placeholder = "?" }: AnswerInputProp
         "rounded-[var(--radius-card)] border-4",
         "text-5xl font-display tracking-wider",
         "transition-colors duration-200",
-        "bg-purple",
-        "shadow-[var(--shadow-card)]",
         stateMap[state],
       ].join(" ")}
     >
-      {value || <span className="opacity-30">{placeholder}</span>}
+      {value || <span className="opacity-40">{placeholder}</span>}
     </div>
   );
 }

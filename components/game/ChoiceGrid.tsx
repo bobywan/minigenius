@@ -36,20 +36,19 @@ export function ChoiceGrid({
               onClick={() => onSelect(idx)}
               disabled={inactive}
               whileTap={inactive ? undefined : { y: 4, boxShadow: "0 1px 0 #0f0826" }}
-              style={{ textShadow: "var(--text-shadow-solid)" }}
               className={[
-                "flex-1 min-h-[60px] px-4 py-3 rounded-[var(--radius-btn)]",
-                "font-body font-bold text-xl text-white select-none",
-                "border-2 transition-colors duration-100",
+                "flex-1 min-h-[60px] p-4 rounded-[var(--radius-btn)]",
+                "font-bold text-xl text-white select-none",
+                "transition-colors duration-100",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white",
                 "disabled:cursor-not-allowed",
                 correct
-                  ? "bg-green-500 border-green-400 shadow-[var(--shadow-green)]"
+                  ? "bg-emerald-500 border-emerald-400"
                   : wrong
-                    ? "bg-red-500 border-red-400 shadow-[var(--shadow-red)]"
+                    ? "bg-red-500 border-red-400"
                     : dimmed
-                      ? "bg-neutral-900/80 border-white/30 shadow-[var(--shadow-btn)] opacity-40"
-                      : "bg-neutral-900/80 hover:bg-neutral-900/95 border-white/30 shadow-[var(--shadow-btn)] cursor-pointer",
+                      ? "bg-neutral-900/80 opacity-40"
+                      : "bg-sky-800 hover:bg-sky-800/80 cursor-pointer",
               ].join(" ")}
             >
               {choice}

@@ -3,8 +3,8 @@
 import { motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
 import { BackLink } from "@/components/ui/BackLink";
-import { GlassCard } from "@/components/ui/GlassCard";
-import { neonBtnCls } from "@/components/ui/NeonButton";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import { PageTitle } from "@/components/ui/PageTitle";
 
 const WORDS = [
@@ -296,16 +296,16 @@ export function PenduGame() {
 
       {/* État victoire / défaite */}
       {game.status !== "playing" && (
-        <GlassCard className="p-4 flex flex-col items-center gap-3 w-full">
-          <p className="text-2xl font-display text-white drop-shadow-lg">
+        <Card padding="md" className="flex-col items-center gap-3 w-full" hover={false}>
+          <p className="text-2xl font-display text-center">
             {game.status === "win"
               ? "Bravo ! Tu as gagné !"
               : `Perdu ! Le mot était : ${game.word}`}
           </p>
-          <button type="button" onClick={restart} className={neonBtnCls("brand", "md")}>
+          <Button variant="primary" size="md" onClick={restart}>
             Rejouer
-          </button>
-        </GlassCard>
+          </Button>
+        </Card>
       )}
 
       {/* Clavier virtuel */}

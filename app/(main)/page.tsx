@@ -54,6 +54,11 @@ const SUBJECTS = [
   },
 ];
 
+const AVAILABLE = SUBJECTS.filter((s): s is (typeof SUBJECTS)[number] & { href: string } =>
+  Boolean(s.active && s.href),
+);
+const COMING_SOON = SUBJECTS.filter((s) => !s.active);
+
 export default function Home() {
   return (
     <main className="flex flex-col items-center px-8 lg:px-16 py-16 gap-16">
@@ -63,11 +68,11 @@ export default function Home() {
         <PageSubtitle>Choisis ta matière pour commencer !</PageSubtitle>
       </header>
 
-      <div className="grid gap-4 w-full lg:grid-cols-2">
-        {SUBJECTS.map((s) => {
+      <section className="grid gap-4 w-full lg:grid-cols-2">
+        {AVAILABLE.map((s) => {
           const Icon = s.icon;
 
-          return s.active && s.href ? (
+          return (
             <Link key={s.id} href={s.href} className="group">
               <Card>
                 <Icon size={40} className="shrink-0" />
@@ -78,28 +83,37 @@ export default function Home() {
                 </div>
               </Card>
             </Link>
-          ) : (
-            <div key={s.id} className="relative">
-              <Card className="opacity-40 cursor-not-allowed">
-                <Icon size={40} className="shrink-0" />
-
-                <div className="flex flex-col content-center gap-1">
-                  <p className="text-2xl font-display">{s.label}</p>
-                  <p className="text-base font-body">{s.description}</p>
-                </div>
-
-                <span className="absolute top-3 right-3 text-xs font-display uppercase tracking-wide text-white bg-neutral-600 rounded-full px-3 py-1 shadow-[0_2px_0_#0f0826]">
-                  Bientôt
-                </span>
-              </Card>
-            </div>
           );
         })}
-      </div>
+      </section>
 
-      <div className="grid gap-4 w-full lg:grid-cols-2">
-        <PageTitle>Bientôt disponible</PageTitle>
-      </div>
+      {COMING_SOON.length > 0 && (
+        <section className="flex flex-col gap-4 w-full">
+          <PageTitle>Bientôt disponible</PageTitle>
+          <div className="grid gap-4 w-full lg:grid-cols-2">
+            {COMING_SOON.map((s) => {
+              const Icon = s.icon;
+
+              return (
+                <div key={s.id} className="relative">
+                  <Card disabled hover={false}>
+                    <Icon size={40} className="shrink-0" />
+
+                    <div className="flex flex-col content-center gap-1">
+                      <p className="text-2xl font-display">{s.label}</p>
+                      <p className="text-base font-body">{s.description}</p>
+                    </div>
+
+                    <span className="absolute top-3 right-3 text-xs font-display uppercase tracking-wide text-white bg-neutral-600 rounded-full px-3 py-1 shadow-[0_2px_0_#0f0826]">
+                      Bientôt
+                    </span>
+                  </Card>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
     </main>
   );
 }

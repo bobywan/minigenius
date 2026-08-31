@@ -106,4 +106,32 @@
 
 **Conséquences :** Toute nouvelle matière peut réutiliser `ChoiceGrid` + `SeriesResultScreen` + `ProgressDots`. Ajouter un module non mathématique ne demande plus qu'une extension de `ModuleId`. Le fichier `english.ts` est volumineux (données + logique) — si une troisième matière à vocabulaire apparaît, extraire un format de données partagé et un runner de check commun.
 
+---
+
+## [2026-08-30] Migration design système vers blanc/emerald/amber
+
+**Contexte :** Le projet a démarré avec un thème cartoon coloré (gradients magenta/rose, boutons néons multicolores avec 5 variantes) inspiré Fall Guys. Après itération et tests utilisateurs, ce design s'est révélé trop agressif visuellement pour une application éducative destinée aux enfants, avec des problèmes de contraste et de lisibilité, notamment sur tablette. Le dégradé bleu vif en fond fixe créait aussi une fatigue visuelle lors de sessions prolongées.
+
+**Décision :** Refonte complète vers un thème épuré blanc/emerald/amber :
+- Fond blanc avec effet de sol vert ondulant (emerald-500/600) via pseudo-éléments CSS `body::before` et `body::after`
+- Composants blancs avec effets hover emerald (shadow + scale + translation Y)
+- Accent amber pour boutons secondaires, étoiles de progression et highlights
+- Suppression de `GlassCard` (gradient magenta/rose avec bordure blanche) et `NeonButton` (5 variantes colorées pink/orange/green/yellow/ghost)
+- Remplacement par `Card` (blanc, hover emerald, variantes padding/disabled) et `Button` (3 variantes primary/secondary/ghost)
+- Migration de 20 fichiers : 8 pages de navigation, 7 pages de jeu, SeriesResultScreen, WordPrompt, PenduGame
+- Nouvelle page `/design` simplifiée documentant le design system v2
+
+**Alternatives écartées :**
+- Cohabitation des deux designs (pages nav en blanc, pages jeu en cartoon) : incohérence visuelle trop perturbante, impression de deux applications différentes
+- Garder le design cartoon original avec ajustements mineurs : les problèmes de contraste et de fatigue visuelle nécessitaient une refonte complète, pas des ajustements cosmétiques
+- Design noir/sombre : moins adapté à une application éducative enfant, contraste insuffisant pour la lecture prolongée
+
+**Conséquences :** 
+- 20 fichiers modifiés (pages + composants)
+- Design plus sobre et apaisant, meilleure lisibilité, contraste optimisé pour tablette
+- Cohérence visuelle complète sur toute l'application
+- Palette réduite de 5 couleurs à 3 couleurs principales (emerald, amber, blanc) simplifie la maintenance
+- Le fichier `app/globals.css` contient maintenant les pseudo-éléments pour le sol vert (à maintenir si modification du fond)
+- Tokens CSS custom properties mis à jour : suppression de `--color-bg-deep`, `--color-bg-surface`, mise à jour des shadows
+
 <!-- Ajoute tes décisions ci-dessous en suivant le même format -->

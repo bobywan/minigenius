@@ -1,4 +1,3 @@
-import { GlassCard } from "@/components/ui/GlassCard";
 import { SpeakButton } from "@/components/ui/SpeakButton";
 
 interface WordPromptProps {
@@ -10,27 +9,20 @@ interface WordPromptProps {
   revealText?: string;
 }
 
-export function WordPrompt({ prompt, sourceLabel, speakText, revealText }: WordPromptProps) {
+export function WordPrompt({ prompt, speakText, revealText }: WordPromptProps) {
   return (
-    <GlassCard className="p-6 w-full flex flex-col items-center gap-3">
-      <p className="text-xs font-display uppercase tracking-wide text-white/80">{sourceLabel}</p>
-
-      <div className="flex items-center justify-center gap-3 flex-wrap">
-        <p
-          className="text-4xl font-display text-white text-center"
-          style={{ textShadow: "var(--text-shadow-solid)" }}
-        >
-          {prompt}
-        </p>
+    <div className="w-full">
+      <div className="flex gap-3 flex-wrap items-center justify-center">
+        <p className="text-4xl font-bold">{prompt}</p>
         {speakText && <SpeakButton text={speakText} />}
       </div>
 
       {revealText && (
-        <div className="w-full flex items-center justify-center gap-3 pt-3 border-t-2 border-white/30">
-          <p className="text-2xl font-display text-white">{revealText}</p>
+        <div className="w-full flex gap-3  border-slate-300">
+          <p className="text-2xl font-display">{revealText}</p>
           <SpeakButton text={revealText} />
         </div>
       )}
-    </GlassCard>
+    </div>
   );
 }

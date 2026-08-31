@@ -17,18 +17,18 @@ function Slot({
   if (isHole) {
     if (revealAnswer) {
       return (
-        <span className="inline-flex items-center justify-center min-w-[90px] px-3 py-2 rounded-2xl bg-[#0a4020] border-4 border-green-500 text-green-400 font-display text-5xl shadow-[var(--shadow-green)]">
+        <span className="inline-flex items-center justify-center min-w-[90px] px-3 py-2 rounded-2xl bg-emerald-100 border-4 border-emerald-500 text-emerald-700 font-display text-5xl">
           {value}
         </span>
       );
     }
     return (
-      <span className="inline-flex items-center justify-center min-w-[90px] px-3 py-2 rounded-2xl bg-purple border-4 border-pink-500 text-pink-400 font-display text-5xl animate-pulse shadow-[var(--shadow-pink)]">
+      <span className="inline-flex items-center justify-center min-w-[90px] px-3 py-2 rounded-2xl bg-sky-100 border-4 border-sky-500 text-sky-600 font-display text-5xl animate-pulse">
         ?
       </span>
     );
   }
-  return <span className="text-white font-display text-5xl">{value}</span>;
+  return <span className="text-sky-800 font-display text-5xl">{value}</span>;
 }
 
 export function ExerciseDisplay({ exercise, revealAnswer = false }: ExerciseDisplayProps) {
@@ -41,9 +41,9 @@ export function ExerciseDisplay({ exercise, revealAnswer = false }: ExerciseDisp
       aria-label={`Calcul : ${left ?? "?"} ${op} ${right ?? "?"} = ${result ?? "?"}`}
     >
       <Slot value={left ?? answer} isHole={left === null} revealAnswer={revealAnswer} />
-      <span className="text-yellow-400 font-display text-5xl">{op}</span>
+      <span className="text-amber-500 font-display text-5xl">{op}</span>
       <Slot value={right ?? answer} isHole={right === null} revealAnswer={revealAnswer} />
-      <span className="text-neutral-400 font-display text-5xl">=</span>
+      <span className="text-slate-500 font-display text-5xl">=</span>
       <Slot value={result ?? answer} isHole={result === null} revealAnswer={revealAnswer} />
     </div>
   );

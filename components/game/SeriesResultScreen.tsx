@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import { Frown, Sparkles, ThumbsUp, Trophy } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
-import { GlassCard } from "@/components/ui/GlassCard";
-import { NeonButton } from "@/components/ui/NeonButton";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import { StarRating } from "@/components/ui/StarRating";
 import { playUnlock } from "@/lib/audio/sounds";
 import type { Stars } from "@/lib/types";
@@ -60,12 +60,11 @@ export function SeriesResultScreen({ correct, onReplay, nextHref }: SeriesResult
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
       className="flex flex-col items-center gap-6 w-full max-w-md mx-auto"
     >
-      <GlassCard className="p-8 w-full flex flex-col items-center gap-6">
+      <Card padding="lg" className="w-full flex-col items-center gap-6" hover={false}>
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.1, type: "spring", stiffness: 400 }}
-          className="text-white"
         >
           {stars === 3 ? (
             <Trophy size={72} />
@@ -78,7 +77,7 @@ export function SeriesResultScreen({ correct, onReplay, nextHref }: SeriesResult
           )}
         </motion.div>
 
-        <h2 className="text-3xl font-display text-white text-center">
+        <h2 className="text-3xl font-display text-center">
           {stars === 3
             ? "Parfait !"
             : stars === 2
@@ -89,31 +88,31 @@ export function SeriesResultScreen({ correct, onReplay, nextHref }: SeriesResult
         </h2>
 
         <div className="text-center">
-          <p className="text-6xl font-display text-yellow-400">
+          <p className="text-6xl font-display text-amber-500">
             {correct}
-            <span className="text-3xl text-neutral-400">/10</span>
+            <span className="text-3xl text-slate-500">/10</span>
           </p>
-          <p className="text-sm text-white/80 mt-1 font-body">bonnes réponses</p>
+          <p className="text-sm text-slate-700 mt-1 font-body">bonnes réponses</p>
         </div>
 
         <StarRating stars={stars} size="lg" animate />
 
         {!won && (
-          <p className="text-sm text-white/80 text-center font-body">
+          <p className="text-sm text-slate-700 text-center font-body">
             Il faut au moins 6/10 pour débloquer la suite. Tu vas y arriver !
           </p>
         )}
-      </GlassCard>
+      </Card>
 
       <div className="flex gap-3 w-full">
-        <NeonButton variant="ghost" onClick={onReplay} className="flex-1">
+        <Button variant="ghost" onClick={onReplay} className="flex-1">
           ↺ Rejouer
-        </NeonButton>
+        </Button>
         {nextHref && won && (
           <Link href={nextHref} className="flex-1">
-            <NeonButton variant={stars === 3 ? "success" : "brand"} className="w-full">
+            <Button variant="primary" className="w-full">
               Continuer →
-            </NeonButton>
+            </Button>
           </Link>
         )}
       </div>

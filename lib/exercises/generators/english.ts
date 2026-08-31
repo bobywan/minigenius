@@ -416,7 +416,12 @@ export function generateQuizSeries(mode: EnglishModule, difficulty: Difficulty):
       choices.push(value);
     }
     const shuffled = shuffle(choices);
-    return { prompt: promptOf(pair), choices: shuffled, answerIndex: shuffled.indexOf(answer) };
+    return {
+      prompt: promptOf(pair),
+      choices: shuffled,
+      answerIndex: shuffled.indexOf(answer),
+      enToFr,
+    };
   });
 }
 
@@ -459,7 +464,7 @@ export function generateMixedQuizSeries(difficulty: Difficulty): QuizQuestion[] 
       choices.push(value);
     }
     const shuffled = shuffle(choices);
-    return { prompt, choices: shuffled, answerIndex: shuffled.indexOf(answer) };
+    return { prompt, choices: shuffled, answerIndex: shuffled.indexOf(answer), enToFr };
   });
 }
 
@@ -486,5 +491,5 @@ export function generateOneQuiz(mode: EnglishModule, difficulty: Difficulty): Qu
   }
 
   const shuffled = shuffle(choices);
-  return { prompt, choices: shuffled, answerIndex: shuffled.indexOf(answer) };
+  return { prompt, choices: shuffled, answerIndex: shuffled.indexOf(answer), enToFr };
 }

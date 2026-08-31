@@ -19,11 +19,11 @@ export default function MathsPage() {
   }, []);
 
   return (
-    <main className="flex flex-col px-8 lg:px-16 py-8 lg:py-16 gap-8 lg:gap-16">
+    <main className="flex flex-col px-8 lg:px-16 py-8 lg:py-16 gap-8">
       <BackLink href="/" />
 
       <header className="grid gap-4 w-full text-center">
-        <PageTitle size="5xl">Maths</PageTitle>
+        <PageTitle>Maths</PageTitle>
 
         <PageSubtitle>Choisis ton opération</PageSubtitle>
       </header>
