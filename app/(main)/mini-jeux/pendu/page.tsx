@@ -7,9 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function PenduPage() {
-  return (
-    <main className="min-h-screen flex flex-col items-center px-4 py-12">
-      <PenduGame />
-    </main>
-  );
+  return <PenduGame />;
 }

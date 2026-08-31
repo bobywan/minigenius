@@ -2,14 +2,10 @@ import type { Metadata } from "next";
 import { RunnerGame } from "./RunnerGame";
 
 export const metadata: Metadata = {
-  title: "Endless Runner",
-  description: "Saute par-dessus les obstacles et bats ton record !",
+  title: "Vol",
+  description: "Maintiens pour voler, ramasse les pièces et évite les obstacles !",
 };
 
-export default function RunnerPage() {
-  return (
-    <main className="min-h-screen flex flex-col items-center px-4 py-12">
-      <RunnerGame />
-    </main>
-  );
+export default function VolPage() {
+  return <RunnerGame />;
 }

@@ -1,4 +1,5 @@
-import { Gamepad2 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { PersonStanding, Rocket, WholeWord } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BackLink } from "@/components/ui/BackLink";
@@ -11,26 +12,39 @@ export const metadata: Metadata = {
   description: "Des mini-jeux pour apprendre en s'amusant !",
 };
 
-const GAMES = [
+const GAMES: {
+  id: string;
+  label: string;
+  description: string;
+  href: string;
+  icon: LucideIcon;
+}[] = [
   {
     id: "pendu",
     label: "Le Pendu",
     description: "Devine le mot lettre par lettre",
     href: "/mini-jeux/pendu",
-    active: true,
+    icon: WholeWord,
   },
   {
-    id: "runner",
-    label: "Endless Runner",
-    description: "Saute par-dessus les obstacles !",
+    id: "vol",
+    label: "Vol",
+    description: "Maintiens pour voler",
     href: "/mini-jeux/runner",
-    active: true,
+    icon: Rocket,
+  },
+  {
+    id: "course",
+    label: "Course",
+    description: "Change de couloir et saute",
+    href: "/mini-jeux/course",
+    icon: PersonStanding,
   },
 ];
 
 export default function MiniJeuxPage() {
   return (
-    <main className="flex flex-col items-center px-8 lg:px-16 py-8 lg:py-16 gap-8">
+    <main className="flex flex-col px-8 lg:px-16 py-8 lg:py-16 gap-8">
       <BackLink href="/" />
 
       <header className="grid gap-4 w-full text-center">
@@ -39,32 +53,20 @@ export default function MiniJeuxPage() {
       </header>
 
       <div className="grid gap-4 w-full lg:grid-cols-2">
-        {GAMES.map((game) =>
-          game.active ? (
+        {GAMES.map((game) => {
+          const Icon = game.icon;
+          return (
             <Link key={game.id} href={game.href} className="group">
               <Card>
-                <Gamepad2 size={40} className="shrink-0" />
+                <Icon size={40} className="shrink-0" />
                 <div className="flex flex-col gap-1">
                   <p className="text-2xl font-display">{game.label}</p>
                   <p className="text-lg text-slate-700 font-body">{game.description}</p>
                 </div>
               </Card>
             </Link>
-          ) : (
-            <div key={game.id} className="relative">
-              <Card disabled hover={false}>
-                <Gamepad2 size={40} className="shrink-0" />
-                <div className="flex flex-col gap-1">
-                  <p className="text-2xl font-display">{game.label}</p>
-                  <p className="text-base font-body">{game.description}</p>
-                </div>
-              </Card>
-              <span className="absolute top-3 right-3 text-xs font-display uppercase tracking-wide text-white bg-neutral-600 rounded-full px-3 py-1 shadow-[0_2px_0_#0f0826]">
-                Bientôt
-              </span>
-            </div>
-          ),
-        )}
+          );
+        })}
       </div>
     </main>
   );
