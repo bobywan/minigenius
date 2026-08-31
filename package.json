@@ -17,7 +17,8 @@
     "format": "biome format --write .",
     "check": "biome check --write .",
     "ci": "biome ci .",
-    "prepush": "biome ci . && tsc --noEmit && next build"
+    "prepush": "biome ci . && tsc --noEmit && next build",
+    "audio:en": "node scripts/generate-en-audio.mjs"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.3.0",

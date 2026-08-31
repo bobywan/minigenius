@@ -15,7 +15,7 @@ Application éducative gamifiée pour les enfants — maths, anglais et mini-jeu
 - 3 niveaux de difficulté (facile / moyen / expert)
 - Progression par étoiles (tous les niveaux accessibles)
 - NumPad tactile — utilisable sur tablette
-- Effets sonores, prononciation anglaise, confettis
+- Effets sonores, prononciation anglaise (fichiers MP3), confettis
 - PWA — installable sur mobile/tablette
 
 ## Stack
@@ -47,7 +47,7 @@ L'application est disponible sur [http://localhost:3000](http://localhost:3000).
 | `npm run build` | Build de production |
 | `npm run typecheck` | Vérification TypeScript |
 | `npm run lint` | Analyse Biome |
-| `npm run check` | Lint + format + imports |
+| `npm run audio:en` | (Re)génère `public/audio/en/*.mp3` (Piper ou `say` + ffmpeg) |
 
 ## Structure
 

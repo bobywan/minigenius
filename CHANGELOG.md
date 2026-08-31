@@ -12,7 +12,7 @@ Format basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
 
 - Anglais par thèmes (animaux, corps, couleurs, famille, nourriture, maison, nature, actions, tout)
 
-- CSP (`Content-Security-Policy`) dans `next.config.ts`
+- Prononciation anglaise : MP3 par mot (`public/audio/en/`)
 
 ### Modifié
 

@@ -67,6 +67,7 @@ lib/
   store/progressStore.ts
   audio/
 public/
+  audio/en/                               # MP3 prononciation (un par mot EN)
   sw.js                                   # PWA — PRECACHE des hubs
 ```
 
@@ -137,5 +138,5 @@ Thème épuré blanc/emerald/amber — fond blanc avec sol vert ondulant, compos
 - `npm run dev` — serveur de développement
 - `npm run build` — build production
 - `npm run check` — lint + format + imports (BiomeJS)
-- `node lib/exercises/generators/english.check.mjs` — vocabulaire / séries QCM
+- `node lib/exercises/generators/english.check.mjs` — vocabulaire / séries QCM / MP3
 - `/design` — design system

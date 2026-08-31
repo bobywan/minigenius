@@ -185,3 +185,15 @@
 **Décision :** CSP same-origin (`unsafe-inline` / `unsafe-eval` pour Next). `.env.example` : aucune variable requise.
 
 **Conséquences :** Un script tiers (analytics) cassera tant que la CSP n'est pas élargie. `npm audit` : 0 vulnérabilité au 2026-08-31.
+
+---
+
+## [2026-08-31] Prononciation anglaise par fichiers MP3
+
+**Contexte :** `speechSynthesis` à débit 0.5, voix système souvent médiocre ou non anglaise.
+
+**Décision :** Un MP3 par mot EN (`public/audio/en/{slug}.mp3`). `speak()` joue le fichier ; repli Web Speech (voix `en*`, rate 0.9). Génération : `npm run audio:en` (Piper si dispo, sinon `say` + ffmpeg). Fichiers versionnés.
+
+**Alternatives écartées :** Piper WASM dans le navigateur (bundle lourd) ; APIs cloud ; TTS Google Translate (ToS).
+
+**Conséquences :** ~148 fichiers à régénérer si le lexique change. Qualité actuelle = voix macOS Samantha (améliorable en relançant avec Piper).
