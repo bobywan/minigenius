@@ -1,7 +1,6 @@
 "use client";
 
-import { notFound } from "next/navigation";
-import { use, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { ExerciseDisplay } from "@/components/game/ExerciseDisplay";
 import { GamePendingShell } from "@/components/game/GamePendingShell";
 import { AnswerInput } from "@/components/ui/AnswerInput";
@@ -10,20 +9,13 @@ import { NumPad } from "@/components/ui/NumPad";
 import { PageSubtitle } from "@/components/ui/PageSubtitle";
 import { PageTitle } from "@/components/ui/PageTitle";
 import { playError, playSuccess } from "@/lib/audio/sounds";
-import { generateOne } from "@/lib/exercises/generators/math";
+import { generateMixed } from "@/lib/exercises/generators/math";
 import { useLibreGame } from "@/lib/hooks/useLibreGame";
-import type { MathModule } from "@/lib/types";
-import { MATH_MODULES, MODULE_LABELS } from "@/lib/types";
 
 type InputState = "idle" | "correct" | "wrong";
 
-export default function LibrePage({ params }: { params: Promise<{ module: string }> }) {
-  const { module: mod } = use(params);
-
-  if (!MATH_MODULES.includes(mod as MathModule)) notFound();
-  const mathMod = mod as MathModule;
-
-  const generate = useCallback(() => generateOne(mathMod, "moyen"), [mathMod]);
+export default function MixteLibrePage() {
+  const generate = useCallback(() => generateMixed("moyen"), []);
   const { item: exercise, correctCount, isInFeedback, onCorrect, onWrong } = useLibreGame(generate);
 
   const [inputValue, setInputValue] = useState("");
@@ -50,15 +42,15 @@ export default function LibrePage({ params }: { params: Promise<{ module: string
   }, [isInFeedback, exercise, inputValue, onCorrect, onWrong]);
 
   if (!exercise) {
-    return <GamePendingShell backHref={`/maths/${mathMod}`} />;
+    return <GamePendingShell backHref="/maths/mixte" />;
   }
 
   return (
     <main className="flex flex-col items-center px-8 lg:px-16 py-8 lg:py-16 gap-8">
-      <BackLink href={`/maths/${mathMod}`} />
+      <BackLink href="/maths/mixte" />
 
       <header className="grid gap-4 w-full text-center">
-        <PageTitle>{`${MODULE_LABELS[mathMod]} — Libre`}</PageTitle>
+        <PageTitle>Tout mélanger — Libre</PageTitle>
         <PageSubtitle>{correctCount} bonnes réponses</PageSubtitle>
       </header>
 

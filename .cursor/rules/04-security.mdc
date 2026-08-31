@@ -24,8 +24,9 @@ Le `next.config.ts` ajoute déjà :
 - `X-Frame-Options: DENY`
 - `X-Content-Type-Options: nosniff`
 - `Referrer-Policy: strict-origin-when-cross-origin`
+- `Content-Security-Policy` (self + inline Next + `blob:` workers ; pas de scripts tiers)
 
-Ne pas les supprimer. Ajoute `Content-Security-Policy` si tu introduis du contenu dynamique tiers.
+Ne pas les supprimer.
 
 ## Dépendances
 

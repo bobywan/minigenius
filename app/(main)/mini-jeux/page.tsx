@@ -7,7 +7,7 @@ import { PageSubtitle } from "@/components/ui/PageSubtitle";
 import { PageTitle } from "@/components/ui/PageTitle";
 
 export const metadata: Metadata = {
-  title: "MiniGenius — Mini-jeux",
+  title: "Mini-jeux",
   description: "Des mini-jeux pour apprendre en s'amusant !",
 };
 

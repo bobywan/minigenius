@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 
+import { SERIES_LENGTH } from "@/lib/types";
+
 type DotState = "idle" | "correct" | "wrong";
 
 interface ProgressDotsProps {
@@ -16,7 +18,7 @@ const dotColors: Record<DotState, string> = {
   wrong: "bg-red-500",
 };
 
-export function ProgressDots({ total = 10, states, current }: ProgressDotsProps) {
+export function ProgressDots({ total = SERIES_LENGTH, states, current }: ProgressDotsProps) {
   return (
     <div
       className="flex gap-2 items-center justify-center flex-wrap"

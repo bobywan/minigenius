@@ -1,12 +1,11 @@
-import type { Difficulty, EnglishModule, QuizQuestion } from "@/lib/types";
+import type { EnglishModule, EnglishTheme, MixedModule, QuizQuestion } from "@/lib/types";
 
 const SERIES_LENGTH = 10;
 const CHOICES_COUNT = 4;
 
 export type VocabPair = readonly [en: string, fr: string];
 
-// Niveaux par fréquence d'usage : facile = mots du quotidien, expert = mots rares.
-const FACILE: VocabPair[] = [
+const ANIMAUX: VocabPair[] = [
   ["dog", "chien"],
   ["cat", "chat"],
   ["horse", "cheval"],
@@ -25,6 +24,29 @@ const FACILE: VocabPair[] = [
   ["elephant", "éléphant"],
   ["ant", "fourmi"],
   ["bee", "abeille"],
+];
+
+const CORPS: VocabPair[] = [
+  ["head", "tête"],
+  ["hand", "main"],
+  ["foot", "pied"],
+  ["eye", "œil"],
+  ["nose", "nez"],
+  ["mouth", "bouche"],
+  ["ear", "oreille"],
+  ["hair", "cheveux"],
+  ["arm", "bras"],
+  ["leg", "jambe"],
+  ["tooth", "dent"],
+  ["finger", "doigt"],
+  ["knee", "genou"],
+  ["back", "dos"],
+  ["neck", "cou"],
+  ["stomach", "ventre"],
+  ["shoulder", "épaule"],
+];
+
+const COULEURS: VocabPair[] = [
   ["red", "rouge"],
   ["blue", "bleu"],
   ["green", "vert"],
@@ -36,6 +58,14 @@ const FACILE: VocabPair[] = [
   ["brown", "marron"],
   ["purple", "violet"],
   ["grey", "gris"],
+  ["gold", "or"],
+  ["silver", "argent"],
+  ["beige", "beige"],
+  ["navy", "bleu marine"],
+  ["turquoise", "turquoise"],
+];
+
+const FAMILLE: VocabPair[] = [
   ["father", "père"],
   ["mother", "mère"],
   ["brother", "frère"],
@@ -48,17 +78,15 @@ const FACILE: VocabPair[] = [
   ["man", "homme"],
   ["woman", "femme"],
   ["child", "enfant"],
-  ["head", "tête"],
-  ["hand", "main"],
-  ["foot", "pied"],
-  ["eye", "œil"],
-  ["nose", "nez"],
-  ["mouth", "bouche"],
-  ["ear", "oreille"],
-  ["hair", "cheveux"],
-  ["arm", "bras"],
-  ["leg", "jambe"],
-  ["tooth", "dent"],
+  ["uncle", "oncle"],
+  ["aunt", "tante"],
+  ["grandfather", "grand-père"],
+  ["grandmother", "grand-mère"],
+  ["cousin", "cousin"],
+  ["parents", "parents"],
+];
+
+const NOURRITURE: VocabPair[] = [
   ["bread", "pain"],
   ["water", "eau"],
   ["milk", "lait"],
@@ -74,6 +102,12 @@ const FACILE: VocabPair[] = [
   ["banana", "banane"],
   ["strawberry", "fraise"],
   ["juice", "jus"],
+  ["carrot", "carotte"],
+  ["potato", "pomme de terre"],
+  ["chocolate", "chocolat"],
+];
+
+const MAISON: VocabPair[] = [
   ["house", "maison"],
   ["door", "porte"],
   ["window", "fenêtre"],
@@ -84,14 +118,20 @@ const FACILE: VocabPair[] = [
   ["kitchen", "cuisine"],
   ["garden", "jardin"],
   ["key", "clé"],
-  ["book", "livre"],
-  ["pen", "stylo"],
-  ["pencil", "crayon"],
-  ["paper", "papier"],
-  ["school", "école"],
-  ["teacher", "professeur"],
-  ["bag", "sac"],
-  ["classroom", "salle de classe"],
+  ["bathroom", "salle de bain"],
+  ["mirror", "miroir"],
+  ["towel", "serviette"],
+  ["spoon", "cuillère"],
+  ["fork", "fourchette"],
+  ["knife", "couteau"],
+  ["plate", "assiette"],
+  ["glass", "verre"],
+  ["bottle", "bouteille"],
+  ["blanket", "couverture"],
+  ["pillow", "oreiller"],
+];
+
+const NATURE: VocabPair[] = [
   ["sun", "soleil"],
   ["moon", "lune"],
   ["star", "étoile"],
@@ -102,13 +142,17 @@ const FACILE: VocabPair[] = [
   ["tree", "arbre"],
   ["flower", "fleur"],
   ["sea", "mer"],
-  ["fire", "feu"],
-  ["car", "voiture"],
-  ["bike", "vélo"],
-  ["train", "train"],
-  ["boat", "bateau"],
-  ["plane", "avion"],
-  ["road", "route"],
+  ["cloud", "nuage"],
+  ["storm", "orage"],
+  ["ice", "glace"],
+  ["forest", "forêt"],
+  ["mountain", "montagne"],
+  ["river", "rivière"],
+  ["lake", "lac"],
+  ["beach", "plage"],
+];
+
+const ACTIONS: VocabPair[] = [
   ["to eat", "manger"],
   ["to drink", "boire"],
   ["to sleep", "dormir"],
@@ -120,247 +164,50 @@ const FACILE: VocabPair[] = [
   ["to write", "écrire"],
   ["to see", "voir"],
   ["to speak", "parler"],
-  ["big", "grand"],
-  ["small", "petit"],
-  ["hot", "chaud"],
-  ["cold", "froid"],
-  ["happy", "heureux"],
-  ["sad", "triste"],
-  ["good", "bon"],
-  ["fast", "rapide"],
-  ["slow", "lent"],
-];
-
-const MOYEN: VocabPair[] = [
-  ["morning", "matin"],
-  ["evening", "soir"],
-  ["night", "nuit"],
-  ["day", "jour"],
-  ["week", "semaine"],
-  ["month", "mois"],
-  ["year", "année"],
-  ["today", "aujourd'hui"],
-  ["tomorrow", "demain"],
-  ["yesterday", "hier"],
-  ["clock", "horloge"],
-  ["watch", "montre"],
-  ["spring", "printemps"],
-  ["summer", "été"],
-  ["autumn", "automne"],
-  ["winter", "hiver"],
-  ["weather", "météo"],
-  ["cloud", "nuage"],
-  ["storm", "orage"],
-  ["ice", "glace"],
-  ["city", "ville"],
-  ["village", "village"],
-  ["street", "rue"],
-  ["shop", "magasin"],
-  ["market", "marché"],
-  ["bank", "banque"],
-  ["church", "église"],
-  ["castle", "château"],
-  ["bridge", "pont"],
-  ["farm", "ferme"],
-  ["forest", "forêt"],
-  ["mountain", "montagne"],
-  ["river", "rivière"],
-  ["lake", "lac"],
-  ["beach", "plage"],
-  ["island", "île"],
-  ["field", "champ"],
-  ["hill", "colline"],
-  ["doctor", "médecin"],
-  ["nurse", "infirmier"],
-  ["baker", "boulanger"],
-  ["farmer", "fermier"],
-  ["driver", "conducteur"],
-  ["singer", "chanteur"],
-  ["painter", "peintre"],
-  ["writer", "écrivain"],
-  ["soldier", "soldat"],
-  ["king", "roi"],
-  ["queen", "reine"],
-  ["shirt", "chemise"],
-  ["trousers", "pantalon"],
-  ["shoes", "chaussures"],
-  ["hat", "chapeau"],
-  ["coat", "manteau"],
-  ["dress", "robe"],
-  ["sock", "chaussette"],
-  ["glove", "gant"],
-  ["scarf", "écharpe"],
-  ["bathroom", "salle de bain"],
-  ["mirror", "miroir"],
-  ["towel", "serviette"],
-  ["spoon", "cuillère"],
-  ["fork", "fourchette"],
-  ["knife", "couteau"],
-  ["plate", "assiette"],
-  ["glass", "verre"],
-  ["bottle", "bouteille"],
-  ["basket", "panier"],
-  ["candle", "bougie"],
-  ["blanket", "couverture"],
-  ["pillow", "oreiller"],
-  ["carpet", "tapis"],
   ["to buy", "acheter"],
-  ["to sell", "vendre"],
   ["to give", "donner"],
   ["to take", "prendre"],
   ["to find", "trouver"],
-  ["to lose", "perdre"],
   ["to open", "ouvrir"],
   ["to close", "fermer"],
-  ["to build", "construire"],
-  ["to break", "casser"],
-  ["to learn", "apprendre"],
-  ["to teach", "enseigner"],
-  ["to help", "aider"],
-  ["to wait", "attendre"],
-  ["to answer", "répondre"],
-  ["to ask", "demander"],
-  ["to choose", "choisir"],
-  ["to bring", "apporter"],
-  ["to carry", "porter"],
   ["to jump", "sauter"],
   ["to swim", "nager"],
   ["to fly", "voler"],
-  ["to climb", "grimper"],
   ["to laugh", "rire"],
-  ["to cry", "pleurer"],
   ["to smile", "sourire"],
-  ["to dream", "rêver"],
-  ["strong", "fort"],
-  ["weak", "faible"],
-  ["heavy", "lourd"],
-  ["light", "léger"],
-  ["clean", "propre"],
-  ["dirty", "sale"],
-  ["empty", "vide"],
-  ["full", "plein"],
-  ["easy", "facile"],
-  ["difficult", "difficile"],
-  ["early", "tôt"],
-  ["late", "tard"],
-  ["near", "proche"],
-  ["far", "loin"],
-  ["quiet", "calme"],
-  ["loud", "bruyant"],
-  ["rich", "riche"],
-  ["poor", "pauvre"],
-  ["young", "jeune"],
-  ["old", "vieux"],
-  ["beautiful", "beau"],
 ];
 
-const EXPERT: VocabPair[] = [
-  ["achievement", "réussite"],
-  ["to acknowledge", "reconnaître"],
-  ["advice", "conseil"],
-  ["ancestor", "ancêtre"],
-  ["anxiety", "anxiété"],
-  ["awkward", "maladroit"],
-  ["behaviour", "comportement"],
-  ["belief", "croyance"],
-  ["blade", "lame"],
-  ["to borrow", "emprunter"],
-  ["brave", "courageux"],
-  ["to breathe", "respirer"],
-  ["burden", "fardeau"],
-  ["cautious", "prudent"],
-  ["challenge", "défi"],
-  ["clue", "indice"],
-  ["crowd", "foule"],
-  ["cunning", "rusé"],
-  ["curious", "curieux"],
-  ["to dare", "oser"],
-  ["to deny", "nier"],
-  ["to devote", "consacrer"],
-  ["dizzy", "étourdi"],
-  ["doubt", "doute"],
-  ["drought", "sécheresse"],
-  ["dull", "terne"],
-  ["dusk", "crépuscule"],
-  ["eager", "impatient"],
-  ["to earn", "gagner"],
-  ["elsewhere", "ailleurs"],
-  ["to endure", "endurer"],
-  ["envy", "jalousie"],
-  ["to fade", "s'estomper"],
-  ["to faint", "s'évanouir"],
-  ["fate", "destin"],
-  ["fault", "faute"],
-  ["fierce", "féroce"],
-  ["flaw", "défaut"],
-  ["fog", "brouillard"],
-  ["to forbid", "interdire"],
-  ["to gather", "rassembler"],
-  ["gaze", "regard"],
-  ["gloomy", "sombre"],
-  ["grateful", "reconnaissant"],
-  ["greed", "avidité"],
-  ["grief", "chagrin"],
-  ["to harm", "nuire"],
-  ["harvest", "récolte"],
-  ["hazard", "danger"],
-  ["hedge", "haie"],
-  ["humble", "modeste"],
-  ["to hurry", "se dépêcher"],
-  ["to improve", "améliorer"],
-  ["issue", "problème"],
-  ["jealous", "jaloux"],
-  ["journey", "voyage"],
-  ["to kneel", "s'agenouiller"],
-  ["lack", "manque"],
-  ["leak", "fuite"],
-  ["lonely", "solitaire"],
-  ["mankind", "humanité"],
-  ["meadow", "prairie"],
-  ["mercy", "pitié"],
-  ["mischief", "espièglerie"],
-  ["mood", "humeur"],
-  ["nap", "sieste"],
-  ["neat", "soigné"],
-  ["oath", "serment"],
-  ["to oppose", "s'opposer"],
-  ["outcome", "résultat"],
-  ["to owe", "devoir"],
-  ["pledge", "promesse"],
-  ["plenty", "abondance"],
-  ["praise", "éloge"],
-  ["pride", "fierté"],
-  ["puzzle", "énigme"],
-  ["quarrel", "dispute"],
-  ["reckless", "imprudent"],
-  ["to relieve", "soulager"],
-  ["reluctant", "réticent"],
-  ["remote", "éloigné"],
-  ["reward", "récompense"],
-  ["riddle", "devinette"],
-  ["rough", "rugueux"],
-  ["scarce", "rare"],
-  ["seldom", "rarement"],
-  ["shallow", "peu profond"],
-  ["shy", "timide"],
-  ["sigh", "soupir"],
-  ["skill", "compétence"],
-  ["to spare", "épargner"],
-  ["to spill", "renverser"],
-  ["steady", "stable"],
-  ["stubborn", "têtu"],
-  ["to swear", "jurer"],
-  ["thorough", "minutieux"],
-  ["threat", "menace"],
-  ["to thrive", "prospérer"],
-  ["to tidy", "ranger"],
-  ["wealth", "richesse"],
-];
+const BY_THEME: Omit<Record<EnglishTheme, VocabPair[]>, "tout"> = {
+  animaux: ANIMAUX,
+  corps: CORPS,
+  couleurs: COULEURS,
+  famille: FAMILLE,
+  nourriture: NOURRITURE,
+  maison: MAISON,
+  nature: NATURE,
+  actions: ACTIONS,
+};
 
-export const VOCABULARY: Record<Difficulty, VocabPair[]> = {
-  facile: FACILE,
-  moyen: MOYEN,
-  expert: EXPERT,
+function mergeUnique(groups: VocabPair[][]): VocabPair[] {
+  const out: VocabPair[] = [];
+  const en = new Set<string>();
+  const fr = new Set<string>();
+  for (const group of groups) {
+    for (const pair of group) {
+      if (en.has(pair[0]) || fr.has(pair[1])) {
+        throw new Error(`Doublon vocabulaire : ${pair[0]} / ${pair[1]}`);
+      }
+      en.add(pair[0]);
+      fr.add(pair[1]);
+      out.push(pair);
+    }
+  }
+  return out;
+}
+
+export const VOCABULARY: Record<EnglishTheme, VocabPair[]> = {
+  ...BY_THEME,
+  tout: mergeUnique(Object.values(BY_THEME)),
 };
 
 function shuffle<T>(items: readonly T[]): T[] {
@@ -374,8 +221,8 @@ function shuffle<T>(items: readonly T[]): T[] {
   return out;
 }
 
-export function generateQuizSeries(mode: EnglishModule, difficulty: Difficulty): QuizQuestion[] {
-  const pool = VOCABULARY[difficulty];
+export function generateQuizSeries(mode: EnglishModule, theme: EnglishTheme): QuizQuestion[] {
+  const pool = VOCABULARY[theme];
   const enToFr = mode === "en-fr";
   const promptOf = (pair: VocabPair) => (enToFr ? pair[0] : pair[1]);
   const answerOf = (pair: VocabPair) => (enToFr ? pair[1] : pair[0]);
@@ -385,7 +232,6 @@ export function generateQuizSeries(mode: EnglishModule, difficulty: Difficulty):
   let attempts = 0;
   const maxAttempts = 10;
 
-  // Continue à shuffler jusqu'à avoir SERIES_LENGTH paires uniques
   while (picked.length < SERIES_LENGTH && attempts < maxAttempts) {
     for (const pair of shuffle(pool)) {
       if (picked.length === SERIES_LENGTH) break;
@@ -397,10 +243,9 @@ export function generateQuizSeries(mode: EnglishModule, difficulty: Difficulty):
     attempts++;
   }
 
-  // Vérification de sécurité : on doit avoir exactement SERIES_LENGTH questions
   if (picked.length < SERIES_LENGTH) {
     throw new Error(
-      `Impossible de générer ${SERIES_LENGTH} questions uniques pour ${mode}/${difficulty}. Seulement ${picked.length} trouvées.`,
+      `Impossible de générer ${SERIES_LENGTH} questions uniques pour ${mode}/${theme}. Seulement ${picked.length} trouvées.`,
     );
   }
 
@@ -425,17 +270,15 @@ export function generateQuizSeries(mode: EnglishModule, difficulty: Difficulty):
   });
 }
 
-export function generateMixedQuizSeries(difficulty: Difficulty): QuizQuestion[] {
-  const pool = VOCABULARY[difficulty];
+export function generateMixedQuizSeries(theme: EnglishTheme): QuizQuestion[] {
+  const pool = VOCABULARY[theme];
   const picked: VocabPair[] = [];
   let attempts = 0;
   const maxAttempts = 10;
 
-  // Tirer SERIES_LENGTH paires uniques
   while (picked.length < SERIES_LENGTH && attempts < maxAttempts) {
     for (const pair of shuffle(pool)) {
       if (picked.length === SERIES_LENGTH) break;
-      // Pour le mode mixte, on ne vérifie pas les doublons de prompts car le sens change
       picked.push(pair);
     }
     attempts++;
@@ -443,17 +286,15 @@ export function generateMixedQuizSeries(difficulty: Difficulty): QuizQuestion[] 
 
   if (picked.length < SERIES_LENGTH) {
     throw new Error(
-      `Impossible de générer ${SERIES_LENGTH} questions uniques pour mixte/${difficulty}. Seulement ${picked.length} trouvées.`,
+      `Impossible de générer ${SERIES_LENGTH} questions uniques pour mixte/${theme}. Seulement ${picked.length} trouvées.`,
     );
   }
 
   return picked.map((pair) => {
-    // Tirer aléatoirement le sens pour chaque question
     const enToFr = Math.random() < 0.5;
     const prompt = enToFr ? pair[0] : pair[1];
     const answer = enToFr ? pair[1] : pair[0];
 
-    // Générer les distracteurs dans la langue cible
     const seen = new Set([answer]);
     const choices = [answer];
     for (const candidate of shuffle(pool)) {
@@ -468,13 +309,16 @@ export function generateMixedQuizSeries(difficulty: Difficulty): QuizQuestion[] 
   });
 }
 
-export function generateOneQuiz(mode: EnglishModule, difficulty: Difficulty): QuizQuestion {
-  const pool = VOCABULARY[difficulty];
-  const enToFr = mode === "en-fr";
+export function generateOneQuiz(
+  mode: EnglishModule | MixedModule,
+  theme: EnglishTheme,
+): QuizQuestion {
+  const pool = VOCABULARY[theme];
+  const enToFr = mode === "mixte" ? Math.random() < 0.5 : mode === "en-fr";
   const pair = shuffle(pool)[0];
 
   if (!pair) {
-    throw new Error(`Pool vide pour ${mode}/${difficulty}`);
+    throw new Error(`Pool vide pour ${mode}/${theme}`);
   }
 
   const prompt = enToFr ? pair[0] : pair[1];

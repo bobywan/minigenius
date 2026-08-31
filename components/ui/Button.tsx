@@ -27,10 +27,6 @@ const sizeMap: Record<Size, string> = {
 const BASE_CLS =
   "rounded-[var(--radius-btn)] font-display font-bold transition-all duration-100 cursor-pointer select-none disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none";
 
-export function buttonCls(variant: Variant = "primary", size: Size = "md"): string {
-  return [BASE_CLS, variantMap[variant], sizeMap[size]].join(" ");
-}
-
 export function Button({
   children,
   variant = "primary",

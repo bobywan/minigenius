@@ -1,15 +1,9 @@
-"use client";
-
 import { Languages, MessageSquare, Repeat } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { BackLink } from "@/components/ui/BackLink";
 import { Card } from "@/components/ui/Card";
 import { PageSubtitle } from "@/components/ui/PageSubtitle";
 import { PageTitle } from "@/components/ui/PageTitle";
-import { StarRating } from "@/components/ui/StarRating";
-import { useProgressStore } from "@/lib/store/progressStore";
-import type { Stars } from "@/lib/types";
 
 const MODES = [
   {
@@ -44,12 +38,6 @@ const AVAILABLE = MODES.filter((m): m is (typeof MODES)[number] & { href: string
 const COMING_SOON = MODES.filter((m) => !m.active);
 
 export default function AnglaisPage() {
-  const { getTotalStars } = useProgressStore();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   return (
     <main className="flex flex-col items-center px-8 lg:px-16 py-8 lg:py-16 gap-8">
       <BackLink href="/" />
@@ -62,10 +50,6 @@ export default function AnglaisPage() {
       <div className="grid gap-4 w-full lg:grid-cols-2">
         {AVAILABLE.map((mode) => {
           const Icon = mode.icon;
-          const totalEnFr = mounted ? getTotalStars("anglais", "en-fr") : 0;
-          const totalFrEn = mounted ? getTotalStars("anglais", "fr-en") : 0;
-          const totalMixte = mounted ? getTotalStars("anglais", "mixte") : 0;
-          const total = Math.min(3, totalEnFr + totalFrEn + totalMixte) as Stars;
           return (
             <Link key={mode.id} href={mode.href} className="group">
               <Card>
@@ -74,7 +58,6 @@ export default function AnglaisPage() {
                   <p className="text-2xl font-display">{mode.label}</p>
                   <p className="text-lg text-slate-700 font-body">{mode.description}</p>
                 </div>
-                <StarRating stars={total} size="sm" />
               </Card>
             </Link>
           );

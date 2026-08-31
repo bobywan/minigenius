@@ -28,15 +28,15 @@ export function StarRating({ stars, size = "md", animate = false }: StarRatingPr
             {filled ? (
               <Star size={sz} fill="currentColor" className="text-amber-500" />
             ) : (
-              <Star size={sz} className="text-white/30" />
+              <Star size={sz} className="text-amber-500/40" />
             )}
           </motion.span>
         ) : (
           <span key={s}>
             {filled ? (
-              <Star size={sz} fill="currentColor" className="text-emerald-500" />
+              <Star size={sz} fill="currentColor" className="text-amber-500" />
             ) : (
-              <Star size={sz} className="text-amber-500/80" />
+              <Star size={sz} className="text-amber-500" />
             )}
           </span>
         );

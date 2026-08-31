@@ -2,11 +2,26 @@ export type Subject = "maths" | "francais" | "anglais" | "histoire";
 
 export type MathModule = "addition" | "soustraction" | "multiplication" | "division";
 
-export type EnglishModule = "en-fr" | "fr-en" | "mixte";
+export type EnglishModule = "en-fr" | "fr-en";
 
-export type ModuleId = MathModule | EnglishModule;
+export type MixedModule = "mixte";
+
+export type EnglishTheme =
+  | "animaux"
+  | "corps"
+  | "couleurs"
+  | "famille"
+  | "nourriture"
+  | "maison"
+  | "nature"
+  | "actions"
+  | "tout";
+
+export type ModuleId = MathModule | MixedModule | EnglishTheme;
 
 export type Difficulty = "facile" | "moyen" | "expert";
+
+export type SeriesSlot = Difficulty | EnglishModule | MixedModule;
 
 export type Stars = 0 | 1 | 2 | 3;
 
@@ -31,11 +46,7 @@ export interface SeriesResult {
   completedAt: string;
 }
 
-export interface ModuleProgress {
-  facile?: SeriesResult;
-  moyen?: SeriesResult;
-  expert?: SeriesResult;
-}
+export type ModuleProgress = Partial<Record<SeriesSlot, SeriesResult>>;
 
 export type SubjectProgress = Partial<Record<ModuleId, ModuleProgress>>;
 
@@ -50,10 +61,36 @@ export const MATH_MODULES: MathModule[] = [
 
 export const ENGLISH_MODULES: EnglishModule[] = ["en-fr", "fr-en"];
 
-export const ENGLISH_MODULE_LABELS: Record<EnglishModule, string> = {
+export const ENGLISH_DIRECTIONS: (EnglishModule | MixedModule)[] = ["en-fr", "fr-en", "mixte"];
+
+export const ENGLISH_MODULE_LABELS: Record<EnglishModule | MixedModule, string> = {
   "en-fr": "Anglais → Français",
   "fr-en": "Français → Anglais",
   mixte: "Tout mélanger",
+};
+
+export const ENGLISH_THEMES: EnglishTheme[] = [
+  "animaux",
+  "corps",
+  "couleurs",
+  "famille",
+  "nourriture",
+  "maison",
+  "nature",
+  "actions",
+  "tout",
+];
+
+export const ENGLISH_THEME_LABELS: Record<EnglishTheme, string> = {
+  animaux: "Animaux",
+  corps: "Corps",
+  couleurs: "Couleurs",
+  famille: "Famille",
+  nourriture: "Nourriture",
+  maison: "Maison",
+  nature: "Nature",
+  actions: "Actions",
+  tout: "Tout mélanger",
 };
 
 export const DIFFICULTIES: Difficulty[] = ["facile", "moyen", "expert"];
@@ -78,9 +115,14 @@ export const DIFFICULTY_LABELS: Record<Difficulty, string> = {
   expert: "Expert",
 };
 
+export const SERIES_LENGTH = 10;
+export const FEEDBACK_OK_MS = 900;
+export const FEEDBACK_WRONG_SERIES_MS = 1800;
+export const FEEDBACK_WRONG_LIBRE_MS = 800;
+
 export function computeStars(correct: number): Stars {
   if (correct < 6) return 0;
   if (correct < 8) return 1;
-  if (correct < 10) return 2;
+  if (correct < SERIES_LENGTH) return 2;
   return 3;
 }
