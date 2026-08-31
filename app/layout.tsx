@@ -17,7 +17,10 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "MiniGenius",
+  title: {
+    default: "MiniGenius",
+    template: "%s — MiniGenius",
+  },
   description: "L'app éducative pour les petits génies — Maths, Français et plus encore !",
   manifest: "/manifest.json",
   appleWebApp: {

@@ -5,16 +5,17 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![Node](https://img.shields.io/badge/Node.js-24%20LTS-green?logo=node.js)](https://nodejs.org/)
 
-Application éducative gamifiée pour les enfants — exercices de maths interactifs avec progression, étoiles et effets sonores.
+Application éducative gamifiée pour les enfants — maths, anglais et mini-jeux, avec progression par étoiles.
 
 ## Fonctionnalités v1.0
 
-- **Maths** : addition, soustraction, multiplication, division
-- 3 niveaux de difficulté par opération (facile / moyen / expert)
-- Système de progression avec étoiles (0–3 par niveau)
-- Déverrouillage progressif des modules et difficultés
+- **Maths** : addition, soustraction, multiplication, division, mixte, jeu libre
+- **Anglais** : traduction QCM par thème (animaux, corps, …) — anglais→français, français→anglais, mixte, jeu libre
+- **Mini-jeux** : pendu, endless runner
+- 3 niveaux de difficulté (facile / moyen / expert)
+- Progression par étoiles (tous les niveaux accessibles)
 - NumPad tactile — utilisable sur tablette
-- Effets sonores et confettis à la fin de chaque série
+- Effets sonores, prononciation anglaise (fichiers MP3), confettis
 - PWA — installable sur mobile/tablette
 
 ## Stack
@@ -46,35 +47,21 @@ L'application est disponible sur [http://localhost:3000](http://localhost:3000).
 | `npm run build` | Build de production |
 | `npm run typecheck` | Vérification TypeScript |
 | `npm run lint` | Analyse Biome |
-| `npm run check` | Lint + format + imports |
+| `npm run audio:en` | (Re)génère `public/audio/en/*.mp3` (Piper ou `say` + ffmpeg) |
 
 ## Structure
 
 ```
-app/
-├── page.tsx                        # Accueil — choix de matière
-├── maths/
-│   ├── page.tsx                    # Choix de l'opération
-│   ├── [module]/
-│   │   ├── page.tsx                # Choix de la difficulté
-│   │   └── [difficulty]/
-│   │       └── page.tsx            # Jeu — série de 10 exercices
-│   └── design/page.tsx             # Design system (référence)
-components/
-├── game/
-│   ├── ExerciseDisplay.tsx         # Affichage de l'exercice
-│   └── SeriesResultScreen.tsx      # Écran de résultat
-└── ui/                             # Composants réutilisables
-    ├── GlassCard.tsx
-    ├── NeonButton.tsx
-    ├── StarRating.tsx
-    ├── BadgeModule.tsx
-    └── ...
+app/(main)/
+├── page.tsx                 # Accueil
+├── maths/                   # Opérations, mixte, séries, jeu libre
+├── anglais/traduction/      # Thèmes, QCM en-fr / fr-en / mixte
+└── mini-jeux/
+components/                  # game/ et ui/
 lib/
-├── types.ts                        # Types et constantes globaux
-├── exercises/generators/math.ts    # Génération d'exercices
-├── store/progressStore.ts          # Zustand — progression
-└── audio/sounds.ts                 # Sons
+├── hooks/                   # useSeriesGame, useLibreGame
+├── exercises/generators/
+└── store/progressStore.ts
 ```
 
 ## Licence

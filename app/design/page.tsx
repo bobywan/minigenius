@@ -10,7 +10,7 @@ import { PageTitle } from "@/components/ui/PageTitle";
 import { StarRating } from "@/components/ui/StarRating";
 
 export const metadata: Metadata = {
-  title: "Design System — MiniGenius",
+  title: { absolute: "Design System — MiniGenius" },
   description: "Référence des composants et tokens du design system MiniGenius.",
 };
 

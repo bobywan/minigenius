@@ -3,36 +3,26 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type {
-  Difficulty,
   ModuleId,
   ProgressState,
   SeriesResult,
+  SeriesSlot,
   Stars,
   Subject,
 } from "@/lib/types";
-import { DIFFICULTIES } from "@/lib/types";
 
-interface ProgressStore {
+type ProgressStore = {
   progress: ProgressState;
-  saveResult: (
-    subject: Subject,
-    module: ModuleId,
-    difficulty: Difficulty,
-    result: SeriesResult,
-  ) => void;
-  getStars: (subject: Subject, module: ModuleId, difficulty: Difficulty) => Stars;
-  isModuleLocked: (subject: Subject, module: ModuleId) => boolean;
-  isDifficultyLocked: (subject: Subject, module: ModuleId, difficulty: Difficulty) => boolean;
-  getTotalStars: (subject: Subject, module: ModuleId) => number;
-  reset: () => void;
-}
+  saveResult: (subject: Subject, module: ModuleId, slot: SeriesSlot, result: SeriesResult) => void;
+  getStars: (subject: Subject, module: ModuleId, slot: SeriesSlot) => Stars;
+};
 
 export const useProgressStore = create<ProgressStore>()(
   persist(
     (set, get) => ({
       progress: {},
 
-      saveResult(subject, module, difficulty, result) {
+      saveResult(subject, module, slot, result) {
         set((state) => {
           const prev = state.progress;
           return {
@@ -42,7 +32,7 @@ export const useProgressStore = create<ProgressStore>()(
                 ...prev[subject],
                 [module]: {
                   ...prev[subject]?.[module],
-                  [difficulty]: result,
+                  [slot]: result,
                 },
               },
             },
@@ -50,32 +40,21 @@ export const useProgressStore = create<ProgressStore>()(
         });
       },
 
-      getStars(subject, module, difficulty) {
-        return get().progress[subject]?.[module]?.[difficulty]?.stars ?? 0;
-      },
-
-      isModuleLocked(_subject, _module) {
-        return false;
-      },
-
-      isDifficultyLocked(_subject, _module, _difficulty) {
-        return false;
-      },
-
-      getTotalStars(subject, module) {
-        return DIFFICULTIES.reduce(
-          (sum, d) => sum + (get().progress[subject]?.[module]?.[d]?.stars ?? 0),
-          0,
-        );
-      },
-
-      reset() {
-        set({ progress: {} });
+      getStars(subject, module, slot) {
+        return get().progress[subject]?.[module]?.[slot]?.stars ?? 0;
       },
     }),
     {
       name: "minigenius-progress",
-      version: 1,
+      version: 2,
+      migrate(persisted, version) {
+        const state = persisted as { progress?: ProgressState };
+        const progress = { ...state.progress };
+        if (version < 2) {
+          delete progress.anglais;
+        }
+        return { progress };
+      },
     },
   ),
 );

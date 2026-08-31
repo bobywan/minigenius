@@ -8,7 +8,7 @@
 ## Objectif du projet
 
 MiniGenius est une application web éducative gamifiée pour les enfants (6–12 ans).
-Elle propose des exercices de maths et de vocabulaire anglais interactifs avec progression par étoiles, déverrouillage de niveaux, effets sonores et confettis — pensée pour être utilisée sur tablette.
+Elle propose des exercices de maths et de vocabulaire anglais interactifs avec progression par étoiles, effets sonores et confettis — pensée pour être utilisée sur tablette.
 
 ---
 
@@ -33,48 +33,61 @@ Elle propose des exercices de maths et de vocabulaire anglais interactifs avec p
 
 ```
 app/
-  page.tsx                     # Accueil — choix de matière
-  maths/
-    page.tsx                   # Choix de l'opération (4 modules)
-    [module]/
-      page.tsx                 # Choix de la difficulté (3 niveaux)
-      [difficulty]/page.tsx    # Jeu — série de 10 exercices
-  anglais/
-    page.tsx                   # Choix du mode (2 sens de traduction)
-    [mode]/
-      page.tsx                 # Choix de la difficulté (3 niveaux)
-      [difficulty]/page.tsx    # Quiz — série de 10 QCM à 4 choix
-  design/page.tsx              # Design system (référence)
+  (main)/
+    page.tsx                              # Accueil — choix de matière
+    maths/
+      page.tsx                            # Choix de l'opération
+      [module]/                           # addition | soustraction | multiplication | division
+        page.tsx                          # Choix de la difficulté
+        [difficulty]/page.tsx             # Série de 10
+        libre/page.tsx                    # Jeu libre
+      mixte/
+        page.tsx                          # Difficultés mixte
+        [difficulty]/page.tsx             # Série mixte
+        libre/page.tsx
+    anglais/
+      page.tsx                            # Traduction | bientôt
+      traduction/
+        page.tsx                          # Thèmes (animaux, corps, …, tout)
+        [theme]/
+          page.tsx                        # en-fr / fr-en / mixte / libre
+          [mode]/page.tsx                 # Série de 10
+          libre/page.tsx
+    mini-jeux/
+  design/page.tsx                         # Design system
 components/
-  game/                        # Composants de jeu
-  ui/                          # Composants réutilisables
+  game/                                   # ChoiceGrid, WordPrompt, SeriesResultScreen, …
+  ui/
 lib/
-  types.ts                     # Types, constantes, helpers
-  exercises/generators/math.ts    # Génération d'exercices aléatoires
-  exercises/generators/english.ts # Vocabulaire + génération de QCM
-  store/progressStore.ts       # Zustand — progression persistante
-  audio/sounds.ts              # Sons (Web Audio API)
-  audio/speech.ts              # Prononciation anglaise (speechSynthesis)
+  types.ts
+  hooks/useSeriesGame.ts                  # Boucle série (timers, dots)
+  hooks/useLibreGame.ts                   # Boucle jeu libre
+  exercises/generators/math.ts
+  exercises/generators/english.ts
+  store/progressStore.ts
+  audio/
 public/
-  icons/                       # Icônes PWA
-  manifest.json                # PWA manifest
+  audio/en/                               # MP3 prononciation (un par mot EN)
+  sw.js                                   # PWA — PRECACHE des hubs
 ```
 
 **Principes :**
 - Server Components par défaut — `"use client"` uniquement si nécessaire (jeu, store)
 - Imports internes via l'alias `@/`
 - Pas de `var`, pas d'`any` explicite
+- Les générateurs (`*.ts`) restent exécutables par Node (imports relatifs, pas d'alias `@/` pour les valeurs)
 
 ---
 
 ## Système de progression
 
-- Chaque niveau (module × difficulté) donne 0–3 étoiles selon le score sur 10
-- Score < 6 → 0 étoile (niveau non validé, pas de déverrouillage)
+- Chaque série donne 0–3 étoiles selon le score sur 10
+- Score < 6 → 0 étoile (niveau non validé)
 - Score 6–7 → 1 étoile, 8–9 → 2 étoiles, 10 → 3 étoiles
-- La difficulté suivante se déverrouille à ≥ 1 étoile
-- Le module suivant se déverrouille quand toutes les difficultés du précédent ont ≥ 1 étoile
-- Progression sauvegardée en localStorage via Zustand persist
+- Maths : module × difficulté (`saveResult("maths", "addition", "facile", …)` ; mixte maths = `"mixte"`)
+- Anglais : thème × sens (`saveResult("anglais", "animaux", "en-fr", …)` ; tous les thèmes = `"tout"`)
+- Tous les modules, thèmes, modes et difficultés sont jouables d'emblée (pas de verrou)
+- Progression dans localStorage (`minigenius-progress`, persist v2) — pas de reset dans l'UI
 
 ---
 
@@ -91,11 +104,11 @@ Thème épuré blanc/emerald/amber — fond blanc avec sol vert ondulant, compos
 | `--radius-card` | `1.5rem` |
 | `--radius-btn` | `1rem` |
 
-**Composants UI :** `Card` (blanc avec hover emerald), `Button` (primary/secondary/ghost), `StarRating` (amber), `BackLink` (amber), `Logo`, `PageTitle`, `PageSubtitle`, `DifficultyBadge`, `BadgeModule`.
+**Composants UI :** `Card`, `Button`, `StarRating` (amber), `BackLink`, `Logo`, `PageTitle`, `PageSubtitle`, `DifficultyBadge`, `BadgeModule`.
 
-**Composants jeu :** `ProgressDots`, `ChoiceGrid` (QCM), `WordPrompt`, `SpeakButton`, `SeriesResultScreen`, `ExerciseDisplay`, `AnswerInput`, `NumPad`.
+**Composants jeu :** `ProgressDots`, `ChoiceGrid`, `WordPrompt`, `SpeakButton`, `SeriesResultScreen`, `ExerciseDisplay`, `AnswerInput`, `NumPad`.
 
-**Page référence :** `/design` — documentation complète du design system v2.
+**Page référence :** `/design`
 
 ---
 
@@ -103,7 +116,7 @@ Thème épuré blanc/emerald/amber — fond blanc avec sol vert ondulant, compos
 
 - Utilisateurs cibles : enfants 6–12 ans sur tablette → NumPad tactile, gros boutons, contrastes élevés
 - Zéro emoji dans l'UI — uniquement des icônes Lucide
-- Progression non réinitialisable depuis l'interface (localStorage uniquement)
+- Progression non réinitialisable depuis l'interface
 - Pas d'authentification, pas de backend — 100% client-side
 
 ---
@@ -112,8 +125,9 @@ Thème épuré blanc/emerald/amber — fond blanc avec sol vert ondulant, compos
 
 | Matière | Statut |
 |---|---|
-| Maths | Actif — 4 opérations × 3 difficultés + mode mixte |
-| Anglais | Actif — traduction QCM dans les deux sens × 3 difficultés |
+| Maths | Actif — 4 opérations × 3 difficultés + mixte + jeu libre |
+| Anglais | Actif — traduction QCM par thème (en-fr, fr-en, mixte) + jeu libre |
+| Mini-jeux | Actif — pendu, runner |
 | Français | Bientôt |
 | Histoire | Bientôt |
 
@@ -121,7 +135,8 @@ Thème épuré blanc/emerald/amber — fond blanc avec sol vert ondulant, compos
 
 ## Points d'entrée importants
 
-- `npm run dev` — lance le serveur de développement
-- `npm run build` — build de production
+- `npm run dev` — serveur de développement
+- `npm run build` — build production
 - `npm run check` — lint + format + imports (BiomeJS)
-- `/design` — page design system (tokens + composants)
+- `node lib/exercises/generators/english.check.mjs` — vocabulaire / séries QCM / MP3
+- `/design` — design system

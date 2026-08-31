@@ -1,6 +1,5 @@
 "use client";
 
-import { Lock } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { use, useEffect, useState } from "react";
@@ -26,9 +25,7 @@ export default function ModulePage({ params }: { params: Promise<{ module: strin
   if (!MATH_MODULES.includes(mod as MathModule)) notFound();
   const mathMod = mod as MathModule;
 
-  const { isDifficultyLocked, getStars } = useProgressStore();
-
-  // mounted = false pendant SSR et le premier render client → store ignoré → pas de mismatch
+  const { getStars } = useProgressStore();
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
@@ -39,36 +36,13 @@ export default function ModulePage({ params }: { params: Promise<{ module: strin
       <BackLink href="/maths" />
 
       <header className="grid gap-4 w-full text-center">
-        <div className="flex items-center justify-center gap-3">
-          <PageTitle size="5xl">{MODULE_LABELS[mathMod]}</PageTitle>
-        </div>
+        <PageTitle size="5xl">{MODULE_LABELS[mathMod]}</PageTitle>
         <PageSubtitle>Choisis ta difficulté</PageSubtitle>
       </header>
 
       <div className="grid gap-4 w-full lg:grid-cols-2">
         {DIFFICULTIES.map((diff) => {
-          // quand non monté : reproduire l'état serveur (progress vide → seul "facile" débloqué)
-          const locked = mounted
-            ? isDifficultyLocked("maths", mathMod, diff)
-            : DIFFICULTIES.indexOf(diff) > 0;
           const stars = (mounted ? getStars("maths", mathMod, diff) : 0) as Stars;
-
-          if (locked) {
-            return (
-              <div key={diff} className="relative">
-                <Card disabled hover={false} className="justify-between blur-[0.5px]">
-                  <div className="flex flex-col gap-1">
-                    <DifficultyBadge difficulty={diff} />
-                    <p className="text-base text-slate-600 mt-1 font-body">
-                      {DIFFICULTY_DESC[diff]}
-                    </p>
-                  </div>
-                  <Lock size={24} className="text-slate-400" />
-                </Card>
-              </div>
-            );
-          }
-
           return (
             <Link key={diff} href={`/maths/${mathMod}/${diff}`} className="group">
               <Card className="justify-between">

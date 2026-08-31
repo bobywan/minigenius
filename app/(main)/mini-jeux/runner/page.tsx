@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { RunnerGame } from "./RunnerGame";
 
 export const metadata: Metadata = {
-  title: "MiniGenius — Endless Runner",
+  title: "Endless Runner",
   description: "Saute par-dessus les obstacles et bats ton record !",
 };
 

@@ -103,7 +103,7 @@ export function generateOne(op: MathModule, difficulty: Difficulty): Exercise {
   return generators[op](difficulty);
 }
 
-function generateMixed(difficulty: Difficulty): Exercise {
+export function generateMixed(difficulty: Difficulty): Exercise {
   const ops: MathModule[] = ["addition", "soustraction", "multiplication", "division"];
   const op = ops[Math.floor(Math.random() * ops.length)] as MathModule;
   return generators[op](difficulty);

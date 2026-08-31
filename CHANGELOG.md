@@ -6,6 +6,26 @@ Format basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
 
 ---
 
+## [Unreleased]
+
+### Ajouté
+
+- Anglais par thèmes (animaux, corps, couleurs, famille, nourriture, maison, nature, actions, tout)
+
+- Prononciation anglaise : MP3 par mot (`public/audio/en/`)
+
+### Modifié
+
+- Parcours traduction : thème puis sens (en-fr / fr-en / mixte) — plus de facile / moyen / expert côté anglais
+- Persist progression `minigenius-progress` version 2
+- `.env.example` : plus de placeholders Auth / DB / Stripe (aucune env requise)
+
+### Retiré
+
+- Verrous de progression sur les cartes (modules, modes, difficultés) — tout est jouable d'emblée ; les étoiles restent indicatives
+
+---
+
 ## [1.0.0] — 2026-07-21
 
 ### Ajouté

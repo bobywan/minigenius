@@ -10,6 +10,7 @@ interface ChoiceGridProps {
   revealed: boolean;
   onSelect: (index: number) => void;
   enableSpeech?: boolean;
+  highlightCorrect?: boolean;
 }
 
 export function ChoiceGrid({
@@ -19,12 +20,13 @@ export function ChoiceGrid({
   revealed,
   onSelect,
   enableSpeech = false,
+  highlightCorrect = true,
 }: ChoiceGridProps) {
   return (
     <fieldset className="flex flex-col gap-3 w-full border-0 p-0 m-0">
       <legend className="sr-only">Choisis la bonne traduction</legend>
       {choices.map((choice, idx) => {
-        const correct = revealed && idx === answerIndex;
+        const correct = revealed && highlightCorrect && idx === answerIndex;
         const wrong = revealed && idx === selectedIdx && idx !== answerIndex;
         const dimmed = revealed && !correct && !wrong;
         const inactive = revealed;

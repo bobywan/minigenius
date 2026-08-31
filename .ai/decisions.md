@@ -134,4 +134,66 @@
 - Le fichier `app/globals.css` contient maintenant les pseudo-éléments pour le sol vert (à maintenir si modification du fond)
 - Tokens CSS custom properties mis à jour : suppression de `--color-bg-deep`, `--color-bg-surface`, mise à jour des shadows
 
-<!-- Ajoute tes décisions ci-dessous en suivant le même format -->
+---
+
+## [2026-08-31] Verrous de progression, mixte typé, titres et PWA
+
+**Contexte :** Les règles d'étoiles étaient documentées mais les locks étaient des stubs. `"mixte"` n'existait que comme `EnglishModule` alors que les maths l'utilisent aussi. `PageTitle` construisait `text-${size}` (purge Tailwind). Le SW ne précachait que 3 hubs.
+
+**Décision :**
+- Fonctions pures dans `lib/progress/locks.ts` (check Node) ; le store les enveloppe.
+- `MixedModule = "mixte"` séparé ; `ModuleId = MathModule | EnglishModule | MixedModule`.
+- `PageTitle` : map de classes statiques. Metadata via layouts + `title.template` racine.
+- SW cache `minigenius-v2`, PRECACHE des hubs maths/anglais/mixte/mini-jeux.
+
+**Alternatives écartées :**
+- Redirect 404 sur URL d'un niveau verrouillé : flash SSR trop risqué ; le cadenas est sur le sélecteur uniquement.
+- Bouton reset de progression : toujours hors UI (contrainte métier).
+
+**Conséquences :** Un enfant peut encore coller une URL expert ; le parcours normal est verrouillé. Premier rendu = store vide (comme un nouveau joueur), puis hydration débloque selon localStorage.
+
+---
+
+## [2026-08-31] Retrait des verrous de cartes
+
+**Contexte :** Le déverrouillage progressif (cadenas sur les sélecteurs) gênait l'accès libre aux opérations, modes et difficultés.
+
+**Décision :** Supprimer `LockedCard`, `lib/progress/locks.ts` et les helpers du store. Tous les liens des hubs et sélecteurs de difficulté sont actifs. Les étoiles (`saveResult` / `getStars`) restent affichées, sans conditionner l'accès.
+
+**Alternatives écartées :** Garder les verrous uniquement sur les difficultés — le besoin est un accès total dès le premier écran.
+
+**Conséquences :** Un enfant peut enchaîner expert ou mixte sans avoir validé facile. La progression par étoiles reste un indicateur, pas une barrière.
+
+---
+
+## [2026-08-31] Anglais par thèmes
+
+**Contexte :** Le QCM mélangeait plusieurs univers dans un palier de difficulté. Conseil pédagogique : fonctionner par thème (Animaux, Corps…).
+
+**Décision :** Hub traduction = thèmes. Puis EN→FR / FR→EN / mixte / jeu libre. Slug `tout` pour tout le lexique (pas `mixte`, déjà le sens). Vocabulaire expert abstrait écarté. Persist v2 + `migrate` : `saveResult("anglais", thème, sens)` ; étoiles maths conservées, ancien anglais v1 (`en-fr.facile`) supprimé. SW `minigenius-v3`.
+
+**Alternatives écartées :** Thème puis difficulté ; garder les trois niveaux d'écran (thème × sens × difficulté).
+
+**Conséquences :** Plus de facile/moyen/expert en anglais. Les étoiles anglais v1 sont perdues à l'hydratation (migrate) ; les étoiles maths restent.
+
+---
+
+## [2026-08-31] Durcissement headers et .env.example
+
+**Contexte :** Audit sécurité : pas de secrets, mais pas de CSP et `.env.example` héritait Auth/DB/Stripe.
+
+**Décision :** CSP same-origin (`unsafe-inline` / `unsafe-eval` pour Next). `.env.example` : aucune variable requise.
+
+**Conséquences :** Un script tiers (analytics) cassera tant que la CSP n'est pas élargie. `npm audit` : 0 vulnérabilité au 2026-08-31.
+
+---
+
+## [2026-08-31] Prononciation anglaise par fichiers MP3
+
+**Contexte :** `speechSynthesis` à débit 0.5, voix système souvent médiocre ou non anglaise.
+
+**Décision :** Un MP3 par mot EN (`public/audio/en/{slug}.mp3`). `speak()` joue le fichier ; repli Web Speech (voix `en*`, rate 0.9). Génération : `npm run audio:en` (Piper si dispo, sinon `say` + ffmpeg). Fichiers versionnés.
+
+**Alternatives écartées :** Piper WASM dans le navigateur (bundle lourd) ; APIs cloud ; TTS Google Translate (ToS).
+
+**Conséquences :** ~148 fichiers à régénérer si le lexique change. Qualité actuelle = voix macOS Samantha (améliorable en relançant avec Piper).

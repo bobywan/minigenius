@@ -7,7 +7,7 @@ import { PageSubtitle } from "@/components/ui/PageSubtitle";
 import { PageTitle } from "@/components/ui/PageTitle";
 
 export const metadata: Metadata = {
-  title: "MiniGenius — Choisis ta matière",
+  title: { absolute: "MiniGenius — Choisis ta matière" },
   description: "L'app éducative pour les petits génies !",
 };
 
