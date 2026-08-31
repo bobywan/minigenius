@@ -4,8 +4,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { BackLink } from "@/components/ui/BackLink";
+import { Card } from "@/components/ui/Card";
 import { DifficultyBadge } from "@/components/ui/DifficultyBadge";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { PageSubtitle } from "@/components/ui/PageSubtitle";
 import { PageTitle } from "@/components/ui/PageTitle";
 import { StarRating } from "@/components/ui/StarRating";
@@ -33,38 +33,39 @@ export default function EnglishModePage({ params }: { params: Promise<{ mode: st
   }, []);
 
   return (
-    <main className="min-h-screen flex flex-col items-center gap-10 px-4 py-12">
-      <header className="text-center flex flex-col items-center gap-4">
-        <BackLink href="/anglais/traduction" />
+    <main className="flex flex-col items-center px-8 lg:px-16 py-8 lg:py-16 gap-8">
+      <BackLink href="/anglais/traduction" />
+
+      <header className="grid gap-4 w-full text-center">
         <PageTitle>{ENGLISH_MODULE_LABELS[englishMode]}</PageTitle>
         <PageSubtitle>Choisis ta difficulté</PageSubtitle>
       </header>
 
-      <div className="flex flex-col gap-4 w-full max-w-md">
+      <div className="grid gap-4 w-full lg:grid-cols-2">
         {DIFFICULTIES.map((diff) => {
           const stars = (mounted ? getStars("anglais", englishMode, diff) : 0) as Stars;
           return (
             <Link key={diff} href={`/anglais/traduction/${englishMode}/${diff}`} className="group">
-              <GlassCard className="p-4 flex items-center justify-between cursor-pointer group-hover:scale-[1.02] group-hover:-translate-y-0.5">
+              <Card className="justify-between">
                 <div className="flex flex-col gap-1">
                   <DifficultyBadge difficulty={diff} />
-                  <p className="text-sm text-white/80 mt-1 font-body">{DIFFICULTY_DESC[diff]}</p>
+                  <p className="text-base text-slate-700 mt-1 font-body">{DIFFICULTY_DESC[diff]}</p>
                 </div>
                 <StarRating stars={stars} size="sm" />
-              </GlassCard>
+              </Card>
             </Link>
           );
         })}
 
         <Link href={`/anglais/traduction/${englishMode}/libre`} className="group">
-          <GlassCard className="p-4 flex items-center justify-between cursor-pointer group-hover:scale-[1.02] group-hover:-translate-y-0.5">
-            <div className="flex flex-col gap-1">
-              <p className="text-base font-display text-white">Jeu libre</p>
-              <p className="text-sm text-white/80 mt-1 font-body">
+          <Card className="justify-center">
+            <div className="flex flex-col gap-1 text-center">
+              <p className="text-2xl font-display">Jeu libre</p>
+              <p className="text-base text-slate-700 font-body">
                 Sans limite — réponds jusqu'à trouver la bonne réponse
               </p>
             </div>
-          </GlassCard>
+          </Card>
         </Link>
       </div>
     </main>

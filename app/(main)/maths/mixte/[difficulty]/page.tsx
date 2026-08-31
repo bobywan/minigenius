@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { use, useCallback, useEffect, useRef, useState } from "react";
 import { ExerciseDisplay } from "@/components/game/ExerciseDisplay";
 import { SeriesResultScreen } from "@/components/game/SeriesResultScreen";
 import { AnswerInput } from "@/components/ui/AnswerInput";
-import { neonBtnCls } from "@/components/ui/NeonButton";
+import { BackLink } from "@/components/ui/BackLink";
 import { NumPad } from "@/components/ui/NumPad";
 import { ProgressDots } from "@/components/ui/ProgressDots";
 import { playError, playSuccess } from "@/lib/audio/sounds";
@@ -109,21 +108,19 @@ export default function MixteGamePage({ params }: { params: Promise<{ difficulty
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center gap-8 px-4 py-12">
-      <header className="w-full max-w-md flex items-center justify-between gap-4">
-        <Link href="/maths/mixte" className={neonBtnCls("ghost", "sm")}>
-          ← Quitter
-        </Link>
-        <p className="text-ms font-display text-white drop-shadow-lg">
+    <main className="flex flex-col items-center px-8 lg:px-16 py-8 lg:py-16 gap-8">
+      <BackLink href="/maths/mixte" />
+
+      <header className="grid gap-4 w-full text-center">
+        <p className="text-body font-bold font-display text-white">
           {currentIdx + 1} / {series.length}
         </p>
+        <ProgressDots total={10} states={dotStates} current={currentIdx} />
       </header>
 
-      <ProgressDots total={10} states={dotStates} current={currentIdx} />
-
-      <div className="flex flex-col items-center gap-10 w-full max-w-md">
+      <div className="flex flex-col items-center gap-8 w-full max-w-md bg-white p-8 rounded-xl">
         {currentExercise && (
-          <ExerciseDisplay exercise={currentExercise} revealAnswer={inputState === "wrong"} />
+          <ExerciseDisplay exercise={currentExercise} revealAnswer={inputState !== "idle"} />
         )}
 
         <AnswerInput value={inputValue} state={inputState} />

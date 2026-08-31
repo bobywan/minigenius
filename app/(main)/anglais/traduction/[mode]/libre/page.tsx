@@ -1,11 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { use, useCallback, useEffect, useRef, useState } from "react";
 import { ChoiceGrid } from "@/components/game/ChoiceGrid";
 import { WordPrompt } from "@/components/game/WordPrompt";
-import { neonBtnCls } from "@/components/ui/NeonButton";
+import { BackLink } from "@/components/ui/BackLink";
 import { playError, playSuccess } from "@/lib/audio/sounds";
 import { generateOneQuiz } from "@/lib/exercises/generators/english";
 import type { EnglishModule, QuizQuestion } from "@/lib/types";
@@ -70,22 +69,20 @@ export default function LibrePage({ params }: { params: Promise<{ mode: string }
   const correctChoice = question.choices[question.answerIndex];
 
   return (
-    <main className="min-h-screen flex flex-col items-center gap-8 px-4 py-12">
-      <header className="w-full max-w-md flex items-center justify-between gap-4">
-        <Link href={`/anglais/traduction/${englishMode}`} className={neonBtnCls("ghost", "sm")}>
-          ← Quitter
-        </Link>
-        <p className="text-sm font-display text-white drop-shadow-lg">
+    <main className="flex flex-col items-center px-8 lg:px-16 py-8 lg:py-16 gap-8">
+      <BackLink href={`/anglais/traduction/${englishMode}`} />
+
+      <header className="grid gap-4 w-full text-center">
+        <p className="text-body font-bold font-display text-white">
           {ENGLISH_MODULE_LABELS[englishMode]} — Libre
         </p>
+        <div className="flex items-center justify-center gap-2 font-display text-lg text-emerald-600">
+          <span className="text-2xl">✓</span>
+          <span>{correctCount} bonnes réponses</span>
+        </div>
       </header>
 
-      <div className="flex flex-col items-center gap-2">
-        <p className="text-4xl font-display text-yellow-400">{correctCount}</p>
-        <p className="text-sm text-white/80 font-body">bonnes réponses</p>
-      </div>
-
-      <div className="flex flex-col items-center gap-8 w-full max-w-md">
+      <div className="flex flex-col items-center gap-8 w-full max-w-md bg-white p-8 rounded-xl">
         <WordPrompt
           prompt={question.prompt}
           sourceLabel={enToFr ? "Anglais" : "Français"}

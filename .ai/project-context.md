@@ -80,17 +80,22 @@ public/
 
 ## Design system
 
-Thème cartoon/Fall Guys — fond bleu vif → cyan, composants glossy.
+Thème épuré blanc/emerald/amber — fond blanc avec sol vert ondulant, composants modernes.
 
 | Token | Valeur |
 |---|---|
-| `--color-bg-deep` | `#115ded` |
-| `--color-bg-surface` | `#49ebfe` |
+| `--color-emerald-500` | `#10b981` |
+| `--color-amber-500` | `#f59e0b` |
 | `--font-display` | Titan One |
 | `--font-body` | Nunito |
-| `--text-shadow-solid` | Contour noir cartoon |
+| `--radius-card` | `1.5rem` |
+| `--radius-btn` | `1rem` |
 
-Composants clés : `GlassCard` (gradients par variante), `NeonButton` (3D cartoon), `StarRating`, `BadgeModule`, `DifficultyBadge`, `ProgressDots`, `ChoiceGrid` (QCM), `WordPrompt`, `SpeakButton`.
+**Composants UI :** `Card` (blanc avec hover emerald), `Button` (primary/secondary/ghost), `StarRating` (amber), `BackLink` (amber), `Logo`, `PageTitle`, `PageSubtitle`, `DifficultyBadge`, `BadgeModule`.
+
+**Composants jeu :** `ProgressDots`, `ChoiceGrid` (QCM), `WordPrompt`, `SpeakButton`, `SeriesResultScreen`, `ExerciseDisplay`, `AnswerInput`, `NumPad`.
+
+**Page référence :** `/design` — documentation complète du design system v2.
 
 ---
 

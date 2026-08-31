@@ -22,6 +22,7 @@ export interface QuizQuestion {
   prompt: string; // mot affiché
   choices: string[]; // 4 traductions
   answerIndex: number; // index de la bonne réponse dans choices
+  enToFr: boolean; // true = prompt anglais / choix français
 }
 
 export interface SeriesResult {

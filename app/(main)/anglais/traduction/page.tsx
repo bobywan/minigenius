@@ -4,7 +4,7 @@ import { ArrowLeftRight, Languages, Repeat } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BackLink } from "@/components/ui/BackLink";
-import { GlassCard } from "@/components/ui/GlassCard";
+import { Card } from "@/components/ui/Card";
 import { PageSubtitle } from "@/components/ui/PageSubtitle";
 import { PageTitle } from "@/components/ui/PageTitle";
 import { StarRating } from "@/components/ui/StarRating";
@@ -45,14 +45,15 @@ export default function TraductionPage() {
   }, []);
 
   return (
-    <main className="min-h-screen flex flex-col items-center gap-10 px-4 py-12">
-      <header className="text-center flex flex-col items-center gap-4">
-        <BackLink href="/anglais" />
+    <main className="flex flex-col items-center px-8 lg:px-16 py-8 lg:py-16 gap-8">
+      <BackLink href="/anglais" />
+
+      <header className="grid gap-4 w-full text-center">
         <PageTitle size="5xl">Traduction</PageTitle>
         <PageSubtitle>Choisis ton mode</PageSubtitle>
       </header>
 
-      <div className="flex flex-col gap-4 w-full max-w-md">
+      <div className="grid gap-4 w-full lg:grid-cols-2">
         {MODES.map((mode) => {
           const Icon = mode.icon;
           const total = Math.min(3, mounted ? getTotalStars("anglais", mode.id) : 0) as Stars;
@@ -60,14 +61,14 @@ export default function TraductionPage() {
             mode.id === "mixte" ? "/anglais/traduction/mixte" : `/anglais/traduction/${mode.id}`;
           return (
             <Link key={mode.id} href={href} className="group">
-              <GlassCard className="p-4 flex items-center gap-4 cursor-pointer group-hover:scale-[1.02] group-hover:-translate-y-0.5">
-                <Icon size={32} className="shrink-0 text-white" />
-                <div className="flex flex-col gap-0.5 flex-1">
-                  <p className="text-lg font-display text-white drop-shadow-lg">{mode.label}</p>
-                  <p className="text-sm text-white/80 font-body">{mode.description}</p>
+              <Card>
+                <Icon size={40} className="shrink-0" />
+                <div className="flex flex-col gap-1 flex-1">
+                  <p className="text-2xl font-display">{mode.label}</p>
+                  <p className="text-lg text-slate-700 font-body">{mode.description}</p>
                 </div>
                 <StarRating stars={total} size="sm" />
-              </GlassCard>
+              </Card>
             </Link>
           );
         })}

@@ -34,9 +34,9 @@ export function StarRating({ stars, size = "md", animate = false }: StarRatingPr
         ) : (
           <span key={s}>
             {filled ? (
-              <Star size={sz} fill="currentColor" className="text-amber-500" />
+              <Star size={sz} fill="currentColor" className="text-emerald-500" />
             ) : (
-              <Star size={sz} className="text-amber-500/30" />
+              <Star size={sz} className="text-amber-500/80" />
             )}
           </span>
         );

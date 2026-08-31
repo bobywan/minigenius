@@ -6,7 +6,7 @@ interface LogoProps {
 const sizeClasses = {
   small: "text-2xl",
   medium: "text-4xl",
-  large: "text-6xl",
+  large: "text-5xl",
 };
 
 export function Logo({ className = "", size = "medium" }: LogoProps) {

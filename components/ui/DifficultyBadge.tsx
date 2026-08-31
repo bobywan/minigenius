@@ -6,9 +6,5 @@ interface DifficultyBadgeProps {
 }
 
 export function DifficultyBadge({ difficulty }: DifficultyBadgeProps) {
-  return (
-    <span className={"inline-flex items-center font-display text-md text-white"}>
-      {DIFFICULTY_LABELS[difficulty]}
-    </span>
-  );
+  return <span className={"font-display font-bold text-2xl"}>{DIFFICULTY_LABELS[difficulty]}</span>;
 }

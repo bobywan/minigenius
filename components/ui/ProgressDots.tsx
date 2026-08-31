@@ -11,9 +11,9 @@ interface ProgressDotsProps {
 }
 
 const dotColors: Record<DotState, string> = {
-  idle: "bg-neutral-700 border-neutral-600",
-  correct: "bg-green-500 border-green-400 shadow-[0_0_8px_var(--color-green-500)]",
-  wrong: "bg-red-500 border-red-400 shadow-[0_0_8px_var(--color-red-500)]",
+  idle: "bg-white",
+  correct: "bg-emerald-500",
+  wrong: "bg-red-500",
 };
 
 export function ProgressDots({ total = 10, states, current }: ProgressDotsProps) {
@@ -31,7 +31,7 @@ export function ProgressDots({ total = 10, states, current }: ProgressDotsProps)
           <motion.div
             key={`dot-${i}`}
             className={[
-              "rounded-full border-2 transition-colors duration-300",
+              "rounded-full transition-colors duration-300",
               dotColors[state],
               isActive ? "w-5 h-5" : "w-4 h-4",
             ].join(" ")}

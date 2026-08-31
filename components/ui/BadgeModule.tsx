@@ -5,6 +5,13 @@ import { StarRating } from "@/components/ui/StarRating";
 import type { MathModule, Stars } from "@/lib/types";
 import { MODULE_ICONS, MODULE_LABELS } from "@/lib/types";
 
+const MODULE_DESCRIPTIONS: Record<MathModule, string> = {
+  addition: "Additionner des nombres",
+  soustraction: "Soustraire des nombres",
+  multiplication: "Multiplier des nombres",
+  division: "Diviser des nombres",
+};
+
 interface BadgeModuleProps {
   module: MathModule;
   href: string;
@@ -32,11 +39,13 @@ export function BadgeModule({ module, href, totalStars, locked = false }: BadgeM
 
   return (
     <Link href={href} className="group">
-      <Card className="justify-center">
-        <div className="flex flex-col items-center gap-1">
+      <Card>
+        <span className="text-4xl shrink-0">{MODULE_ICONS[module]}</span>
+        <div className="flex flex-col gap-1 flex-1">
           <p className="text-2xl font-display">{MODULE_LABELS[module]}</p>
-          <StarRating stars={clampedStars} />
+          <p className="text-lg text-slate-700 font-body">{MODULE_DESCRIPTIONS[module]}</p>
         </div>
+        <StarRating stars={clampedStars} size="sm" />
       </Card>
     </Link>
   );
