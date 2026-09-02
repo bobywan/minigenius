@@ -2,11 +2,12 @@
 
 import { notFound } from "next/navigation";
 import { use, useCallback, useEffect, useState } from "react";
-import { ExerciseDisplay } from "@/components/game/ExerciseDisplay";
+import { ExerciseDisplay, formatExercisePrompt } from "@/components/game/ExerciseDisplay";
 import { GamePendingShell } from "@/components/game/GamePendingShell";
 import { SeriesResultScreen } from "@/components/game/SeriesResultScreen";
 import { AnswerInput } from "@/components/ui/AnswerInput";
 import { BackLink } from "@/components/ui/BackLink";
+import { Button } from "@/components/ui/Button";
 import { NumPad } from "@/components/ui/NumPad";
 import { ProgressDots } from "@/components/ui/ProgressDots";
 import { playError, playSuccess } from "@/lib/audio/sounds";
@@ -33,8 +34,19 @@ export default function GamePage({
 
   const { saveResult } = useProgressStore();
   const generate = useCallback(() => generateSeries(mathMod, difficulty), [mathMod, difficulty]);
-  const { series, current, currentIdx, dotStates, correctCount, phase, recordAnswer, replay } =
-    useSeriesGame(generate);
+  const {
+    series,
+    current,
+    currentIdx,
+    dotStates,
+    correctCount,
+    phase,
+    answers,
+    needsContinue,
+    recordAnswer,
+    continueAfterFeedback,
+    replay,
+  } = useSeriesGame(generate);
 
   const [inputValue, setInputValue] = useState("");
   const [inputState, setInputState] = useState<InputState>("idle");
@@ -56,7 +68,7 @@ export default function GamePage({
       playError();
       setInputState("wrong");
     }
-    recordAnswer(isCorrect);
+    recordAnswer(isCorrect, inputValue);
   }, [phase, current, inputValue, recordAnswer]);
 
   useEffect(() => {
@@ -78,7 +90,17 @@ export default function GamePage({
   if (phase === "finished") {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
-        <SeriesResultScreen correct={correctCount} onReplay={replay} nextHref={nextHref} />
+        <SeriesResultScreen
+          correct={correctCount}
+          onReplay={replay}
+          nextHref={nextHref}
+          items={series.map((ex, i) => ({
+            prompt: formatExercisePrompt(ex),
+            given: answers[i]?.given ?? "",
+            expected: String(ex.answer),
+            ok: answers[i]?.isCorrect ?? false,
+          }))}
+        />
       </main>
     );
   }
@@ -99,12 +121,18 @@ export default function GamePage({
 
         <AnswerInput value={inputValue} state={inputState} />
 
-        <NumPad
-          value={inputValue}
-          onChange={setInputValue}
-          onValidate={handleValidate}
-          disabled={phase === "feedback"}
-        />
+        {needsContinue ? (
+          <Button variant="secondary" className="w-full" onClick={continueAfterFeedback}>
+            Continuer
+          </Button>
+        ) : (
+          <NumPad
+            value={inputValue}
+            onChange={setInputValue}
+            onValidate={handleValidate}
+            disabled={phase === "feedback"}
+          />
+        )}
       </div>
     </main>
   );

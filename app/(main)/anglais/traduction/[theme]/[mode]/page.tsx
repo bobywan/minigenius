@@ -7,6 +7,7 @@ import { GamePendingShell } from "@/components/game/GamePendingShell";
 import { SeriesResultScreen } from "@/components/game/SeriesResultScreen";
 import { WordPrompt } from "@/components/game/WordPrompt";
 import { BackLink } from "@/components/ui/BackLink";
+import { Button } from "@/components/ui/Button";
 import { ProgressDots } from "@/components/ui/ProgressDots";
 import { playError, playSuccess } from "@/lib/audio/sounds";
 import { generateMixedQuizSeries, generateQuizSeries } from "@/lib/exercises/generators/english";
@@ -33,8 +34,19 @@ export default function EnglishQuizPage({
     if (gameMode === "mixte") return generateMixedQuizSeries(englishTheme);
     return generateQuizSeries(gameMode, englishTheme);
   }, [gameMode, englishTheme]);
-  const { series, current, currentIdx, dotStates, correctCount, phase, recordAnswer, replay } =
-    useSeriesGame(generate);
+  const {
+    series,
+    current,
+    currentIdx,
+    dotStates,
+    correctCount,
+    phase,
+    answers,
+    needsContinue,
+    recordAnswer,
+    continueAfterFeedback,
+    replay,
+  } = useSeriesGame(generate);
 
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
 
@@ -49,7 +61,7 @@ export default function EnglishQuizPage({
       setSelectedIdx(index);
       if (isCorrect) playSuccess();
       else playError();
-      recordAnswer(isCorrect);
+      recordAnswer(isCorrect, current.choices[index] ?? "");
     },
     [phase, current, recordAnswer],
   );
@@ -75,7 +87,17 @@ export default function EnglishQuizPage({
   if (phase === "finished") {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
-        <SeriesResultScreen correct={correctCount} onReplay={replay} nextHref={nextHref} />
+        <SeriesResultScreen
+          correct={correctCount}
+          onReplay={replay}
+          nextHref={nextHref}
+          items={series.map((q, i) => ({
+            prompt: q.prompt,
+            given: answers[i]?.given ?? "",
+            expected: q.choices[q.answerIndex] ?? "",
+            ok: answers[i]?.isCorrect ?? false,
+          }))}
+        />
       </main>
     );
   }
@@ -107,6 +129,11 @@ export default function EnglishQuizPage({
               onSelect={handleSelect}
               enableSpeech={!current.enToFr}
             />
+            {needsContinue && (
+              <Button variant="secondary" className="w-full" onClick={continueAfterFeedback}>
+                Continuer
+              </Button>
+            )}
           </>
         )}
       </div>

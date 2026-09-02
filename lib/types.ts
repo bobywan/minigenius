@@ -135,7 +135,6 @@ export const DIFFICULTY_LABELS: Record<Difficulty, string> = {
 
 export const SERIES_LENGTH = 10;
 export const FEEDBACK_OK_MS = 900;
-export const FEEDBACK_WRONG_SERIES_MS = 1800;
 export const FEEDBACK_WRONG_LIBRE_MS = 800;
 
 export function computeStars(correct: number): Stars {
