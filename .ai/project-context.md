@@ -108,7 +108,7 @@ Thème épuré blanc/emerald/amber — fond blanc avec sol vert ondulant, compos
 
 **Composants jeu :** `ProgressDots`, `ChoiceGrid`, `WordPrompt`, `SpeakButton`, `SeriesResultScreen`, `ExerciseDisplay`, `AnswerInput`, `NumPad`.
 
-**Page référence :** `/design`
+**Page référence :** `/design` — design system et playground des écrans de jeu (dont `SeriesResultScreen`)
 
 ---
 
@@ -139,4 +139,4 @@ Thème épuré blanc/emerald/amber — fond blanc avec sol vert ondulant, compos
 - `npm run build` — build production
 - `npm run check` — lint + format + imports (BiomeJS)
 - `node lib/exercises/generators/english.check.mjs` — vocabulaire / séries QCM / MP3
-- `/design` — design system
+- `/design` — design system et playground des écrans de jeu
