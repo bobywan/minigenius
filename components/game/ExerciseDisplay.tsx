@@ -1,5 +1,10 @@
 import type { Exercise } from "@/lib/types";
 
+export function formatExercisePrompt(exercise: Exercise): string {
+  const { left, op, right, result } = exercise;
+  return `${left ?? "?"} ${op} ${right ?? "?"} = ${result ?? "?"}`;
+}
+
 interface ExerciseDisplayProps {
   exercise: Exercise;
   revealAnswer?: boolean;
@@ -38,7 +43,7 @@ export function ExerciseDisplay({ exercise, revealAnswer = false }: ExerciseDisp
     <div
       className="flex items-center justify-center gap-4 flex-wrap"
       role="math"
-      aria-label={`Calcul : ${left ?? "?"} ${op} ${right ?? "?"} = ${result ?? "?"}`}
+      aria-label={`Calcul : ${formatExercisePrompt(exercise)}`}
     >
       <Slot value={left ?? answer} isHole={left === null} revealAnswer={revealAnswer} />
       <span className="text-amber-500 font-display text-5xl">{op}</span>

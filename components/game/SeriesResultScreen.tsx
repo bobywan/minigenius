@@ -2,7 +2,7 @@
 
 import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
-import { Frown, Sparkles, ThumbsUp, Trophy } from "lucide-react";
+import { Check, Frown, Sparkles, ThumbsUp, Trophy, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/Button";
@@ -12,15 +12,76 @@ import { playUnlock } from "@/lib/audio/sounds";
 import type { Stars } from "@/lib/types";
 import { computeStars } from "@/lib/types";
 
-interface SeriesResultScreenProps {
+export type RecapItem = {
+  prompt: string;
+  given: string;
+  expected: string;
+  ok: boolean;
+};
+
+type SeriesResultScreenProps = {
   correct: number;
   onReplay: () => void;
   nextHref?: string;
+  items?: RecapItem[];
+};
+
+function RecapSection({
+  title,
+  items,
+  variant,
+}: {
+  title: string;
+  items: RecapItem[];
+  variant: "ok" | "fail";
+}) {
+  const ok = variant === "ok";
+  return (
+    <section className="w-full text-left">
+      <h3
+        className={["text-sm font-display mb-2", ok ? "text-emerald-600" : "text-red-600"].join(
+          " ",
+        )}
+      >
+        {title}
+      </h3>
+      <ul className="flex flex-col gap-2">
+        {items.map((item) => (
+          <li
+            key={`${item.prompt}-${item.given}-${item.expected}`}
+            className={[
+              "rounded-[var(--radius-btn)] px-3 py-2 font-body text-sm",
+              ok ? "bg-emerald-50 text-emerald-800" : "bg-red-50 text-red-800",
+            ].join(" ")}
+          >
+            <p className="font-bold flex items-center gap-2">
+              {ok ? <Check size={16} aria-hidden /> : <X size={16} aria-hidden />}
+              <span>{item.prompt}</span>
+            </p>
+            {ok ? (
+              <p className="mt-0.5 pl-6">{item.expected}</p>
+            ) : (
+              <p className="mt-0.5 pl-6">
+                tu as mis {item.given || "—"} — c&apos;était {item.expected}
+              </p>
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
 }
 
-export function SeriesResultScreen({ correct, onReplay, nextHref }: SeriesResultScreenProps) {
+export function SeriesResultScreen({
+  correct,
+  onReplay,
+  nextHref,
+  items,
+}: SeriesResultScreenProps) {
   const stars = computeStars(correct) as Stars;
   const won = stars >= 1;
+  const okItems = items?.filter((item) => item.ok) ?? [];
+  const failItems = items?.filter((item) => !item.ok) ?? [];
 
   useEffect(() => {
     if (!won) return;
@@ -103,6 +164,15 @@ export function SeriesResultScreen({ correct, onReplay, nextHref }: SeriesResult
             Il faut au moins 6/10 pour débloquer la suite. Tu vas y arriver !
           </p>
         )}
+
+        {items && items.length > 0 && (
+          <div className="w-full flex flex-col gap-4 max-h-64 overflow-y-auto pr-1">
+            {okItems.length > 0 && <RecapSection title="Réussis" items={okItems} variant="ok" />}
+            {failItems.length > 0 && (
+              <RecapSection title="À revoir" items={failItems} variant="fail" />
+            )}
+          </div>
+        )}
       </div>
 
       <div className="flex gap-3 w-full">
@@ -111,7 +181,7 @@ export function SeriesResultScreen({ correct, onReplay, nextHref }: SeriesResult
         </Button>
         {nextHref && won && (
           <Link href={nextHref} className="flex-1">
-            <Button variant="primary" className="w-full">
+            <Button variant="secondary" className="w-full">
               Continuer →
             </Button>
           </Link>
