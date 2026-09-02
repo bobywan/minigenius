@@ -1,6 +1,9 @@
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import { Nunito, Titan_One } from "next/font/google";
 import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
+
 import "./globals.css";
 
 const titanOne = Titan_One({
@@ -48,6 +51,8 @@ export default function RootLayout({
       <body className="bg-sky-800 min-w-[320px]">
         <ServiceWorkerRegistration />
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
