@@ -6,7 +6,6 @@ import { Check, Frown, Sparkles, ThumbsUp, Trophy, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
 import { StarRating } from "@/components/ui/StarRating";
 import { playUnlock } from "@/lib/audio/sounds";
 import type { Stars } from "@/lib/types";

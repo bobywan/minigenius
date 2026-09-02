@@ -161,8 +161,8 @@ export default function DesignPage() {
         <Section id="series-result" title="Écrans de jeu">
           <CatalogItem name="SeriesResultScreen — playground">
             <p className="text-sm font-body text-white mb-4">
-              Presets 3 / 6 / 8 / 10 pour les 4 paliers d'étoiles. Relancer recrée le composant
-              (confettis + son).
+              Presets 3 / 6 / 8 / 10 pour les 4 paliers d&apos;étoiles. Le récap (Réussis / À
+              revoir) suit le score. Relancer recrée le composant (confettis + son).
             </p>
             <SeriesResultDemo />
           </CatalogItem>

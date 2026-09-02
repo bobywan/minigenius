@@ -1,10 +1,35 @@
 "use client";
 
 import { useState } from "react";
-import { SeriesResultScreen } from "@/components/game/SeriesResultScreen";
+import { type RecapItem, SeriesResultScreen } from "@/components/game/SeriesResultScreen";
 import { Button } from "@/components/ui/Button";
 
 const PRESETS = [3, 6, 8, 10] as const;
+
+const SAMPLE_BANK = [
+  { prompt: "4 + ? = 9", expected: "5", wrong: "4" },
+  { prompt: "cat", expected: "chat", wrong: "chien" },
+  { prompt: "12 − ? = 7", expected: "5", wrong: "6" },
+  { prompt: "dog", expected: "chien", wrong: "chat" },
+  { prompt: "3 × 4 = ?", expected: "12", wrong: "7" },
+  { prompt: "red", expected: "rouge", wrong: "bleu" },
+  { prompt: "? + 8 = 15", expected: "7", wrong: "6" },
+  { prompt: "house", expected: "maison", wrong: "arbre" },
+  { prompt: "18 ÷ 3 = ?", expected: "6", wrong: "5" },
+  { prompt: "blue", expected: "bleu", wrong: "vert" },
+] as const;
+
+function recapFor(score: number): RecapItem[] {
+  return SAMPLE_BANK.map((item, i) => {
+    const ok = i < score;
+    return {
+      prompt: item.prompt,
+      expected: item.expected,
+      given: ok ? item.expected : item.wrong,
+      ok,
+    };
+  });
+}
 
 export function SeriesResultDemo() {
   const [correct, setCorrect] = useState(10);
@@ -68,6 +93,7 @@ export function SeriesResultDemo() {
           correct={correct}
           onReplay={remount}
           nextHref={showNext ? "/design" : undefined}
+          items={recapFor(correct)}
         />
       </div>
     </div>
