@@ -24,7 +24,7 @@ export function ChoiceGrid({
 }: ChoiceGridProps) {
   return (
     <fieldset className="flex flex-col gap-3 w-full border-0 p-0 m-0">
-      <legend className="sr-only">Choisis la bonne traduction</legend>
+      <legend className="sr-only">Choisis la bonne réponse</legend>
       {choices.map((choice, idx) => {
         const correct = revealed && highlightCorrect && idx === answerIndex;
         const wrong = revealed && idx === selectedIdx && idx !== answerIndex;

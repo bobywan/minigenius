@@ -53,6 +53,12 @@ app/
           page.tsx                        # en-fr / fr-en / mixte / libre
           [mode]/page.tsx                 # Série de 10
           libre/page.tsx
+    francais/
+      page.tsx                            # 6 modules QCM
+      [module]/
+        page.tsx                          # Slots + jeu libre
+        [slot]/page.tsx                   # Série de 10
+        [slot]/libre/page.tsx
     mini-jeux/
   design/page.tsx                         # Design system
 components/
@@ -64,6 +70,7 @@ lib/
   hooks/useLibreGame.ts                   # Boucle jeu libre
   exercises/generators/math.ts
   exercises/generators/english.ts
+  exercises/generators/french/         # banks QCM + index
   store/progressStore.ts
   audio/
 public/
@@ -86,6 +93,7 @@ public/
 - Score 6–7 → 1 étoile, 8–9 → 2 étoiles, 10 → 3 étoiles
 - Maths : module × difficulté (`saveResult("maths", "addition", "facile", …)` ; mixte maths = `"mixte"`)
 - Anglais : thème × sens (`saveResult("anglais", "animaux", "en-fr", …)` ; tous les thèmes = `"tout"`)
+- Français : module × slot (`saveResult("francais", "homophones", "a-a", …)`)
 - Tous les modules, thèmes, modes et difficultés sont jouables d'emblée (pas de verrou)
 - Progression dans localStorage (`minigenius-progress`, persist v2) — pas de reset dans l'UI
 
@@ -106,7 +114,7 @@ Thème épuré blanc/emerald/amber — fond blanc avec sol vert ondulant, compos
 
 **Composants UI :** `Card`, `Button`, `StarRating` (amber), `BackLink`, `Logo`, `PageTitle`, `PageSubtitle`, `DifficultyBadge`, `BadgeModule`.
 
-**Composants jeu :** `ProgressDots`, `ChoiceGrid`, `WordPrompt`, `SpeakButton`, `SeriesResultScreen`, `ExerciseDisplay`, `AnswerInput`, `NumPad`.
+**Composants jeu :** `ProgressDots`, `ChoiceGrid`, `WordPrompt`, `ReadingPrompt`, `SpeakButton`, `SeriesResultScreen`, `ExerciseDisplay`, `AnswerInput`, `NumPad`.
 
 **Page référence :** `/design` — design system et playground des écrans de jeu (dont `SeriesResultScreen`)
 
@@ -127,8 +135,8 @@ Thème épuré blanc/emerald/amber — fond blanc avec sol vert ondulant, compos
 |---|---|
 | Maths | Actif — 4 opérations × 3 difficultés + mixte + jeu libre |
 | Anglais | Actif — traduction QCM par thème (en-fr, fr-en, mixte) + jeu libre |
+| Français | Actif — 6 modules QCM (homophones, nature, accords, vocabulaire, conjugaison, lecture) |
 | Mini-jeux | Actif — pendu, runner |
-| Français | Bientôt |
 | Histoire | Bientôt |
 
 ---
@@ -139,4 +147,5 @@ Thème épuré blanc/emerald/amber — fond blanc avec sol vert ondulant, compos
 - `npm run build` — build production
 - `npm run check` — lint + format + imports (BiomeJS)
 - `node lib/exercises/generators/english.check.mjs` — vocabulaire / séries QCM / MP3
+- `node lib/exercises/generators/french.check.mjs` — banks français / séries QCM
 - `/design` — design system et playground des écrans de jeu

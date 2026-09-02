@@ -23,11 +23,31 @@ export type EnglishTheme =
   | "actions"
   | "tout";
 
-export type ModuleId = MathModule | MixedModule | EnglishTheme;
+export type FrenchModule =
+  | "homophones"
+  | "nature"
+  | "accords"
+  | "vocabulaire"
+  | "conjugaison"
+  | "lecture";
+
+export type HomophoneSlot = "a-a" | "et-est" | "on-ont" | "son-sont" | "ou-ou" | "ces-ses" | "tout";
+
+export type AccordSlot = "pluriel" | "feminin" | "mixte";
+
+export type VocabSlot = "synonymes" | "contraires" | "mixte";
+
+export type ConjugaisonSlot = "present" | "imparfait" | "futur" | "mixte";
+
+export type LectureSlot = "animaux" | "ecole" | "maison" | "quotidien" | "tout";
+
+export type FrenchSlot = HomophoneSlot | AccordSlot | VocabSlot | ConjugaisonSlot | LectureSlot;
+
+export type ModuleId = MathModule | MixedModule | EnglishTheme | FrenchModule;
 
 export type Difficulty = "facile" | "moyen" | "expert";
 
-export type SeriesSlot = Difficulty | EnglishModule | MixedModule;
+export type SeriesSlot = Difficulty | EnglishModule | MixedModule | FrenchSlot;
 
 export type Stars = 0 | 1 | 2 | 3;
 
@@ -40,10 +60,11 @@ export interface Exercise {
 }
 
 export interface QuizQuestion {
-  prompt: string; // mot affiché
-  choices: string[]; // 4 traductions
+  prompt: string; // mot ou phrase affiché
+  choices: string[]; // 4 réponses
   answerIndex: number; // index de la bonne réponse dans choices
-  enToFr: boolean; // true = prompt anglais / choix français
+  enToFr?: boolean; // true = prompt anglais / choix français (anglais uniquement)
+  passage?: string; // texte de lecture (français / lecture)
 }
 
 export interface SeriesResult {
@@ -110,6 +131,63 @@ export const ENGLISH_THEME_LABELS: Record<EnglishTheme, string> = {
   actions: "Actions",
   tout: "Tout mélanger",
 };
+
+export const FRENCH_MODULES: FrenchModule[] = [
+  "homophones",
+  "nature",
+  "accords",
+  "vocabulaire",
+  "conjugaison",
+  "lecture",
+];
+
+export const FRENCH_MODULE_LABELS: Record<FrenchModule, string> = {
+  homophones: "Homophones",
+  nature: "Nature des mots",
+  accords: "Accords",
+  vocabulaire: "Vocabulaire",
+  conjugaison: "Conjugaison",
+  lecture: "Lecture",
+};
+
+export const FRENCH_SLOTS: Record<FrenchModule, readonly FrenchSlot[]> = {
+  homophones: ["a-a", "et-est", "on-ont", "son-sont", "ou-ou", "ces-ses", "tout"],
+  nature: ["mixte"],
+  accords: ["pluriel", "feminin", "mixte"],
+  vocabulaire: ["synonymes", "contraires", "mixte"],
+  conjugaison: ["present", "imparfait", "futur", "mixte"],
+  lecture: ["animaux", "ecole", "maison", "quotidien", "tout"],
+};
+
+export const FRENCH_SLOT_LABELS: Record<FrenchSlot, string> = {
+  "a-a": "a / à",
+  "et-est": "et / est",
+  "on-ont": "on / ont",
+  "son-sont": "son / sont",
+  "ou-ou": "ou / où",
+  "ces-ses": "ces / ses",
+  pluriel: "Pluriel",
+  feminin: "Féminin",
+  mixte: "Tout mélanger",
+  synonymes: "Synonymes",
+  contraires: "Contraires",
+  present: "Présent",
+  imparfait: "Imparfait",
+  futur: "Futur",
+  animaux: "Animaux",
+  ecole: "École",
+  maison: "Maison",
+  quotidien: "Quotidien",
+  tout: "Tout mélanger",
+};
+
+export function isFrenchModule(value: string): value is FrenchModule {
+  return FRENCH_MODULES.includes(value as FrenchModule);
+}
+
+export function isFrenchSlot(module: FrenchModule, slot: string): slot is FrenchSlot {
+  return FRENCH_SLOTS[module].includes(slot as FrenchSlot);
+}
 
 export const DIFFICULTIES: Difficulty[] = ["facile", "moyen", "expert"];
 
