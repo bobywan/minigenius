@@ -87,15 +87,13 @@ export function SeriesResultDemo() {
         </Button>
       </div>
 
-      <div className="w-full max-w-md mx-auto">
-        <SeriesResultScreen
-          key={mountKey}
-          correct={correct}
-          onReplay={remount}
-          nextHref={showNext ? "/design" : undefined}
-          items={recapFor(correct)}
-        />
-      </div>
+      <SeriesResultScreen
+        key={mountKey}
+        correct={correct}
+        onReplay={remount}
+        nextHref={showNext ? "/design" : undefined}
+        items={recapFor(correct)}
+      />
     </div>
   );
 }

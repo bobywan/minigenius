@@ -38,31 +38,34 @@ function RecapSection({
   return (
     <section className="w-full text-left">
       <h3
-        className={["text-sm font-display mb-2", ok ? "text-emerald-600" : "text-red-600"].join(
+        className={["text-xs font-display mb-1", ok ? "text-emerald-600" : "text-red-600"].join(
           " ",
         )}
       >
         {title}
       </h3>
-      <ul className="flex flex-col gap-2">
+      <ul className="divide-y divide-sky-100">
         {items.map((item) => (
           <li
             key={`${item.prompt}-${item.given}-${item.expected}`}
-            className={[
-              "rounded-[var(--radius-btn)] px-3 py-2 font-body text-sm",
-              ok ? "bg-emerald-50 text-emerald-800" : "bg-red-50 text-red-800",
-            ].join(" ")}
+            className="flex items-center gap-2 py-1.5 px-2 font-body text-sm"
           >
-            <p className="font-bold flex items-center gap-2">
-              {ok ? <Check size={16} aria-hidden /> : <X size={16} aria-hidden />}
-              <span>{item.prompt}</span>
-            </p>
             {ok ? (
-              <p className="mt-0.5 pl-6">{item.expected}</p>
+              <Check size={16} className="shrink-0 text-emerald-500" aria-hidden />
             ) : (
-              <p className="mt-0.5 pl-6">
-                tu as mis {item.given || "—"} — c&apos;était {item.expected}
-              </p>
+              <X size={16} className="shrink-0 text-red-500" aria-hidden />
+            )}
+            <span className="flex-1 min-w-0 truncate">{item.prompt}</span>
+            {ok ? (
+              <span className="shrink-0 font-display text-emerald-600">{item.expected}</span>
+            ) : (
+              <span className="shrink-0 flex items-center gap-1">
+                <span className="text-red-500 line-through">{item.given || "—"}</span>
+                <span className="text-slate-400" aria-hidden>
+                  →
+                </span>
+                <span className="font-display text-emerald-600">{item.expected}</span>
+              </span>
             )}
           </li>
         ))}
@@ -120,7 +123,7 @@ export function SeriesResultScreen({
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
       className="grid items-center gap-6 w-full max-w-md mx-auto"
     >
-      <div className="w-full grid gap-6 bg-white text-sky-800 rounded-[var(--radius-card)] p-6">
+      <div className="w-full grid gap-3 bg-white text-sky-800 rounded-[var(--radius-card)] p-6">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -128,13 +131,13 @@ export function SeriesResultScreen({
           className="flex justify-center"
         >
           {stars === 3 ? (
-            <Trophy size={72} />
+            <Trophy size={48} />
           ) : stars === 2 ? (
-            <Sparkles size={72} />
+            <Sparkles size={48} />
           ) : stars === 1 ? (
-            <ThumbsUp size={72} />
+            <ThumbsUp size={48} />
           ) : (
-            <Frown size={72} />
+            <Frown size={48} />
           )}
         </motion.div>
 
@@ -149,23 +152,17 @@ export function SeriesResultScreen({
         </h2>
 
         <div className="text-center">
-          <p className="text-6xl font-display text-amber-500">
+          <p className="text-5xl font-display text-amber-500">
             {correct}
-            <span className="text-3xl text-slate-500">/10</span>
+            <span className="text-2xl text-slate-500">/10</span>
           </p>
           <p className="text-sm text-slate-700 mt-1 font-body">bonnes réponses</p>
         </div>
 
         <StarRating className="justify-center" stars={stars} size="lg" animate />
 
-        {!won && (
-          <p className="text-sm text-slate-700 text-center font-body">
-            Il faut au moins 6/10 pour débloquer la suite. Tu vas y arriver !
-          </p>
-        )}
-
         {items && items.length > 0 && (
-          <div className="w-full flex flex-col gap-4 max-h-64 overflow-y-auto pr-1">
+          <div className="w-full flex flex-col gap-3 max-h-52 overflow-y-auto border-2 border-sky-200 rounded-[var(--radius-btn)] p-2">
             {okItems.length > 0 && <RecapSection title="Réussis" items={okItems} variant="ok" />}
             {failItems.length > 0 && (
               <RecapSection title="À revoir" items={failItems} variant="fail" />

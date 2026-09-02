@@ -16,6 +16,7 @@ import { SpeakButton } from "@/components/ui/SpeakButton";
 import { StarRating } from "@/components/ui/StarRating";
 import type { Exercise } from "@/lib/types";
 import { ChoiceGridDemo } from "./ChoiceGridDemo";
+import { DesignShell, DevicePills } from "./DesignShell";
 import { NumPadDemo } from "./NumPadDemo";
 import { SeriesResultDemo } from "./SeriesResultDemo";
 
@@ -91,7 +92,7 @@ function Swatch({ name, className }: { name: string; className: string }) {
 
 export default function DesignPage() {
   return (
-    <div className="min-h-screen max-w-[1000px] mx-auto w-full">
+    <DesignShell>
       <main className="px-6 py-14 flex flex-col gap-16">
         <header className="text-center flex flex-col items-center gap-4">
           <BackLink href="/" label="← Accueil" />
@@ -109,6 +110,7 @@ export default function DesignPage() {
               </Link>
             ))}
           </nav>
+          <DevicePills />
         </header>
 
         <Section id="principes" title="Principes">
@@ -327,16 +329,16 @@ slate-700 / slate-500       /* texte body */
           </div>
         </Section>
 
-        <footer className="text-center text-sm text-slate-500 pt-8 border-t border-slate-200">
+        <footer className="text-center text-sm text-white pt-8 border-t border-slate-200">
           <p>
             Design system MiniGenius — Version 2.0 (Blanc/Emerald/Amber)
             <br />
-            <Link href="/" className="text-emerald-600 hover:underline">
+            <Link href="/" className="text-white font-bold hover:underline">
               Retour à l'accueil
             </Link>
           </p>
         </footer>
       </main>
-    </div>
+    </DesignShell>
   );
 }
