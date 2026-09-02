@@ -10,7 +10,7 @@ Application éducative gamifiée pour les enfants — maths, anglais et mini-jeu
 ## Fonctionnalités v1.0
 
 - **Maths** : addition, soustraction, multiplication, division, mixte, jeu libre
-- **Anglais** : traduction QCM par thème (animaux, corps, …) — anglais→français, français→anglais, mixte, jeu libre
+- **Anglais** : traduction QCM par thème (animaux, cuisine, école, vêtements, transports, sports, émotions, …) — anglais→français, français→anglais, mixte, jeu libre
 - **Mini-jeux** : pendu, endless runner
 - 3 niveaux de difficulté (facile / moyen / expert)
 - Progression par étoiles (tous les niveaux accessibles)

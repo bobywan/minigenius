@@ -48,7 +48,7 @@ app/
     anglais/
       page.tsx                            # Traduction | bientôt
       traduction/
-        page.tsx                          # Thèmes (animaux, corps, …, tout)
+        page.tsx                          # Thèmes (animaux, cuisine, école, …, tout)
         [theme]/
           page.tsx                        # en-fr / fr-en / mixte / libre
           [mode]/page.tsx                 # Série de 10
