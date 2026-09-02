@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { use, useCallback, useEffect, useState } from "react";
 import { ChoiceGrid } from "@/components/game/ChoiceGrid";
 import { GamePendingShell } from "@/components/game/GamePendingShell";
+import { ReadingPrompt } from "@/components/game/ReadingPrompt";
 import { SeriesResultScreen } from "@/components/game/SeriesResultScreen";
 import { WordPrompt } from "@/components/game/WordPrompt";
 import { BackLink } from "@/components/ui/BackLink";
@@ -11,37 +12,37 @@ import { Button } from "@/components/ui/Button";
 import { PageTitle } from "@/components/ui/PageTitle";
 import { ProgressDots } from "@/components/ui/ProgressDots";
 import { playError, playSuccess } from "@/lib/audio/sounds";
-import { generateMixedQuizSeries, generateQuizSeries } from "@/lib/exercises/generators/english";
+import { generateFrenchQuiz } from "@/lib/exercises/generators/french";
 import { useSeriesGame } from "@/lib/hooks/useSeriesGame";
 import { useProgressStore } from "@/lib/store/progressStore";
-import type { EnglishModule, EnglishTheme, MixedModule } from "@/lib/types";
+import type { FrenchModule, FrenchSlot } from "@/lib/types";
 import {
   computeStars,
-  ENGLISH_DIRECTIONS,
-  ENGLISH_MODULE_LABELS,
-  ENGLISH_THEME_LABELS,
-  ENGLISH_THEMES,
+  FRENCH_SLOT_LABELS,
+  FRENCH_SLOTS,
+  isFrenchModule,
+  isFrenchSlot,
   SERIES_LENGTH,
 } from "@/lib/types";
 
-export default function EnglishQuizPage({
+export default function FrenchQuizPage({
   params,
 }: {
-  params: Promise<{ theme: string; mode: string }>;
+  params: Promise<{ module: string; slot: string }>;
 }) {
-  const { theme, mode } = use(params);
+  const { module: rawModule, slot: rawSlot } = use(params);
 
-  if (!ENGLISH_THEMES.includes(theme as EnglishTheme)) notFound();
-  if (!ENGLISH_DIRECTIONS.includes(mode as EnglishModule | MixedModule)) notFound();
+  if (!isFrenchModule(rawModule)) notFound();
+  if (!isFrenchSlot(rawModule, rawSlot)) notFound();
 
-  const englishTheme = theme as EnglishTheme;
-  const gameMode = mode as EnglishModule | MixedModule;
+  const frenchModule = rawModule as FrenchModule;
+  const frenchSlot = rawSlot as FrenchSlot;
 
   const { saveResult } = useProgressStore();
-  const generate = useCallback(() => {
-    if (gameMode === "mixte") return generateMixedQuizSeries(englishTheme);
-    return generateQuizSeries(gameMode, englishTheme);
-  }, [gameMode, englishTheme]);
+  const generate = useCallback(
+    () => generateFrenchQuiz(frenchModule, frenchSlot),
+    [frenchModule, frenchSlot],
+  );
   const {
     series,
     current,
@@ -76,21 +77,22 @@ export default function EnglishQuizPage({
 
   useEffect(() => {
     if (phase !== "finished") return;
-    saveResult("anglais", englishTheme, gameMode, {
+    saveResult("francais", frenchModule, frenchSlot, {
       correct: correctCount,
       stars: computeStars(correctCount),
       completedAt: new Date().toISOString(),
     });
-  }, [phase, correctCount, englishTheme, gameMode, saveResult]);
+  }, [phase, correctCount, frenchModule, frenchSlot, saveResult]);
+
+  const backHref = `/francais/${frenchModule}`;
 
   if (!series) {
-    return <GamePendingShell backHref={`/anglais/traduction/${englishTheme}`} />;
+    return <GamePendingShell backHref={backHref} />;
   }
 
-  const nextMode = ENGLISH_DIRECTIONS[ENGLISH_DIRECTIONS.indexOf(gameMode) + 1];
-  const nextHref = nextMode
-    ? `/anglais/traduction/${englishTheme}/${nextMode}`
-    : `/anglais/traduction/${englishTheme}`;
+  const slots = FRENCH_SLOTS[frenchModule];
+  const nextSlot = slots[slots.indexOf(frenchSlot) + 1];
+  const nextHref = nextSlot ? `/francais/${frenchModule}/${nextSlot}` : backHref;
 
   if (phase === "finished") {
     return (
@@ -112,10 +114,10 @@ export default function EnglishQuizPage({
 
   return (
     <main className="flex flex-col items-center px-8 lg:px-16 py-8 lg:py-16 gap-8">
-      <BackLink href={`/anglais/traduction/${englishTheme}`} />
+      <BackLink href={backHref} />
 
       <header className="grid gap-4 w-full text-center">
-        <PageTitle>{`${ENGLISH_THEME_LABELS[englishTheme]} — ${ENGLISH_MODULE_LABELS[gameMode]}`}</PageTitle>
+        <PageTitle>{FRENCH_SLOT_LABELS[frenchSlot]}</PageTitle>
         <p className="font-bold font-display text-white">
           {currentIdx + 1} / {series.length}
         </p>
@@ -125,10 +127,11 @@ export default function EnglishQuizPage({
       <div className="flex flex-col items-center gap-8 w-full max-w-md bg-white p-8 rounded-xl">
         {current && (
           <>
-            <WordPrompt
-              prompt={current.prompt}
-              speakText={current.enToFr ? current.prompt : undefined}
-            />
+            {frenchModule === "lecture" && current.passage ? (
+              <ReadingPrompt passage={current.passage} question={current.prompt} />
+            ) : (
+              <WordPrompt prompt={current.prompt} variant="sentence" />
+            )}
 
             <ChoiceGrid
               choices={current.choices}
@@ -136,7 +139,6 @@ export default function EnglishQuizPage({
               selectedIdx={selectedIdx}
               revealed={phase === "feedback"}
               onSelect={handleSelect}
-              enableSpeech={!current.enToFr}
             />
             {needsContinue && (
               <Button variant="secondary" className="w-full" onClick={continueAfterFeedback}>

@@ -9,13 +9,21 @@ import { AnswerInput } from "@/components/ui/AnswerInput";
 import { BackLink } from "@/components/ui/BackLink";
 import { Button } from "@/components/ui/Button";
 import { NumPad } from "@/components/ui/NumPad";
+import { PageTitle } from "@/components/ui/PageTitle";
 import { ProgressDots } from "@/components/ui/ProgressDots";
 import { playError, playSuccess } from "@/lib/audio/sounds";
 import { generateSeries } from "@/lib/exercises/generators/math";
 import { useSeriesGame } from "@/lib/hooks/useSeriesGame";
 import { useProgressStore } from "@/lib/store/progressStore";
 import type { Difficulty, MathModule } from "@/lib/types";
-import { computeStars, DIFFICULTIES, MATH_MODULES, SERIES_LENGTH } from "@/lib/types";
+import {
+  computeStars,
+  DIFFICULTIES,
+  DIFFICULTY_LABELS,
+  MATH_MODULES,
+  MODULE_LABELS,
+  SERIES_LENGTH,
+} from "@/lib/types";
 
 type InputState = "idle" | "correct" | "wrong";
 
@@ -110,6 +118,7 @@ export default function GamePage({
       <BackLink href={`/maths/${mathMod}`} />
 
       <header className="grid gap-4 w-full text-center">
+        <PageTitle>{`${MODULE_LABELS[mathMod]} — ${DIFFICULTY_LABELS[difficulty]}`}</PageTitle>
         <p className="font-bold font-display text-white">
           {currentIdx + 1} / {series.length}
         </p>

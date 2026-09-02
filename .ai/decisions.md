@@ -197,3 +197,20 @@
 **Alternatives écartées :** Piper WASM dans le navigateur (bundle lourd) ; APIs cloud ; TTS Google Translate (ToS).
 
 **Conséquences :** ~148 fichiers à régénérer si le lexique change. Qualité actuelle = voix macOS Samantha (améliorable en relançant avec Piper).
+
+---
+
+## [2026-09-02] Matière Français — six modules QCM
+
+**Contexte :** Français était prévu sur l'accueil. L'anglais a montré qu'une matière non mathématique passe par `ModuleId` + QCM (`ChoiceGrid`, `useSeriesGame`). Six modules ont été retenus : homophones, nature des mots, accords, vocabulaire, conjugaison, lecture.
+
+**Décision :**
+- Hub `/francais` puis `[module]/[slot]` (série) et `[module]/[slot]/libre`. Une page de jeu dynamique pour tous les modules.
+- `FrenchModule` dans `ModuleId`, `FrenchSlot` dans `SeriesSlot`. Persist inchangé (ajout de clés, pas de migrate).
+- Banks dans `lib/exercises/generators/french/` (imports relatifs avec suffixe `.ts` pour Node). `allowImportingTsExtensions` est activé dans `tsconfig.json` (`noEmit` déjà vrai) pour que tsc accepte ces imports. Conjugaison générée depuis des tables de verbes. Lecture : `ReadingPrompt` + `QuizQuestion.passage`.
+- PWA `minigenius-v4`, PRECACHE `/francais`.
+
+**Alternatives écartées :** Extraire un `QuizSeriesGame` partagé anglais+français — l'anglais marche, une page française suffit. Dictée clavier et TTS français — hors QCM tablette / hors besoin de prononciation native.
+
+**Conséquences :** Toute nouvelle banque QCM française s'ajoute dans `french/` sans nouvelle route. `QuizQuestion.enToFr` devient optionnel.
+

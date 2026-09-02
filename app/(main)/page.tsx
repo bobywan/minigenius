@@ -25,8 +25,8 @@ const SUBJECTS = [
     label: "Français",
     icon: BookOpen,
     description: "Lecture, orthographe, grammaire",
-    active: false,
-    href: null,
+    active: true,
+    href: "/francais",
   },
   {
     id: "anglais",
