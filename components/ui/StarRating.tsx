@@ -8,14 +8,24 @@ interface StarRatingProps {
   stars: Stars;
   size?: "sm" | "md" | "lg";
   animate?: boolean;
+  className?: string;
 }
 
 const sizeMap = { sm: 18, md: 24, lg: 36 };
 
-export function StarRating({ stars, size = "md", animate = false }: StarRatingProps) {
+export function StarRating({
+  stars,
+  size = "md",
+  animate = false,
+  className = "",
+}: StarRatingProps) {
   const sz = sizeMap[size];
   return (
-    <div className="flex gap-1 items-center" role="img" aria-label={`${stars} étoile(s) sur 3`}>
+    <div
+      className={`flex gap-1 items-center ${className}`}
+      role="img"
+      aria-label={`${stars} étoile(s) sur 3`}
+    >
       {([1, 2, 3] as Stars[]).map((s) => {
         const filled = s <= stars;
         return animate ? (
