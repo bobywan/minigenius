@@ -12,8 +12,14 @@ export type EnglishTheme =
   | "couleurs"
   | "famille"
   | "nourriture"
+  | "cuisine"
   | "maison"
   | "nature"
+  | "ecole"
+  | "vetements"
+  | "transports"
+  | "sports"
+  | "emotions"
   | "actions"
   | "tout";
 
@@ -75,8 +81,14 @@ export const ENGLISH_THEMES: EnglishTheme[] = [
   "couleurs",
   "famille",
   "nourriture",
+  "cuisine",
   "maison",
   "nature",
+  "ecole",
+  "vetements",
+  "transports",
+  "sports",
+  "emotions",
   "actions",
   "tout",
 ];
@@ -87,8 +99,14 @@ export const ENGLISH_THEME_LABELS: Record<EnglishTheme, string> = {
   couleurs: "Couleurs",
   famille: "Famille",
   nourriture: "Nourriture",
+  cuisine: "Cuisine",
   maison: "Maison",
   nature: "Nature",
+  ecole: "École",
+  vetements: "Vêtements",
+  transports: "Transports",
+  sports: "Sports",
+  emotions: "Émotions",
   actions: "Actions",
   tout: "Tout mélanger",
 };

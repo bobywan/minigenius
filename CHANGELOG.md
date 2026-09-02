@@ -10,7 +10,8 @@ Format basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
 
 ### Ajouté
 
-- Anglais par thèmes (animaux, corps, couleurs, famille, nourriture, maison, nature, actions, tout)
+- Anglais par thèmes (animaux, corps, couleurs, famille, nourriture, cuisine, maison, nature, école, vêtements, transports, sports, émotions, actions, tout)
+- Vocabulaire anglais enrichi (~30 mots par thème) + 6 thèmes (cuisine, école, vêtements, transports, sports, émotions)
 
 - Prononciation anglaise : MP3 par mot (`public/audio/en/`)
 
