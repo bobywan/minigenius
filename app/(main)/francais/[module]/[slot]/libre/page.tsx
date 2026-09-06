@@ -71,7 +71,7 @@ export default function FrenchLibrePage({
         {frenchModule === "lecture" && question.passage ? (
           <ReadingPrompt passage={question.passage} question={question.prompt} />
         ) : (
-          <WordPrompt prompt={question.prompt} variant="sentence" />
+          <WordPrompt prompt={question.prompt} variant="sentence" highlightWord={question.highlightWord} />
         )}
 
         <ChoiceGrid

@@ -91,26 +91,14 @@ function seedsForTense(tense: ConjugaisonTense): QuizSeed[] {
       const answer = forms[person];
       if (!answer) continue;
 
-      const sameVerb = forms.filter((form) => form !== answer);
-      const otherVerbs = VERBS.filter((other) => other.infinitive !== verb.infinitive)
-        .map((other) => other[tense][person])
-        .filter((form): form is string => Boolean(form) && form !== answer);
-
-      const distractors: string[] = [];
-      const seen = new Set([answer]);
-      for (const candidate of shuffle([...sameVerb, ...otherVerbs])) {
-        if (distractors.length === 3) break;
-        if (seen.has(candidate)) continue;
-        seen.add(candidate);
-        distractors.push(candidate);
-      }
+      const distractors = shuffle([...new Set(forms.filter((f) => f !== answer))]).slice(0, 3);
 
       if (distractors.length < 3) {
         throw new Error(`Pas assez de distracteurs pour ${PERSONS[person]} (${verb.infinitive})`);
       }
 
       seeds.push({
-        prompt: `${PERSONS[person]} (${verb.infinitive}) au ${label}`,
+        prompt: `${PERSONS[person]} ___ (${verb.infinitive}, ${label})`,
         answer,
         distractors,
       });
