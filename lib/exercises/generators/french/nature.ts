@@ -6,47 +6,128 @@ const A = ["nom", "verbe", "déterminant"] as const;
 const D = ["nom", "verbe", "adjectif"] as const;
 
 export const NATURE_BANK: QuizSeed[] = [
-  { prompt: "Dans « Le chat noir dort. », chat est un…", answer: "nom", distractors: N },
-  { prompt: "Dans « Le chat noir dort. », dort est un…", answer: "verbe", distractors: V },
-  { prompt: "Dans « Le chat noir dort. », noir est un…", answer: "adjectif", distractors: A },
-  { prompt: "Dans « Le chat noir dort. », Le est un…", answer: "déterminant", distractors: D },
-  { prompt: "Dans « Une petite fille lit. », fille est un…", answer: "nom", distractors: N },
-  { prompt: "Dans « Une petite fille lit. », lit est un…", answer: "verbe", distractors: V },
-  { prompt: "Dans « Une petite fille lit. », petite est un…", answer: "adjectif", distractors: A },
-  { prompt: "Dans « Une petite fille lit. », Une est un…", answer: "déterminant", distractors: D },
+  // « Le chat noir dort. »
   {
-    prompt: "Dans « Les oiseaux bleus chantent. », oiseaux est un…",
+    prompt: `"chat" dans « Le chat noir dort. » est un…`,
+    highlightWord: `"chat"`,
     answer: "nom",
     distractors: N,
   },
   {
-    prompt: "Dans « Les oiseaux bleus chantent. », chantent est un…",
+    prompt: `"dort" dans « Le chat noir dort. » est un…`,
+    highlightWord: `"dort"`,
     answer: "verbe",
     distractors: V,
   },
   {
-    prompt: "Dans « Les oiseaux bleus chantent. », bleus est un…",
+    prompt: `"noir" dans « Le chat noir dort. » est un…`,
+    highlightWord: `"noir"`,
     answer: "adjectif",
     distractors: A,
   },
   {
-    prompt: "Dans « Les oiseaux bleus chantent. », Les est un…",
+    prompt: `"Le" dans « Le chat noir dort. » est un…`,
+    highlightWord: `"Le"`,
     answer: "déterminant",
     distractors: D,
   },
-  { prompt: "Dans « Mon grand frère court. », frère est un…", answer: "nom", distractors: N },
-  { prompt: "Dans « Mon grand frère court. », court est un…", answer: "verbe", distractors: V },
-  { prompt: "Dans « Mon grand frère court. », grand est un…", answer: "adjectif", distractors: A },
-  { prompt: "Dans « Mon grand frère court. », Mon est un…", answer: "déterminant", distractors: D },
-  { prompt: "Dans « Cette soupe chaude fume. », soupe est un…", answer: "nom", distractors: N },
-  { prompt: "Dans « Cette soupe chaude fume. », fume est un…", answer: "verbe", distractors: V },
+  // « Une petite fille lit. »
   {
-    prompt: "Dans « Cette soupe chaude fume. », chaude est un…",
+    prompt: `"fille" dans « Une petite fille lit. » est un…`,
+    highlightWord: `"fille"`,
+    answer: "nom",
+    distractors: N,
+  },
+  {
+    prompt: `"lit" dans « Une petite fille lit. » est un…`,
+    highlightWord: `"lit"`,
+    answer: "verbe",
+    distractors: V,
+  },
+  {
+    prompt: `"petite" dans « Une petite fille lit. » est un…`,
+    highlightWord: `"petite"`,
     answer: "adjectif",
     distractors: A,
   },
   {
-    prompt: "Dans « Cette soupe chaude fume. », Cette est un…",
+    prompt: `"Une" dans « Une petite fille lit. » est un…`,
+    highlightWord: `"Une"`,
+    answer: "déterminant",
+    distractors: D,
+  },
+  // « Les oiseaux bleus chantent. »
+  {
+    prompt: `"oiseaux" dans « Les oiseaux bleus chantent. » est un…`,
+    highlightWord: `"oiseaux"`,
+    answer: "nom",
+    distractors: N,
+  },
+  {
+    prompt: `"chantent" dans « Les oiseaux bleus chantent. » est un…`,
+    highlightWord: `"chantent"`,
+    answer: "verbe",
+    distractors: V,
+  },
+  {
+    prompt: `"bleus" dans « Les oiseaux bleus chantent. » est un…`,
+    highlightWord: `"bleus"`,
+    answer: "adjectif",
+    distractors: A,
+  },
+  {
+    prompt: `"Les" dans « Les oiseaux bleus chantent. » est un…`,
+    highlightWord: `"Les"`,
+    answer: "déterminant",
+    distractors: D,
+  },
+  // « Mon grand frère court. »
+  {
+    prompt: `"frère" dans « Mon grand frère court. » est un…`,
+    highlightWord: `"frère"`,
+    answer: "nom",
+    distractors: N,
+  },
+  {
+    prompt: `"court" dans « Mon grand frère court. » est un…`,
+    highlightWord: `"court"`,
+    answer: "verbe",
+    distractors: V,
+  },
+  {
+    prompt: `"grand" dans « Mon grand frère court. » est un…`,
+    highlightWord: `"grand"`,
+    answer: "adjectif",
+    distractors: A,
+  },
+  {
+    prompt: `"Mon" dans « Mon grand frère court. » est un…`,
+    highlightWord: `"Mon"`,
+    answer: "déterminant",
+    distractors: D,
+  },
+  // « Cette soupe chaude fume. »
+  {
+    prompt: `"soupe" dans « Cette soupe chaude fume. » est un…`,
+    highlightWord: `"soupe"`,
+    answer: "nom",
+    distractors: N,
+  },
+  {
+    prompt: `"fume" dans « Cette soupe chaude fume. » est un…`,
+    highlightWord: `"fume"`,
+    answer: "verbe",
+    distractors: V,
+  },
+  {
+    prompt: `"chaude" dans « Cette soupe chaude fume. » est un…`,
+    highlightWord: `"chaude"`,
+    answer: "adjectif",
+    distractors: A,
+  },
+  {
+    prompt: `"Cette" dans « Cette soupe chaude fume. » est un…`,
+    highlightWord: `"Cette"`,
     answer: "déterminant",
     distractors: D,
   },

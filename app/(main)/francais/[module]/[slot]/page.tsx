@@ -130,7 +130,7 @@ export default function FrenchQuizPage({
             {frenchModule === "lecture" && current.passage ? (
               <ReadingPrompt passage={current.passage} question={current.prompt} />
             ) : (
-              <WordPrompt prompt={current.prompt} variant="sentence" />
+              <WordPrompt prompt={current.prompt} variant="sentence" highlightWord={current.highlightWord} />
             )}
 
             <ChoiceGrid

@@ -65,6 +65,7 @@ export interface QuizQuestion {
   answerIndex: number; // index de la bonne réponse dans choices
   enToFr?: boolean; // true = prompt anglais / choix français (anglais uniquement)
   passage?: string; // texte de lecture (français / lecture)
+  highlightWord?: string; // sous-chaîne à coloriser dans le prompt (nature des mots)
 }
 
 export interface SeriesResult {

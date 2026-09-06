@@ -7,6 +7,7 @@ export type QuizSeed = {
   answer: string;
   distractors: readonly string[];
   passage?: string;
+  highlightWord?: string;
 };
 
 export function shuffle<T>(items: readonly T[]): T[] {
@@ -40,6 +41,7 @@ export function toQuestion(seed: QuizSeed): QuizQuestion {
     answerIndex: choices.indexOf(seed.answer),
   };
   if (seed.passage) question.passage = seed.passage;
+  if (seed.highlightWord) question.highlightWord = seed.highlightWord;
   return question;
 }
 
