@@ -1,4 +1,4 @@
-const CACHE = "minigenius-v4";
+const CACHE = "minigenius-v5";
 const PRECACHE = [
   "/",
   "/maths",
@@ -6,6 +6,7 @@ const PRECACHE = [
   "/anglais",
   "/anglais/traduction",
   "/francais",
+  "/histoire",
   "/mini-jeux",
 ];
 

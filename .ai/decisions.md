@@ -231,3 +231,21 @@
 
 **Conséquences :** Ajouter un slot anglais = une banque + une entrée dans `ENGLISH_QUIZ_SLOTS`. La traduction n'est pas touchée.
 
+---
+
+## [2026-09-08] Matière Histoire — six modules QCM primaire
+
+**Contexte :** Histoire était prévu sur l'accueil. Le français et l'anglais QCM ont montré qu'une matière non mathématique passe par `ModuleId` + `ChoiceGrid` / `useSeriesGame`. Le contenu doit rester dans le programme d'histoire du primaire (CE2–CM2, programmes 2026), pas le collège.
+
+**Décision :**
+- Hub `/histoire` puis `[module]/[slot]` (série) et `[module]/[slot]/libre`, calqué sur le français.
+- Six modules par période : préhistoire, Rome et la Gaule, Moyen Âge, les rois, 1789, France récente. Un seul slot `mixte` chacun.
+- `HistoryModule` dans `ModuleId`. Persist inchangé (ajout de clés, pas de migrate).
+- Banks dans `lib/exercises/generators/history/` (imports relatifs avec suffixe `.ts`). Réutilisation de `pickSeries` / `QuizSeed` depuis `french/quiz.ts`.
+- Hors v1 : Égypte / Grèce (6e), explorations / traite, Lecture dédiée, sous-slots Qui/Quoi/Quand. Guerres limitées aux dates-repères et au souvenir.
+- PWA `minigenius-v5`, PRECACHE `/histoire`.
+
+**Alternatives écartées :** Extraire un `QuizSeriesGame` partagé — le français et l'anglais QCM marchent déjà. Organiser le hub par compétences (dates / personnages / événements) — l'enfant choisit une période, comme à l'école.
+
+**Conséquences :** Ajouter un module histoire = une banque + une entrée dans `HISTORY_MODULES`. Les autres matières ne sont pas touchées.
+
