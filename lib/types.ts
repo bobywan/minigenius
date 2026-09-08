@@ -43,11 +43,31 @@ export type LectureSlot = "animaux" | "ecole" | "maison" | "quotidien" | "tout";
 
 export type FrenchSlot = HomophoneSlot | AccordSlot | VocabSlot | ConjugaisonSlot | LectureSlot;
 
-export type ModuleId = MathModule | MixedModule | EnglishTheme | FrenchModule;
+export type EnglishQuizModule =
+  | "conjugaison"
+  | "phrases"
+  | "pluriels"
+  | "articles"
+  | "contraires"
+  | "lecture";
+
+export type EnglishConjugaisonSlot = "present" | "preterit" | "participe" | "mixte";
+
+export type EnglishPhrasesSlot = "to-be" | "prepositions" | "temps" | "mixte";
+
+export type EnglishPlurielsSlot = "regulier" | "irregulier" | "mixte";
+
+export type EnglishQuizSlot =
+  | EnglishConjugaisonSlot
+  | EnglishPhrasesSlot
+  | EnglishPlurielsSlot
+  | LectureSlot;
+
+export type ModuleId = MathModule | MixedModule | EnglishTheme | FrenchModule | EnglishQuizModule;
 
 export type Difficulty = "facile" | "moyen" | "expert";
 
-export type SeriesSlot = Difficulty | EnglishModule | MixedModule | FrenchSlot;
+export type SeriesSlot = Difficulty | EnglishModule | MixedModule | FrenchSlot | EnglishQuizSlot;
 
 export type Stars = 0 | 1 | 2 | 3;
 
@@ -188,6 +208,61 @@ export function isFrenchModule(value: string): value is FrenchModule {
 
 export function isFrenchSlot(module: FrenchModule, slot: string): slot is FrenchSlot {
   return FRENCH_SLOTS[module].includes(slot as FrenchSlot);
+}
+
+export const ENGLISH_QUIZ_MODULES: EnglishQuizModule[] = [
+  "conjugaison",
+  "phrases",
+  "pluriels",
+  "articles",
+  "contraires",
+  "lecture",
+];
+
+export const ENGLISH_QUIZ_MODULE_LABELS: Record<EnglishQuizModule, string> = {
+  conjugaison: "Conjugaison",
+  phrases: "Phrases",
+  pluriels: "Pluriels",
+  articles: "Articles",
+  contraires: "Contraires",
+  lecture: "Lecture",
+};
+
+export const ENGLISH_QUIZ_SLOTS: Record<EnglishQuizModule, readonly EnglishQuizSlot[]> = {
+  conjugaison: ["present", "preterit", "participe", "mixte"],
+  phrases: ["to-be", "prepositions", "temps", "mixte"],
+  pluriels: ["regulier", "irregulier", "mixte"],
+  articles: ["mixte"],
+  contraires: ["mixte"],
+  lecture: ["animaux", "ecole", "maison", "quotidien", "tout"],
+};
+
+export const ENGLISH_QUIZ_SLOT_LABELS: Record<EnglishQuizSlot, string> = {
+  present: "Présent",
+  preterit: "Prétérit",
+  participe: "Participe",
+  mixte: "Tout mélanger",
+  "to-be": "to be / to have",
+  prepositions: "Prépositions",
+  temps: "Présent ou prétérit",
+  regulier: "Régulier",
+  irregulier: "Irrégulier",
+  animaux: "Animaux",
+  ecole: "École",
+  maison: "Maison",
+  quotidien: "Quotidien",
+  tout: "Tout mélanger",
+};
+
+export function isEnglishQuizModule(value: string): value is EnglishQuizModule {
+  return ENGLISH_QUIZ_MODULES.includes(value as EnglishQuizModule);
+}
+
+export function isEnglishQuizSlot(
+  module: EnglishQuizModule,
+  slot: string,
+): slot is EnglishQuizSlot {
+  return ENGLISH_QUIZ_SLOTS[module].includes(slot as EnglishQuizSlot);
 }
 
 export const DIFFICULTIES: Difficulty[] = ["facile", "moyen", "expert"];

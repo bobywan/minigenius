@@ -10,31 +10,32 @@ import { BackLink } from "@/components/ui/BackLink";
 import { PageSubtitle } from "@/components/ui/PageSubtitle";
 import { PageTitle } from "@/components/ui/PageTitle";
 import { playError, playSuccess } from "@/lib/audio/sounds";
-import { generateOneFrenchQuiz } from "@/lib/exercises/generators/french";
+import { generateOneEnglishQuiz } from "@/lib/exercises/generators/english-quiz";
 import { useLibreGame } from "@/lib/hooks/useLibreGame";
-import type { FrenchModule, FrenchSlot } from "@/lib/types";
-import { FRENCH_MODULE_LABELS, isFrenchModule, isFrenchSlot } from "@/lib/types";
+import type { EnglishQuizModule, EnglishQuizSlot } from "@/lib/types";
+import { ENGLISH_QUIZ_MODULE_LABELS, isEnglishQuizModule, isEnglishQuizSlot } from "@/lib/types";
 
-export default function FrenchLibrePage({
+export default function EnglishQuizLibrePage({
   params,
 }: {
   params: Promise<{ module: string; slot: string }>;
 }) {
   const { module: rawModule, slot: rawSlot } = use(params);
 
-  if (!isFrenchModule(rawModule)) notFound();
-  if (!isFrenchSlot(rawModule, rawSlot)) notFound();
+  if (!isEnglishQuizModule(rawModule)) notFound();
+  if (!isEnglishQuizSlot(rawModule, rawSlot)) notFound();
 
-  const frenchModule = rawModule as FrenchModule;
-  const frenchSlot = rawSlot as FrenchSlot;
+  const quizModule = rawModule as EnglishQuizModule;
+  const quizSlot = rawSlot as EnglishQuizSlot;
 
   const generate = useCallback(
-    () => generateOneFrenchQuiz(frenchModule, frenchSlot),
-    [frenchModule, frenchSlot],
+    () => generateOneEnglishQuiz(quizModule, quizSlot),
+    [quizModule, quizSlot],
   );
   const { item: question, correctCount, isInFeedback, onCorrect, onWrong } = useLibreGame(generate);
 
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const enableSpeech = quizModule === "conjugaison" || quizModule === "pluriels";
 
   const handleSelect = useCallback(
     (index: number) => {
@@ -52,7 +53,7 @@ export default function FrenchLibrePage({
     [isInFeedback, question, onCorrect, onWrong],
   );
 
-  const backHref = `/francais/${frenchModule}`;
+  const backHref = `/anglais/${quizModule}`;
 
   if (!question) {
     return <GamePendingShell backHref={backHref} />;
@@ -63,19 +64,15 @@ export default function FrenchLibrePage({
       <BackLink href={backHref} />
 
       <header className="grid gap-4 w-full text-center">
-        <PageTitle>{`${FRENCH_MODULE_LABELS[frenchModule]} — Libre`}</PageTitle>
+        <PageTitle>{`${ENGLISH_QUIZ_MODULE_LABELS[quizModule]} — Libre`}</PageTitle>
         <PageSubtitle>{correctCount} bonnes réponses</PageSubtitle>
       </header>
 
       <div className="flex flex-col items-center gap-8 w-full max-w-md bg-white p-8 rounded-xl">
-        {frenchModule === "lecture" && question.passage ? (
+        {quizModule === "lecture" && question.passage ? (
           <ReadingPrompt passage={question.passage} question={question.prompt} />
         ) : (
-          <WordPrompt
-            prompt={question.prompt}
-            variant="sentence"
-            highlightWord={question.highlightWord}
-          />
+          <WordPrompt prompt={question.prompt} variant="sentence" />
         )}
 
         <ChoiceGrid
@@ -85,6 +82,7 @@ export default function FrenchLibrePage({
           revealed={isInFeedback}
           highlightCorrect={selectedIdx === question.answerIndex}
           onSelect={handleSelect}
+          enableSpeech={enableSpeech}
         />
       </div>
     </main>
