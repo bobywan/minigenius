@@ -87,7 +87,7 @@ export default function TraductionPage() {
           );
         })}
 
-        <Link href="/anglais/traduction/tout" className="group lg:col-span-2">
+        <Link href="/anglais/traduction/tout" className="group">
           <Card className="justify-center">
             <Repeat size={40} className="shrink-0" />
             <div className="flex flex-col gap-1">

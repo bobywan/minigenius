@@ -123,13 +123,8 @@ export default function FrenchModulePage({ params }: { params: Promise<{ module:
         {ordered.map((slot) => {
           const Icon = SLOT_ICONS[slot] ?? Shapes;
           const stars = (mounted ? getStars("francais", frenchModule, slot) : 0) as Stars;
-          const wide = slot === "tout" || (slot === "mixte" && main.length > 0);
           return (
-            <Link
-              key={slot}
-              href={`/francais/${frenchModule}/${slot}`}
-              className={wide ? "group lg:col-span-2" : "group"}
-            >
+            <Link key={slot} href={`/francais/${frenchModule}/${slot}`} className="group">
               <Card className="justify-between">
                 <div className="flex items-center gap-4 flex-1">
                   <Icon size={40} className="shrink-0" />
