@@ -113,13 +113,8 @@ export default function EnglishQuizModulePage({ params }: { params: Promise<{ mo
         {ordered.map((slot) => {
           const Icon = SLOT_ICONS[slot] ?? Shapes;
           const stars = (mounted ? getStars("anglais", quizModule, slot) : 0) as Stars;
-          const wide = slot === "tout" || (slot === "mixte" && main.length > 0);
           return (
-            <Link
-              key={slot}
-              href={`/anglais/${quizModule}/${slot}`}
-              className={wide ? "group lg:col-span-2" : "group"}
-            >
+            <Link key={slot} href={`/anglais/${quizModule}/${slot}`} className="group">
               <Card className="justify-between">
                 <div className="flex items-center gap-4 flex-1">
                   <Icon size={40} className="shrink-0" />
