@@ -8,7 +8,6 @@ import {
   PawPrint,
   Pencil,
   PersonStanding,
-  Repeat,
   Shirt,
   Smile,
   Trophy,
@@ -18,12 +17,13 @@ import {
 import Link from "next/link";
 import { BackLink } from "@/components/ui/BackLink";
 import { Card } from "@/components/ui/Card";
+import { MixAllCard } from "@/components/ui/MixAllCard";
 import { PageSubtitle } from "@/components/ui/PageSubtitle";
 import { PageTitle } from "@/components/ui/PageTitle";
 import type { EnglishTheme } from "@/lib/types";
 import { ENGLISH_THEME_LABELS, ENGLISH_THEMES } from "@/lib/types";
 
-const THEME_ICONS: Record<EnglishTheme, typeof PawPrint> = {
+const THEME_ICONS: Record<Exclude<EnglishTheme, "tout">, typeof PawPrint> = {
   animaux: PawPrint,
   corps: PersonStanding,
   couleurs: Palette,
@@ -38,7 +38,6 @@ const THEME_ICONS: Record<EnglishTheme, typeof PawPrint> = {
   sports: Trophy,
   emotions: Smile,
   actions: Zap,
-  tout: Repeat,
 };
 
 const THEME_DESC: Record<EnglishTheme, string> = {
@@ -87,15 +86,7 @@ export default function TraductionPage() {
           );
         })}
 
-        <Link href="/anglais/traduction/tout" className="group">
-          <Card className="justify-center">
-            <Repeat size={40} className="shrink-0" />
-            <div className="flex flex-col gap-1">
-              <p className="text-2xl font-display">{ENGLISH_THEME_LABELS.tout}</p>
-              <p className="text-lg text-slate-700 font-body">{THEME_DESC.tout}</p>
-            </div>
-          </Card>
-        </Link>
+        <MixAllCard href="/anglais/traduction/tout" description={THEME_DESC.tout} />
       </div>
     </main>
   );

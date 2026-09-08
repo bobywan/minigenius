@@ -16,6 +16,7 @@ import { notFound } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { BackLink } from "@/components/ui/BackLink";
 import { Card } from "@/components/ui/Card";
+import { MixAllCard } from "@/components/ui/MixAllCard";
 import { PageSubtitle } from "@/components/ui/PageSubtitle";
 import { PageTitle } from "@/components/ui/PageTitle";
 import { StarRating } from "@/components/ui/StarRating";
@@ -108,7 +109,8 @@ export default function FrenchModulePage({ params }: { params: Promise<{ module:
   const slots = FRENCH_SLOTS[frenchModule];
   const mixed = slots.filter((slot) => slot === "tout" || slot === "mixte");
   const main = slots.filter((slot) => slot !== "tout" && slot !== "mixte");
-  const ordered = main.length > 0 ? [...main, ...mixed] : slots;
+  const mixCards = main.length > 0 ? mixed : [];
+  const regularSlots = main.length > 0 ? main : slots;
 
   return (
     <main className="flex flex-col items-center px-8 lg:px-16 py-8 lg:py-16 gap-8">
@@ -120,7 +122,7 @@ export default function FrenchModulePage({ params }: { params: Promise<{ module:
       </header>
 
       <div className="grid gap-4 w-full lg:grid-cols-2">
-        {ordered.map((slot) => {
+        {regularSlots.map((slot) => {
           const Icon = SLOT_ICONS[slot] ?? Shapes;
           const stars = (mounted ? getStars("francais", frenchModule, slot) : 0) as Stars;
           return (
@@ -140,6 +142,14 @@ export default function FrenchModulePage({ params }: { params: Promise<{ module:
             </Link>
           );
         })}
+
+        {mixCards.map((slot) => (
+          <MixAllCard
+            key={slot}
+            href={`/francais/${frenchModule}/${slot}`}
+            description={slotDescription(frenchModule, slot)}
+          />
+        ))}
 
         <Link href={`/francais/${frenchModule}/${libreSlot(frenchModule)}/libre`} className="group">
           <Card className="justify-center">

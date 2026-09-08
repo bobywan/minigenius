@@ -1,11 +1,12 @@
 "use client";
 
-import { ArrowLeftRight, Languages, Repeat } from "lucide-react";
+import { ArrowLeftRight, Languages } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { BackLink } from "@/components/ui/BackLink";
 import { Card } from "@/components/ui/Card";
+import { MixAllCard } from "@/components/ui/MixAllCard";
 import { PageSubtitle } from "@/components/ui/PageSubtitle";
 import { PageTitle } from "@/components/ui/PageTitle";
 import { StarRating } from "@/components/ui/StarRating";
@@ -18,10 +19,9 @@ import {
   ENGLISH_THEMES,
 } from "@/lib/types";
 
-const MODE_ICONS: Record<EnglishModule | MixedModule, typeof Languages> = {
+const MODE_ICONS: Record<EnglishModule, typeof Languages> = {
   "en-fr": Languages,
   "fr-en": ArrowLeftRight,
-  mixte: Repeat,
 };
 
 const MODE_DESC: Record<EnglishModule | MixedModule, string> = {
@@ -52,24 +52,35 @@ export default function ThemePage({ params }: { params: Promise<{ theme: string 
       </header>
 
       <div className="grid gap-4 w-full lg:grid-cols-2">
-        {ENGLISH_DIRECTIONS.map((mode) => {
-          const Icon = MODE_ICONS[mode];
-          const stars = (mounted ? getStars("anglais", englishTheme, mode) : 0) as Stars;
-          return (
-            <Link key={mode} href={`/anglais/traduction/${englishTheme}/${mode}`} className="group">
-              <Card className="justify-between">
-                <div className="flex items-center gap-4 flex-1">
-                  <Icon size={40} className="shrink-0" />
-                  <div className="flex flex-col gap-1">
-                    <p className="text-2xl font-display">{ENGLISH_MODULE_LABELS[mode]}</p>
-                    <p className="text-base text-slate-700 font-body">{MODE_DESC[mode]}</p>
+        {ENGLISH_DIRECTIONS.filter((mode): mode is EnglishModule => mode !== "mixte").map(
+          (mode) => {
+            const Icon = MODE_ICONS[mode];
+            const stars = (mounted ? getStars("anglais", englishTheme, mode) : 0) as Stars;
+            return (
+              <Link
+                key={mode}
+                href={`/anglais/traduction/${englishTheme}/${mode}`}
+                className="group"
+              >
+                <Card className="justify-between">
+                  <div className="flex items-center gap-4 flex-1">
+                    <Icon size={40} className="shrink-0" />
+                    <div className="flex flex-col gap-1">
+                      <p className="text-2xl font-display">{ENGLISH_MODULE_LABELS[mode]}</p>
+                      <p className="text-base text-slate-700 font-body">{MODE_DESC[mode]}</p>
+                    </div>
                   </div>
-                </div>
-                <StarRating stars={stars} size="sm" />
-              </Card>
-            </Link>
-          );
-        })}
+                  <StarRating stars={stars} size="sm" />
+                </Card>
+              </Link>
+            );
+          },
+        )}
+
+        <MixAllCard
+          href={`/anglais/traduction/${englishTheme}/mixte`}
+          description={MODE_DESC.mixte}
+        />
 
         <Link href={`/anglais/traduction/${englishTheme}/libre`} className="group">
           <Card className="justify-center">

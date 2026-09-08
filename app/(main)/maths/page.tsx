@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { BackLink } from "@/components/ui/BackLink";
 import { BadgeModule } from "@/components/ui/BadgeModule";
-import { Card } from "@/components/ui/Card";
+import { MixAllCard } from "@/components/ui/MixAllCard";
 import { PageSubtitle } from "@/components/ui/PageSubtitle";
 import { PageTitle } from "@/components/ui/PageTitle";
 import { MATH_MODULES } from "@/lib/types";
@@ -21,11 +20,7 @@ export default function MathsPage() {
           <BadgeModule key={mod} module={mod} href={`/maths/${mod}`} />
         ))}
 
-        <Link href="/maths/mixte" className="group">
-          <Card className="justify-center">
-            <p className="text-2xl font-display">Tout mélanger</p>
-          </Card>
-        </Link>
+        <MixAllCard href="/maths/mixte" description="Toutes les opérations mélangées" />
       </div>
     </main>
   );
