@@ -12,14 +12,19 @@ Format basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
 
 - Anglais par thèmes (animaux, corps, couleurs, famille, nourriture, cuisine, maison, nature, école, vêtements, transports, sports, émotions, actions, tout)
 - Vocabulaire anglais enrichi (~30 mots par thème) + 6 thèmes (cuisine, école, vêtements, transports, sports, émotions)
-
 - Prononciation anglaise : MP3 par mot (`public/audio/en/`)
+- Français : 6 modules QCM (homophones, nature, accords, vocabulaire, conjugaison, lecture)
+- Anglais : 6 modules QCM hors traduction (conjugaison, phrases, pluriels, articles, contraires, lecture)
+- Histoire : 6 périodes QCM (préhistoire, Rome et la Gaule, Moyen Âge, les rois, 1789, France récente)
+- Mini-jeu Course
+- Design system blanc + sol vert ondulant
 
 ### Modifié
 
 - Parcours traduction : thème puis sens (en-fr / fr-en / mixte) — plus de facile / moyen / expert côté anglais
 - Persist progression `minigenius-progress` version 2
 - `.env.example` : plus de placeholders Auth / DB / Stripe (aucune env requise)
+- Tokens CSS cartoon retirés ; identité npm `minigenius`
 
 ### Retiré
 

@@ -116,15 +116,15 @@ export default function DesignPage() {
         <Section id="principes" title="Principes">
           <div className="flex flex-col gap-3 text-white">
             <p>
-              Le design system repose sur un thème <strong>blanc/emerald/amber</strong> épuré et
-              moderne.
+              Le design system repose sur un fond <strong>sky-800</strong>, des cartes blanches et
+              six familles de couleurs.
             </p>
             <ul className="list-disc list-inside space-y-2 ml-4">
-              <li>
-                Fond blanc avec effet de sol vert ondulant (emerald-500/600) via pseudo-éléments CSS
-              </li>
+              <li>Fond sky-800 avec sol vert ondulant (emerald-500/600) via pseudo-éléments CSS</li>
               <li>Composants blancs avec effets hover emerald</li>
-              <li>Accent amber pour boutons secondaires et étoiles</li>
+              <li>
+                Six familles : bleu nuit, vert menthe, jaune ambre, framboise, pervenche, corail
+              </li>
               <li>Typographie : Titan One (display) + Nunito (body)</li>
               <li>Effets 3D cartoon avec ombres et translations</li>
             </ul>
@@ -132,16 +132,49 @@ export default function DesignPage() {
         </Section>
 
         <Section id="couleurs" title="Palette de couleurs">
-          <div className="grid grid-cols-3 md:grid-cols-5 gap-6">
-            <Swatch name="Emerald 500" className="bg-emerald-500" />
-            <Swatch name="Emerald 400" className="bg-emerald-400" />
-            <Swatch name="Amber 500" className="bg-amber-500" />
-            <Swatch name="Amber 400" className="bg-amber-400" />
-            <Swatch name="Sky 800" className="bg-sky-800" />
-            <Swatch name="Sky 700" className="bg-sky-700" />
-            <Swatch name="Slate 700" className="bg-slate-700" />
-            <Swatch name="Slate 500" className="bg-slate-500" />
-            <Swatch name="White" className="bg-white border-slate-300" />
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+            <div className="flex flex-col gap-3 items-center">
+              <p className="text-sm text-white font-body">Bleu nuit</p>
+              <div className="flex gap-4">
+                <Swatch name="Sky 800" className="bg-sky-800" />
+                <Swatch name="Cyan 900" className="bg-cyan-900" />
+              </div>
+            </div>
+            <div className="flex flex-col gap-3 items-center">
+              <p className="text-sm text-white font-body">Vert menthe</p>
+              <div className="flex gap-4">
+                <Swatch name="Emerald 500" className="bg-emerald-500" />
+                <Swatch name="Teal 500" className="bg-teal-500" />
+              </div>
+            </div>
+            <div className="flex flex-col gap-3 items-center">
+              <p className="text-sm text-white font-body">Jaune ambre</p>
+              <div className="flex gap-4">
+                <Swatch name="Amber 500" className="bg-amber-500" />
+                <Swatch name="Orange 400" className="bg-orange-400" />
+              </div>
+            </div>
+            <div className="flex flex-col gap-3 items-center">
+              <p className="text-sm text-white font-body">Framboise</p>
+              <div className="flex gap-4">
+                <Swatch name="Rose 700" className="bg-rose-700" />
+                <Swatch name="Pink 800" className="bg-pink-800" />
+              </div>
+            </div>
+            <div className="flex flex-col gap-3 items-center">
+              <p className="text-sm text-white font-body">Pervenche</p>
+              <div className="flex gap-4">
+                <Swatch name="Indigo 400" className="bg-indigo-400" />
+                <Swatch name="Slate 400" className="bg-slate-400" />
+              </div>
+            </div>
+            <div className="flex flex-col gap-3 items-center">
+              <p className="text-sm text-white font-body">Corail</p>
+              <div className="flex gap-4">
+                <Swatch name="Orange 600" className="bg-orange-600" />
+                <Swatch name="Red 500" className="bg-red-500" />
+              </div>
+            </div>
           </div>
         </Section>
 
@@ -316,10 +349,12 @@ export default function DesignPage() {
           <div className="bg-white rounded-xl p-6 border-2 border-slate-200">
             <pre className="text-xs font-mono text-slate-700 overflow-x-auto">
               {`/* Usage réel — Tailwind + tokens @theme */
-emerald-500 / emerald-400   /* actions primaires */
-amber-500 / amber-400       /* secondaire, score, étoiles */
-sky-800 / sky-700           /* fond, titres, ghost */
-slate-700 / slate-500       /* texte body */
+sky-800 / cyan-900          /* bleu nuit — fond, titres */
+emerald-500 / teal-500      /* vert menthe — actions, sol */
+amber-500 / orange-400      /* jaune ambre — secondaire, étoiles */
+rose-700 / pink-800         /* framboise */
+indigo-400 / slate-400      /* pervenche */
+orange-600 / red-500        /* corail */
 
 --font-display: Titan One
 --font-body: Nunito
@@ -331,7 +366,7 @@ slate-700 / slate-500       /* texte body */
 
         <footer className="text-center text-sm text-white pt-8 border-t border-slate-200">
           <p>
-            Design system MiniGenius — Version 2.0 (Blanc/Emerald/Amber)
+            Design system MiniGenius — 6 familles, sol vert
             <br />
             <Link href="/" className="text-white font-bold hover:underline">
               Retour à l'accueil

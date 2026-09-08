@@ -37,7 +37,7 @@ export function ChoiceGrid({
               type="button"
               onClick={() => onSelect(idx)}
               disabled={inactive}
-              whileTap={inactive ? undefined : { y: 4, boxShadow: "0 1px 0 #0f0826" }}
+              whileTap={inactive ? undefined : { y: 4, boxShadow: "0 1px 0 #0c4a6e" }}
               className={[
                 "flex-1 min-h-[60px] p-4 rounded-[var(--radius-btn)]",
                 "font-bold text-xl text-white select-none",

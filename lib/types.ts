@@ -83,7 +83,13 @@ export type ModuleId =
 
 export type Difficulty = "facile" | "moyen" | "expert";
 
-export type SeriesSlot = Difficulty | EnglishModule | MixedModule | FrenchSlot | EnglishQuizSlot;
+export type SeriesSlot =
+  | Difficulty
+  | EnglishModule
+  | MixedModule
+  | FrenchSlot
+  | EnglishQuizSlot
+  | HistorySlot;
 
 export type Stars = 0 | 1 | 2 | 3;
 
@@ -122,8 +128,6 @@ export const MATH_MODULES: MathModule[] = [
   "multiplication",
   "division",
 ];
-
-export const ENGLISH_MODULES: EnglishModule[] = ["en-fr", "fr-en"];
 
 export const ENGLISH_DIRECTIONS: (EnglishModule | MixedModule)[] = ["en-fr", "fr-en", "mixte"];
 

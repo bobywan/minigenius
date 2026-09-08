@@ -4,8 +4,8 @@
   "description": "L'app éducative pour les petits génies",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#070b18",
-  "theme_color": "#070b18",
+  "background_color": "#075985",
+  "theme_color": "#075985",
   "orientation": "portrait",
   "icons": [
     {

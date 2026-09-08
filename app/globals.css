@@ -1,57 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  /* Fond */
-  --color-blue: #115ded;
-  --color-cyan: #49ebfe;
-  --color-purple: #3a2480;
-  --color-purple-light: #4a2fa0;
-
-  /* Rose vif */
-  --color-pink-400: #ff6ec7;
-  --color-pink-500: #ff4eb8;
-
-  /* Orange */
-  --color-orange-400: #ffaa4d;
-  --color-orange-500: #ff8c00;
-
-  /* Jaune — titres / highlights */
-  --color-yellow-400: #ffe566;
-  --color-yellow-500: #ffe600;
-
-  /* Vert lime */
-  --color-green-400: #7fff6e;
-  --color-green-500: #3dff91;
-
-  /* Rouge-orange */
-  --color-red-400: #ff6b6b;
-  --color-red-500: #ff4757;
-
-  /* Neutres — chauds violacés */
-  --color-neutral-900: #0f0826;
-  --color-neutral-700: #2d1b69;
-  --color-neutral-600: #4a3a7a;
-  --color-neutral-100: #e8e0ff;
-  --color-neutral-50: #f5f0ff;
-
-  /* Typographie */
   --font-display: var(--font-titan-one), ui-rounded, sans-serif;
   --font-body: var(--font-nunito), ui-sans-serif, sans-serif;
 
-  /* Rayons — cartoon arrondis */
   --radius-card: 1.5rem;
   --radius-btn: 1rem;
-
-  /* Ombres — effet 3D cartoon */
-  --shadow-card: 0 6px 0 #0f0826, 0 10px 30px rgba(0, 0, 0, 0.4);
-  --shadow-btn: 0 5px 0 #0f0826;
-  --shadow-pink: 0 5px 0 #8b1a5a;
-  --shadow-orange: 0 5px 0 #8b4a00;
-  --shadow-green: 0 5px 0 #1a6b3a;
-  --shadow-red: 0 5px 0 #8b1a1a;
-
-  /* Text-shadow cartoon — contour noir solide */
-  --text-shadow-solid: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0 2px 0 #000;
 }
 
 @layer base {
@@ -73,7 +27,7 @@
 
   body {
     min-height: 100%;
-    color: var(--color-neutral-800);
+    color: #f8fafc; /* sky-50 — contraste sur bg-sky-800 */
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
