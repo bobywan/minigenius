@@ -63,7 +63,23 @@ export type EnglishQuizSlot =
   | EnglishPlurielsSlot
   | LectureSlot;
 
-export type ModuleId = MathModule | MixedModule | EnglishTheme | FrenchModule | EnglishQuizModule;
+export type HistoryModule =
+  | "prehistoire"
+  | "gaule-rome"
+  | "moyen-age"
+  | "rois"
+  | "revolution"
+  | "france-recente";
+
+export type HistorySlot = "mixte";
+
+export type ModuleId =
+  | MathModule
+  | MixedModule
+  | EnglishTheme
+  | FrenchModule
+  | EnglishQuizModule
+  | HistoryModule;
 
 export type Difficulty = "facile" | "moyen" | "expert";
 
@@ -263,6 +279,45 @@ export function isEnglishQuizSlot(
   slot: string,
 ): slot is EnglishQuizSlot {
   return ENGLISH_QUIZ_SLOTS[module].includes(slot as EnglishQuizSlot);
+}
+
+export const HISTORY_MODULES: HistoryModule[] = [
+  "prehistoire",
+  "gaule-rome",
+  "moyen-age",
+  "rois",
+  "revolution",
+  "france-recente",
+];
+
+export const HISTORY_MODULE_LABELS: Record<HistoryModule, string> = {
+  prehistoire: "Préhistoire",
+  "gaule-rome": "Rome et la Gaule",
+  "moyen-age": "Moyen Âge",
+  rois: "Les rois",
+  revolution: "1789",
+  "france-recente": "La France récente",
+};
+
+export const HISTORY_SLOTS: Record<HistoryModule, readonly HistorySlot[]> = {
+  prehistoire: ["mixte"],
+  "gaule-rome": ["mixte"],
+  "moyen-age": ["mixte"],
+  rois: ["mixte"],
+  revolution: ["mixte"],
+  "france-recente": ["mixte"],
+};
+
+export const HISTORY_SLOT_LABELS: Record<HistorySlot, string> = {
+  mixte: "Série de 10",
+};
+
+export function isHistoryModule(value: string): value is HistoryModule {
+  return HISTORY_MODULES.includes(value as HistoryModule);
+}
+
+export function isHistorySlot(module: HistoryModule, slot: string): slot is HistorySlot {
+  return HISTORY_SLOTS[module].includes(slot as HistorySlot);
 }
 
 export const DIFFICULTIES: Difficulty[] = ["facile", "moyen", "expert"];

@@ -8,7 +8,7 @@
 ## Objectif du projet
 
 MiniGenius est une application web éducative gamifiée pour les enfants (6–12 ans).
-Elle propose des exercices de maths et de vocabulaire anglais interactifs avec progression par étoiles, effets sonores et confettis — pensée pour être utilisée sur tablette.
+Elle propose des exercices de maths, français, anglais et histoire interactifs avec progression par étoiles, effets sonores et confettis — pensée pour être utilisée sur tablette.
 
 ---
 
@@ -63,6 +63,12 @@ app/
         page.tsx                          # Slots + jeu libre
         [slot]/page.tsx                   # Série de 10
         [slot]/libre/page.tsx
+    histoire/
+      page.tsx                            # 6 modules QCM (périodes primaire)
+      [module]/                           # prehistoire | gaule-rome | moyen-age | rois | revolution | france-recente
+        page.tsx                          # mixte + jeu libre
+        [slot]/page.tsx                   # Série de 10
+        [slot]/libre/page.tsx
     mini-jeux/
   design/page.tsx                         # Design system
 components/
@@ -76,6 +82,7 @@ lib/
   exercises/generators/english.ts      # vocabulaire traduction
   exercises/generators/english-quiz/   # banks QCM (conjugaison, phrases, …)
   exercises/generators/french/         # banks QCM + index
+  exercises/generators/history/        # banks QCM primaire (périodes)
   store/progressStore.ts
   audio/
 public/
@@ -100,6 +107,7 @@ public/
 - Anglais traduction : thème × sens (`saveResult("anglais", "animaux", "en-fr", …)` ; tous les thèmes = `"tout"`)
 - Anglais QCM : module × slot (`saveResult("anglais", "conjugaison", "preterit", …)`)
 - Français : module × slot (`saveResult("francais", "homophones", "a-a", …)`)
+- Histoire : module × slot (`saveResult("histoire", "prehistoire", "mixte", …)`)
 - Tous les modules, thèmes, modes et difficultés sont jouables d'emblée (pas de verrou)
 - Progression dans localStorage (`minigenius-progress`, persist v2) — pas de reset dans l'UI
 
@@ -143,7 +151,7 @@ Thème épuré blanc/emerald/amber — fond blanc avec sol vert ondulant, compos
 | Anglais | Actif — traduction par thème + 6 modules QCM (conjugaison, phrases, pluriels, articles, contraires, lecture) |
 | Français | Actif — 6 modules QCM (homophones, nature, accords, vocabulaire, conjugaison, lecture) |
 | Mini-jeux | Actif — pendu, runner |
-| Histoire | Bientôt |
+| Histoire | Actif — 6 modules QCM (préhistoire, Rome et la Gaule, Moyen Âge, les rois, 1789, France récente) |
 
 ---
 
@@ -155,4 +163,5 @@ Thème épuré blanc/emerald/amber — fond blanc avec sol vert ondulant, compos
 - `node lib/exercises/generators/english.check.mjs` — vocabulaire / séries QCM / MP3
 - `node lib/exercises/generators/english-quiz.check.mjs` — banks QCM anglais / séries
 - `node lib/exercises/generators/french.check.mjs` — banks français / séries QCM
+- `node lib/exercises/generators/history.check.mjs` — banks histoire / séries QCM
 - `/design` — design system et playground des écrans de jeu

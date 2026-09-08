@@ -40,9 +40,9 @@ const SUBJECTS = [
     id: "histoire",
     label: "Histoire",
     icon: Landmark,
-    description: "Dates, personnages, événements",
-    active: false,
-    href: null,
+    description: "Préhistoire, rois, Révolution",
+    active: true,
+    href: "/histoire",
   },
   {
     id: "mini-jeux",
