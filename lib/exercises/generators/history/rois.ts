@@ -21,11 +21,7 @@ export const ROIS_BANK: QuizSeed[] = [
   {
     prompt: "Versailles montre surtout…",
     answer: "le pouvoir du roi",
-    distractors: [
-      "la richesse de la cour seulement",
-      "la paix du royaume",
-      "les arts seulement",
-    ],
+    distractors: ["la richesse de la cour seulement", "la paix du royaume", "les arts seulement"],
   },
   {
     prompt: "François Ier est un roi de la…",
@@ -40,11 +36,7 @@ export const ROIS_BANK: QuizSeed[] = [
   {
     prompt: "Un roi mécène, c'est un roi qui…",
     answer: "protège les artistes",
-    distractors: [
-      "fait surtout la guerre",
-      "impose des impôts",
-      "agrandit son château",
-    ],
+    distractors: ["fait surtout la guerre", "impose des impôts", "agrandit son château"],
   },
   {
     prompt: "Henri IV a signé…",
@@ -58,11 +50,7 @@ export const ROIS_BANK: QuizSeed[] = [
   {
     prompt: "L'édit de Nantes sert à…",
     answer: "ramener la paix dans le royaume",
-    distractors: [
-      "imposer le catholicisme seul",
-      "agrandir le royaume",
-      "construire des châteaux",
-    ],
+    distractors: ["imposer le catholicisme seul", "agrandir le royaume", "construire des châteaux"],
   },
   {
     prompt: "Henri IV est vu comme un roi…",
@@ -97,11 +85,7 @@ export const ROIS_BANK: QuizSeed[] = [
   {
     prompt: "Louis XIV affirme un pouvoir…",
     answer: "absolu",
-    distractors: [
-      "partagé avec les États",
-      "limité par les nobles",
-      "contrôlé par l'Église",
-    ],
+    distractors: ["partagé avec les États", "limité par les nobles", "contrôlé par l'Église"],
   },
   {
     prompt: "La Renaissance, c'est…",

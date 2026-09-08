@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Card } from "@/components/ui/Card";
 import { Logo } from "@/components/ui/Logo";
 import { PageSubtitle } from "@/components/ui/PageSubtitle";
-import { PageTitle } from "@/components/ui/PageTitle";
 
 export const metadata: Metadata = {
   title: { absolute: "MiniGenius — Choisis ta matière" },
@@ -17,7 +16,6 @@ const SUBJECTS = [
     label: "Maths",
     icon: Calculator,
     description: "Addition, soustraction, multiplication, division",
-    active: true,
     href: "/maths",
   },
   {
@@ -25,7 +23,6 @@ const SUBJECTS = [
     label: "Français",
     icon: BookOpen,
     description: "Lecture, orthographe, grammaire",
-    active: true,
     href: "/francais",
   },
   {
@@ -33,7 +30,6 @@ const SUBJECTS = [
     label: "Anglais",
     icon: Globe,
     description: "Vocabulaire, phrases, conjugaison",
-    active: true,
     href: "/anglais",
   },
   {
@@ -41,7 +37,6 @@ const SUBJECTS = [
     label: "Histoire",
     icon: Landmark,
     description: "Préhistoire, rois, Révolution",
-    active: true,
     href: "/histoire",
   },
   {
@@ -49,15 +44,9 @@ const SUBJECTS = [
     label: "Mini-jeux",
     icon: Gamepad2,
     description: "Pendu, vol et course",
-    active: true,
     href: "/mini-jeux",
   },
 ];
-
-const AVAILABLE = SUBJECTS.filter((s): s is (typeof SUBJECTS)[number] & { href: string } =>
-  Boolean(s.active && s.href),
-);
-const COMING_SOON = SUBJECTS.filter((s) => !s.active);
 
 export default function Home() {
   return (
@@ -69,7 +58,7 @@ export default function Home() {
       </header>
 
       <section className="grid gap-4 w-full lg:grid-cols-2">
-        {AVAILABLE.map((s) => {
+        {SUBJECTS.map((s) => {
           const Icon = s.icon;
 
           return (
@@ -86,34 +75,6 @@ export default function Home() {
           );
         })}
       </section>
-
-      {COMING_SOON.length > 0 && (
-        <section className="flex flex-col gap-4 w-full">
-          <PageTitle>Bientôt disponible</PageTitle>
-          <div className="grid gap-4 w-full lg:grid-cols-2">
-            {COMING_SOON.map((s) => {
-              const Icon = s.icon;
-
-              return (
-                <div key={s.id} className="relative">
-                  <Card disabled hover={false}>
-                    <Icon size={40} className="shrink-0" />
-
-                    <div className="flex flex-col content-center gap-1">
-                      <p className="text-2xl font-display">{s.label}</p>
-                      <p className="text-base font-body">{s.description}</p>
-                    </div>
-
-                    <span className="absolute top-3 right-3 text-xs font-display uppercase tracking-wide text-white bg-neutral-600 rounded-full px-3 py-1 shadow-[0_2px_0_#0f0826]">
-                      Bientôt
-                    </span>
-                  </Card>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-      )}
     </main>
   );
 }

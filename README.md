@@ -5,18 +5,19 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![Node](https://img.shields.io/badge/Node.js-24%20LTS-green?logo=node.js)](https://nodejs.org/)
 
-Application éducative gamifiée pour les enfants — maths, anglais et mini-jeux, avec progression par étoiles.
+Application éducative gamifiée pour les enfants — maths, français, anglais, histoire et mini-jeux (pendu, vol, course), avec progression par étoiles.
 
 ## Fonctionnalités v1.0
 
-- **Maths** : addition, soustraction, multiplication, division, mixte, jeu libre
-- **Anglais** : traduction QCM par thème (animaux, cuisine, école, vêtements, transports, sports, émotions, …) — anglais→français, français→anglais, mixte, jeu libre
-- **Mini-jeux** : pendu, endless runner
-- 3 niveaux de difficulté (facile / moyen / expert)
+- **Maths** : 4 opérations × 3 difficultés + mixte + jeu libre
+- **Français** : 6 modules QCM (homophones, nature, accords, vocabulaire, conjugaison, lecture)
+- **Anglais** : traduction par thème + 6 modules QCM
+- **Histoire** : 6 modules QCM (préhistoire, Rome et la Gaule, Moyen Âge, les rois, 1789, France récente)
+- **Mini-jeux** : pendu, vol, course
 - Progression par étoiles (tous les niveaux accessibles)
 - NumPad tactile — utilisable sur tablette
-- Effets sonores, prononciation anglaise (fichiers MP3), confettis
 - PWA — installable sur mobile/tablette
+- Prononciation anglaise (fichiers MP3)
 
 ## Stack
 
@@ -55,8 +56,10 @@ L'application est disponible sur [http://localhost:3000](http://localhost:3000).
 app/(main)/
 ├── page.tsx                 # Accueil
 ├── maths/                   # Opérations, mixte, séries, jeu libre
-├── anglais/traduction/      # Thèmes, QCM en-fr / fr-en / mixte
-└── mini-jeux/
+├── francais/                # 6 modules QCM
+├── anglais/                 # Traduction par thème + 6 modules QCM
+├── histoire/                # 6 périodes QCM
+└── mini-jeux/               # Pendu, vol, course
 components/                  # game/ et ui/
 lib/
 ├── hooks/                   # useSeriesGame, useLibreGame

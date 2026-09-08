@@ -6,11 +6,7 @@ export const FRANCE_RECENTE_BANK: QuizSeed[] = [
   {
     prompt: "Jules Ferry est connu pour…",
     answer: "l'école gratuite et obligatoire",
-    distractors: [
-      "l'armée obligatoire",
-      "le droit de vote des femmes",
-      "la journée de 8 heures",
-    ],
+    distractors: ["l'armée obligatoire", "le droit de vote des femmes", "la journée de 8 heures"],
   },
   {
     prompt: "L'école de Jules Ferry est aussi…",
@@ -72,11 +68,7 @@ export const FRANCE_RECENTE_BANK: QuizSeed[] = [
   {
     prompt: "En 1945 commence surtout…",
     answer: "la reconstruction et la paix",
-    distractors: [
-      "une nouvelle guerre",
-      "le retour du roi",
-      "la IIIe République",
-    ],
+    distractors: ["une nouvelle guerre", "le retour du roi", "la IIIe République"],
   },
   {
     prompt: "Les femmes votent en France depuis…",
@@ -91,11 +83,7 @@ export const FRANCE_RECENTE_BANK: QuizSeed[] = [
   {
     prompt: "Après 1945, des pays d'Europe s'unissent pour…",
     answer: "vivre en paix",
-    distractors: [
-      "reconstruire les usines seulement",
-      "créer des colonies",
-      "élire un roi",
-    ],
+    distractors: ["reconstruire les usines seulement", "créer des colonies", "élire un roi"],
   },
   {
     prompt: "Marianne, le drapeau et La Marseillaise sont…",

@@ -115,12 +115,19 @@ public/
 
 ## Design system
 
-Thème épuré blanc/emerald/amber — fond blanc avec sol vert ondulant, composants modernes.
+Fond `sky-800`, cartes blanches, sol vert ondulant (emerald). Six familles de couleurs Tailwind :
+
+| Famille | Classes |
+|---|---|
+| Bleu nuit | `sky-800` / `cyan-900` |
+| Vert menthe | `emerald-500` / `teal-500` |
+| Jaune ambre | `amber-500` / `orange-400` |
+| Framboise | `rose-700` / `pink-800` |
+| Pervenche | `indigo-400` / `slate-400` |
+| Corail | `orange-600` / `red-500` |
 
 | Token | Valeur |
 |---|---|
-| `--color-emerald-500` | `#10b981` |
-| `--color-amber-500` | `#f59e0b` |
 | `--font-display` | Titan One |
 | `--font-body` | Nunito |
 | `--radius-card` | `1.5rem` |

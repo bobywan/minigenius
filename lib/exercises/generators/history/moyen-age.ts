@@ -16,11 +16,7 @@ export const MOYEN_AGE_BANK: QuizSeed[] = [
   {
     prompt: "Que font surtout les paysans au Moyen Âge ?",
     answer: "ils travaillent la terre",
-    distractors: [
-      "ils prient à l'abbaye",
-      "ils combattent à cheval",
-      "ils dirigent la seigneurie",
-    ],
+    distractors: ["ils prient à l'abbaye", "ils combattent à cheval", "ils dirigent la seigneurie"],
   },
   {
     prompt: "En quelle année Hugues Capet est-il élu roi ?",

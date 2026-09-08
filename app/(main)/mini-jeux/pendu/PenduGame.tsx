@@ -278,7 +278,6 @@ export function PenduGame() {
         <div className="flex flex-wrap justify-center gap-2">
           {maskedWord.map((l, i) => (
             <span
-              // biome-ignore lint/suspicious/noArrayIndexKey: letter positions in a word are stable
               key={i}
               className="w-8 h-10 flex items-end justify-center border-b-4 border-sky-800 text-2xl font-display text-sky-800"
             >

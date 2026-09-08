@@ -26,11 +26,7 @@ export const REVOLUTION_BANK: QuizSeed[] = [
   {
     prompt: "L'Ancien Régime, c'est…",
     answer: "la société d'avant 1789",
-    distractors: [
-      "la société de l'Empire",
-      "la République de 1792",
-      "la France de Louis-Philippe",
-    ],
+    distractors: ["la société de l'Empire", "la République de 1792", "la France de Louis-Philippe"],
   },
   {
     prompt: "Quel roi règne au début de la Révolution ?",
@@ -60,11 +56,7 @@ export const REVOLUTION_BANK: QuizSeed[] = [
   {
     prompt: "Une République, c'est un régime…",
     answer: "sans roi",
-    distractors: [
-      "avec un empereur",
-      "avec un roi constitutionnel",
-      "avec un consul",
-    ],
+    distractors: ["avec un empereur", "avec un roi constitutionnel", "avec un consul"],
   },
   {
     prompt: "Napoléon Bonaparte devient…",
@@ -84,20 +76,12 @@ export const REVOLUTION_BANK: QuizSeed[] = [
   {
     prompt: "La devise de la République est…",
     answer: "Liberté, Égalité, Fraternité",
-    distractors: [
-      "Nation, Loi, Roi",
-      "Liberté, Propriété, Sûreté",
-      "Empereur, Victoire, Gloire",
-    ],
+    distractors: ["Nation, Loi, Roi", "Liberté, Propriété, Sûreté", "Empereur, Victoire, Gloire"],
   },
   {
     prompt: "La prise de la Bastille montre que…",
     answer: "le peuple se soulève",
-    distractors: [
-      "le roi fuit le pays",
-      "l'Assemblée vote une loi",
-      "Napoléon prend le pouvoir",
-    ],
+    distractors: ["le roi fuit le pays", "l'Assemblée vote une loi", "Napoléon prend le pouvoir"],
   },
   {
     prompt: "Après 1789, la France n'est plus…",
