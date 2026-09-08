@@ -21,7 +21,7 @@ export default function MathsPage() {
           <BadgeModule key={mod} module={mod} href={`/maths/${mod}`} />
         ))}
 
-        <Link href="/maths/mixte" className="group lg:col-span-2">
+        <Link href="/maths/mixte" className="group">
           <Card className="justify-center">
             <p className="text-2xl font-display">Tout mélanger</p>
           </Card>
