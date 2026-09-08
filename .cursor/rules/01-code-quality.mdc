@@ -22,7 +22,7 @@ alwaysApply: false
 ## Style et lint
 
 - BiomeJS est le seul outil de lint et format — ne pas ajouter ESLint ou Prettier.
-- Vérifie avec `npm run check` après tes modifications.
+- Indique `npm run check` à l'humain après des modifications — ne l'exécute pas (voir `07-no-agent-tests.mdc`).
 - lineWidth : 100, quotes doubles, trailing commas — respecte la config `biome.json`.
 
 ## Commentaires

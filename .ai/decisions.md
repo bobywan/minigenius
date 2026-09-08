@@ -214,3 +214,20 @@
 
 **Conséquences :** Toute nouvelle banque QCM française s'ajoute dans `french/` sans nouvelle route. `QuizQuestion.enToFr` devient optionnel.
 
+---
+
+## [2026-09-06] Modules QCM anglais (hors traduction)
+
+**Contexte :** L'anglais n'avait que la traduction par thème. Le français a montré qu'on peut empiler des familles QCM (conjugaison, lecture, etc.) sans nouveau moteur de jeu.
+
+**Décision :**
+- Hub `/anglais` : traduction inchangée + six modules (conjugaison, phrases, pluriels, articles, contraires, lecture).
+- Routes `/anglais/[module]/[slot]` calquées sur le français. Le dossier statique `traduction/` gagne sur `[module]`.
+- Banks dans `lib/exercises/generators/english-quiz/`. Réutilisation de `pickSeries` / `QuizSeed` depuis `french/quiz.ts` (pas d'extraction, pas de `QuizSeriesGame`).
+- `EnglishQuizModule` dans `ModuleId` (les ids `conjugaison` / `lecture` déjà présents via le français). Persist inchangé (nouvelles clés, pas de migrate).
+- Prononciation : `ChoiceGrid enableSpeech` seulement sur conjugaison et pluriels (repli Web Speech, pas de nouveaux MP3).
+
+**Alternatives écartées :** Extraire un composant de jeu partagé FR/EN — le français et la traduction marchent déjà. Fusionner les banks dans `english.ts` — ce fichier reste le lexique de traduction, exécutable à part.
+
+**Conséquences :** Ajouter un slot anglais = une banque + une entrée dans `ENGLISH_QUIZ_SLOTS`. La traduction n'est pas touchée.
+

@@ -1,41 +1,77 @@
-import { Languages, MessageSquare, Repeat } from "lucide-react";
+import {
+  ArrowLeftRight,
+  BookOpen,
+  Languages,
+  MessageSquare,
+  Repeat,
+  Scale,
+  SpellCheck,
+} from "lucide-react";
 import Link from "next/link";
 import { BackLink } from "@/components/ui/BackLink";
 import { Card } from "@/components/ui/Card";
 import { PageSubtitle } from "@/components/ui/PageSubtitle";
 import { PageTitle } from "@/components/ui/PageTitle";
+import type { EnglishQuizModule } from "@/lib/types";
+import { ENGLISH_QUIZ_MODULE_LABELS } from "@/lib/types";
 
-const MODES = [
+const MODES: {
+  id: "traduction" | EnglishQuizModule;
+  label: string;
+  icon: typeof Languages;
+  description: string;
+  href: string;
+}[] = [
   {
     id: "traduction",
     label: "Traduction",
     icon: Languages,
     description: "Mots anglais et français",
     href: "/anglais/traduction",
-    active: true,
-  },
-  {
-    id: "phrases",
-    label: "Phrases",
-    icon: MessageSquare,
-    description: "Compléter des phrases",
-    href: null,
-    active: false,
   },
   {
     id: "conjugaison",
-    label: "Conjugaison",
+    label: ENGLISH_QUIZ_MODULE_LABELS.conjugaison,
     icon: Repeat,
-    description: "Les verbes courants",
-    href: null,
-    active: false,
+    description: "Présent, prétérit, participe",
+    href: "/anglais/conjugaison",
+  },
+  {
+    id: "phrases",
+    label: ENGLISH_QUIZ_MODULE_LABELS.phrases,
+    icon: MessageSquare,
+    description: "Compléter des phrases",
+    href: "/anglais/phrases",
+  },
+  {
+    id: "pluriels",
+    label: ENGLISH_QUIZ_MODULE_LABELS.pluriels,
+    icon: Scale,
+    description: "Régulier et irrégulier",
+    href: "/anglais/pluriels",
+  },
+  {
+    id: "articles",
+    label: ENGLISH_QUIZ_MODULE_LABELS.articles,
+    icon: SpellCheck,
+    description: "a, an, the",
+    href: "/anglais/articles",
+  },
+  {
+    id: "contraires",
+    label: ENGLISH_QUIZ_MODULE_LABELS.contraires,
+    icon: ArrowLeftRight,
+    description: "The opposite of…",
+    href: "/anglais/contraires",
+  },
+  {
+    id: "lecture",
+    label: ENGLISH_QUIZ_MODULE_LABELS.lecture,
+    icon: BookOpen,
+    description: "Petit texte et questions",
+    href: "/anglais/lecture",
   },
 ];
-
-const AVAILABLE = MODES.filter((m): m is (typeof MODES)[number] & { href: string } =>
-  Boolean(m.active && m.href),
-);
-const COMING_SOON = MODES.filter((m) => !m.active);
 
 export default function AnglaisPage() {
   return (
@@ -48,7 +84,7 @@ export default function AnglaisPage() {
       </header>
 
       <div className="grid gap-4 w-full lg:grid-cols-2">
-        {AVAILABLE.map((mode) => {
+        {MODES.map((mode) => {
           const Icon = mode.icon;
           return (
             <Link key={mode.id} href={mode.href} className="group">
@@ -63,31 +99,6 @@ export default function AnglaisPage() {
           );
         })}
       </div>
-
-      {COMING_SOON.length > 0 && (
-        <section className="flex flex-col gap-4 w-full">
-          <PageTitle>Bientôt disponible</PageTitle>
-          <div className="grid gap-4 w-full lg:grid-cols-2">
-            {COMING_SOON.map((mode) => {
-              const Icon = mode.icon;
-              return (
-                <div key={mode.id} className="relative">
-                  <Card disabled hover={false}>
-                    <Icon size={40} className="shrink-0" />
-                    <div className="flex flex-col gap-1">
-                      <p className="text-2xl font-display">{mode.label}</p>
-                      <p className="text-base font-body">{mode.description}</p>
-                    </div>
-                  </Card>
-                  <span className="absolute top-3 right-3 text-xs font-display uppercase tracking-wide text-white bg-neutral-600 rounded-full px-3 py-1 shadow-[0_2px_0_#0f0826]">
-                    Bientôt
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-      )}
     </main>
   );
 }

@@ -12,36 +12,36 @@ import { Button } from "@/components/ui/Button";
 import { PageTitle } from "@/components/ui/PageTitle";
 import { ProgressDots } from "@/components/ui/ProgressDots";
 import { playError, playSuccess } from "@/lib/audio/sounds";
-import { generateFrenchQuiz } from "@/lib/exercises/generators/french";
+import { generateEnglishQuiz } from "@/lib/exercises/generators/english-quiz";
 import { useSeriesGame } from "@/lib/hooks/useSeriesGame";
 import { useProgressStore } from "@/lib/store/progressStore";
-import type { FrenchModule, FrenchSlot } from "@/lib/types";
+import type { EnglishQuizModule, EnglishQuizSlot } from "@/lib/types";
 import {
   computeStars,
-  FRENCH_SLOT_LABELS,
-  FRENCH_SLOTS,
-  isFrenchModule,
-  isFrenchSlot,
+  ENGLISH_QUIZ_SLOT_LABELS,
+  ENGLISH_QUIZ_SLOTS,
+  isEnglishQuizModule,
+  isEnglishQuizSlot,
   SERIES_LENGTH,
 } from "@/lib/types";
 
-export default function FrenchQuizPage({
+export default function EnglishQuizPage({
   params,
 }: {
   params: Promise<{ module: string; slot: string }>;
 }) {
   const { module: rawModule, slot: rawSlot } = use(params);
 
-  if (!isFrenchModule(rawModule)) notFound();
-  if (!isFrenchSlot(rawModule, rawSlot)) notFound();
+  if (!isEnglishQuizModule(rawModule)) notFound();
+  if (!isEnglishQuizSlot(rawModule, rawSlot)) notFound();
 
-  const frenchModule = rawModule as FrenchModule;
-  const frenchSlot = rawSlot as FrenchSlot;
+  const quizModule = rawModule as EnglishQuizModule;
+  const quizSlot = rawSlot as EnglishQuizSlot;
 
   const { saveResult } = useProgressStore();
   const generate = useCallback(
-    () => generateFrenchQuiz(frenchModule, frenchSlot),
-    [frenchModule, frenchSlot],
+    () => generateEnglishQuiz(quizModule, quizSlot),
+    [quizModule, quizSlot],
   );
   const {
     series,
@@ -77,22 +77,23 @@ export default function FrenchQuizPage({
 
   useEffect(() => {
     if (phase !== "finished") return;
-    saveResult("francais", frenchModule, frenchSlot, {
+    saveResult("anglais", quizModule, quizSlot, {
       correct: correctCount,
       stars: computeStars(correctCount),
       completedAt: new Date().toISOString(),
     });
-  }, [phase, correctCount, frenchModule, frenchSlot, saveResult]);
+  }, [phase, correctCount, quizModule, quizSlot, saveResult]);
 
-  const backHref = `/francais/${frenchModule}`;
+  const backHref = `/anglais/${quizModule}`;
 
   if (!series) {
     return <GamePendingShell backHref={backHref} />;
   }
 
-  const slots = FRENCH_SLOTS[frenchModule];
-  const nextSlot = slots[slots.indexOf(frenchSlot) + 1];
-  const nextHref = nextSlot ? `/francais/${frenchModule}/${nextSlot}` : backHref;
+  const slots = ENGLISH_QUIZ_SLOTS[quizModule];
+  const nextSlot = slots[slots.indexOf(quizSlot) + 1];
+  const nextHref = nextSlot ? `/anglais/${quizModule}/${nextSlot}` : backHref;
+  const enableSpeech = quizModule === "conjugaison" || quizModule === "pluriels";
 
   if (phase === "finished") {
     return (
@@ -117,7 +118,7 @@ export default function FrenchQuizPage({
       <BackLink href={backHref} />
 
       <header className="grid gap-4 w-full text-center">
-        <PageTitle>{FRENCH_SLOT_LABELS[frenchSlot]}</PageTitle>
+        <PageTitle>{ENGLISH_QUIZ_SLOT_LABELS[quizSlot]}</PageTitle>
         <p className="font-bold font-display text-white">
           {currentIdx + 1} / {series.length}
         </p>
@@ -127,14 +128,10 @@ export default function FrenchQuizPage({
       <div className="flex flex-col items-center gap-8 w-full max-w-md bg-white p-8 rounded-xl">
         {current && (
           <>
-            {frenchModule === "lecture" && current.passage ? (
+            {quizModule === "lecture" && current.passage ? (
               <ReadingPrompt passage={current.passage} question={current.prompt} />
             ) : (
-              <WordPrompt
-                prompt={current.prompt}
-                variant="sentence"
-                highlightWord={current.highlightWord}
-              />
+              <WordPrompt prompt={current.prompt} variant="sentence" />
             )}
 
             <ChoiceGrid
@@ -143,6 +140,7 @@ export default function FrenchQuizPage({
               selectedIdx={selectedIdx}
               revealed={phase === "feedback"}
               onSelect={handleSelect}
+              enableSpeech={enableSpeech}
             />
             {needsContinue && (
               <Button variant="secondary" className="w-full" onClick={continueAfterFeedback}>

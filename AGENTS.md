@@ -36,4 +36,5 @@ Three MCP servers are configured in `.cursor/mcp.json`:
 - `06-docker.mdc` — Dockerfile and Compose conventions
 - `context-mode.mdc` — context window protection rules
 - `ponytail.mdc` — YAGNI ladder, minimal code generation
+- `07-no-agent-tests.mdc` — l'agent n'exécute pas checks / tests / build / dev
 <!-- END:ai-environment-rules -->

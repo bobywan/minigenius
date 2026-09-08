@@ -1,0 +1,21 @@
+---
+description: L'agent n'exécute jamais les checks, tests, build ni le serveur de dev — c'est le rôle de l'humain.
+alwaysApply: true
+---
+
+# Pas de commandes de test / vérif pour l'agent
+
+L'humain lance les commandes. L'agent **n'exécute pas** :
+
+- `npm run check`, `npm run lint`, `npm run format`, `npm run ci`, `npm run typecheck`, `tsc`
+- `npm run build`, `npm run prepush`, `next build`
+- `npm run dev`, `next dev`, ni aucun serveur
+- `node lib/exercises/generators/*.check.mjs` et tout autre script de check / test / assert
+- curl / fetch contre l'app pour « vérifier » une page
+- automation navigateur pour valider l'UI
+
+Après une implémentation, **lister** les commandes à lancer (une ligne chacune). Ne pas les jouer « pour voir ».
+
+Écrire un fichier `*.check.mjs` reste OK si la logique le demande. L'exécuter, non.
+
+Exception : uniquement si l'humain demande explicitement « lance le check » / « lance les tests » dans le message.
