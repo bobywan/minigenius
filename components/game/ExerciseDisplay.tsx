@@ -28,7 +28,7 @@ function Slot({
       );
     }
     return (
-      <span className="inline-flex items-center justify-center min-w-[90px] px-3 py-2 rounded-2xl bg-sky-100 border-4 border-sky-500 text-sky-600 font-display text-5xl animate-pulse">
+      <span className="inline-flex items-center justify-center min-w-[90px] px-3 py-2 rounded-2xl bg-sky-100 border-4 border-sky-500 text-sky-600 font-display text-5xl">
         ?
       </span>
     );

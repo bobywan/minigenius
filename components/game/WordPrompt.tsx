@@ -30,7 +30,7 @@ export function WordPrompt({
   return (
     <div className="w-full">
       <div className="flex gap-3 flex-wrap items-center justify-center">
-        <p className={`${sizeClass} font-bold`}>{content}</p>
+        <p className={`${sizeClass} font-bold text-sky-800`}>{content}</p>
         {speakText && <SpeakButton text={speakText} />}
       </div>
     </div>
