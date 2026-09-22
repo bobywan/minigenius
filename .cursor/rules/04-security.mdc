@@ -24,6 +24,7 @@ Le `next.config.ts` ajoute déjà :
 - `X-Frame-Options: DENY`
 - `X-Content-Type-Options: nosniff`
 - `Referrer-Policy: strict-origin-when-cross-origin`
+- `Permissions-Policy` (caméra, micro, géolocalisation et paiement coupés)
 - `Content-Security-Policy` (self + inline Next + `blob:` workers ; pas de scripts tiers)
 
 Ne pas les supprimer.
