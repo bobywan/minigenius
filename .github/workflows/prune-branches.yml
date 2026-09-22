@@ -1,0 +1,43 @@
+name: Prune merged branches
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  prune:
+    name: Delete merged branches inactive for 14 days
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Delete branches already contained in main
+        run: |
+          set -euo pipefail
+          git fetch origin --prune
+          cutoff=$(date -d "14 days ago" +%s)
+          for ref in $(git for-each-ref --format='%(refname:short)' refs/remotes/origin); do
+            case "$ref" in
+              origin|origin/HEAD|origin/main) continue ;;
+            esac
+            name="${ref#origin/}"
+            if ! git merge-base --is-ancestor "$ref" origin/main; then
+              echo "keep $name (not in main)"
+              continue
+            fi
+            ts=$(git log -1 --format=%ct "$ref")
+            if [ "$ts" -ge "$cutoff" ]; then
+              echo "keep $name (merged, touched within 14 days)"
+              continue
+            fi
+            echo "delete $name"
+            git push origin --delete "$name"
+          done

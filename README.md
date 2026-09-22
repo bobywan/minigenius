@@ -67,6 +67,14 @@ lib/
 └── store/progressStore.ts
 ```
 
+## Contribuer
+
+`main` est la production ([minigenius.vercel.app](https://minigenius.vercel.app)). Le travail part d’une branche `feat/…` ou `fix/…`, puis d’une pull request.
+
+La CI (lint, types, checks des exercices, audit, build) doit être verte avant le merge. Vercel publie une preview sur la pull request et la production au merge sur `main`.
+
+GitHub supprime la branche de la pull request dès le merge (réglage *Automatically delete head branches*). Une Action hebdomadaire retire en plus les branches déjà contenues dans `main` et inactives depuis 14 jours.
+
 ## Licence
 
 MIT
