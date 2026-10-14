@@ -8,6 +8,7 @@ export type QuizSeed = {
   distractors: readonly string[];
   passage?: string;
   highlightWord?: string;
+  explain?: string;
 };
 
 export function shuffle<T>(items: readonly T[]): T[] {
@@ -42,6 +43,7 @@ export function toQuestion(seed: QuizSeed): QuizQuestion {
   };
   if (seed.passage) question.passage = seed.passage;
   if (seed.highlightWord) question.highlightWord = seed.highlightWord;
+  if (seed.explain) question.explain = seed.explain;
   return question;
 }
 

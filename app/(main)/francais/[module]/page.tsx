@@ -3,13 +3,19 @@
 import {
   ArrowLeftRight,
   BookOpen,
+  CaseSensitive,
+  CircleCheck,
+  Ear,
   House,
+  ListX,
   PawPrint,
   Pencil,
   Repeat,
   Scale,
   Shapes,
   SpellCheck,
+  Users,
+  Zap,
 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -47,8 +53,26 @@ const SLOT_ICONS: Partial<Record<FrenchSlot, typeof SpellCheck>> = {
   ecole: Pencil,
   maison: House,
   quotidien: BookOpen,
+  "vrai-faux": CircleCheck,
+  "un-une": CaseSensitive,
+  "le-la": CaseSensitive,
+  "s-x": Scale,
+  oi: Ear,
+  ou: Ear,
+  an: Ear,
+  ch: Ear,
+  gn: Ear,
+  "verbes-er": Repeat,
+  "etre-avoir": Repeat,
   mixte: Repeat,
   tout: Repeat,
+};
+
+const SOLO_ICON: Partial<Record<FrenchModule, typeof SpellCheck>> = {
+  nature: Shapes,
+  intrus: ListX,
+  verbe: Zap,
+  pronoms: Users,
 };
 
 const SLOT_DESC: Partial<Record<FrenchSlot, string>> = {
@@ -58,10 +82,13 @@ const SLOT_DESC: Partial<Record<FrenchSlot, string>> = {
   "son-sont": "Complète avec son ou sont",
   "ou-ou": "Complète avec ou ou où",
   "ces-ses": "ces, ses, c'est, s'est",
-  pluriel: "Le pluriel des noms",
+  "s-x": "On ajoute s ou x",
+  pluriel: "Pluriels comme chevaux, gâteaux",
   feminin: "Le féminin des adjectifs",
   synonymes: "Le mot qui veut dire pareil",
   contraires: "Le mot contraire",
+  "verbes-er": "chanter, jouer, manger…",
+  "etre-avoir": "je suis, tu as…",
   present: "Je, tu, il… au présent",
   imparfait: "Je, tu, il… à l'imparfait",
   futur: "Je, tu, il… au futur",
@@ -69,18 +96,33 @@ const SLOT_DESC: Partial<Record<FrenchSlot, string>> = {
   ecole: "Petits textes sur l'école",
   maison: "Petits textes à la maison",
   quotidien: "Petits textes du quotidien",
+  "vrai-faux": "Le texte dit-il vrai ?",
+  "un-une": "un ou une devant le nom",
+  "le-la": "le ou la devant le nom",
+  oi: "Le son oi",
+  ou: "Le son ou",
+  an: "Le son an",
+  ch: "Le son ch",
+  gn: "Le son gn",
   mixte: "Tous les exercices mélangés",
   tout: "Tous les exercices mélangés",
 };
 
+const SOLO_MIXTE_DESC: Partial<Record<FrenchModule, string>> = {
+  nature: "Noms, verbes, adjectifs, déterminants",
+  intrus: "Le mot qui n'est pas de la famille",
+  verbe: "Repère l'action dans la phrase",
+  pronoms: "Il, elle, ils ou elles",
+};
+
 function slotLabel(module: FrenchModule, slot: FrenchSlot): string {
-  if (module === "nature" && slot === "mixte") return "Série de 10";
+  if (slot === "mixte" && FRENCH_SLOTS[module].length === 1) return "Série de 10";
   return FRENCH_SLOT_LABELS[slot];
 }
 
 function slotDescription(module: FrenchModule, slot: FrenchSlot): string {
-  if (module === "nature" && slot === "mixte") {
-    return "Noms, verbes, adjectifs, déterminants";
+  if (slot === "mixte" && FRENCH_SLOTS[module].length === 1) {
+    return SOLO_MIXTE_DESC[module] ?? "";
   }
   return SLOT_DESC[slot] ?? "";
 }
@@ -123,7 +165,10 @@ export default function FrenchModulePage({ params }: { params: Promise<{ module:
 
       <div className="grid gap-4 w-full lg:grid-cols-2">
         {regularSlots.map((slot) => {
-          const Icon = SLOT_ICONS[slot] ?? Shapes;
+          const Icon =
+            FRENCH_SLOTS[frenchModule].length === 1
+              ? (SOLO_ICON[frenchModule] ?? Shapes)
+              : (SLOT_ICONS[slot] ?? Shapes);
           const stars = (mounted ? getStars("francais", frenchModule, slot) : 0) as Stars;
           return (
             <Link key={slot} href={`/francais/${frenchModule}/${slot}`} className="group">

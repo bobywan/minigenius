@@ -127,7 +127,7 @@ export default function FrenchQuizPage({
       <div className="flex flex-col items-center gap-8 w-full max-w-md bg-white p-8 rounded-xl">
         {current && (
           <>
-            {frenchModule === "lecture" && current.passage ? (
+            {current.passage ? (
               <ReadingPrompt passage={current.passage} question={current.prompt} />
             ) : (
               <WordPrompt
@@ -144,6 +144,11 @@ export default function FrenchQuizPage({
               revealed={phase === "feedback"}
               onSelect={handleSelect}
             />
+            {needsContinue && current.explain ? (
+              <p className="w-full rounded-[var(--radius-btn)] bg-amber-50 px-4 py-3 text-center font-body text-lg text-sky-800">
+                {current.explain}
+              </p>
+            ) : null}
             {needsContinue && (
               <Button variant="secondary" className="w-full" onClick={continueAfterFeedback}>
                 Continuer

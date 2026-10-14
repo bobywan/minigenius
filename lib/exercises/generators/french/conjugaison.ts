@@ -1,8 +1,6 @@
 import type { QuizSeed } from "./quiz.ts";
 import { shuffle } from "./quiz.ts";
 
-const PERSONS = ["je", "tu", "il", "nous", "vous", "ils"] as const;
-
 const TENSE_LABELS = {
   present: "présent",
   imparfait: "imparfait",
@@ -81,24 +79,48 @@ const VERBS: Verb[] = [
   },
 ];
 
-function seedsForTense(tense: ConjugaisonTense): QuizSeed[] {
+const FORM_INDEX = {
+  je: 0,
+  tu: 1,
+  il: 2,
+  elle: 2,
+  nous: 3,
+  vous: 4,
+  ils: 5,
+  elles: 5,
+} as const;
+
+type Person = keyof typeof FORM_INDEX;
+
+const SIX_PERSONS: readonly Person[] = ["je", "tu", "il", "nous", "vous", "ils"];
+
+const ER_INFINITIVES = new Set(["manger", "jouer", "aimer", "parler", "chanter"]);
+
+function seedsFor(
+  tense: ConjugaisonTense,
+  verbs: readonly Verb[],
+  persons: readonly Person[],
+): QuizSeed[] {
   const seeds: QuizSeed[] = [];
   const label = TENSE_LABELS[tense];
 
-  for (const verb of VERBS) {
+  for (const verb of verbs) {
     const forms = verb[tense];
-    for (let person = 0; person < PERSONS.length; person++) {
-      const answer = forms[person];
+    for (const person of persons) {
+      const answer = forms[FORM_INDEX[person]];
       if (!answer) continue;
 
-      const distractors = shuffle([...new Set(forms.filter((f) => f !== answer))]).slice(0, 3);
+      const distractors = shuffle([...new Set(forms.filter((form) => form !== answer))]).slice(
+        0,
+        3,
+      );
 
       if (distractors.length < 3) {
-        throw new Error(`Pas assez de distracteurs pour ${PERSONS[person]} (${verb.infinitive})`);
+        throw new Error(`Pas assez de distracteurs pour ${person} (${verb.infinitive})`);
       }
 
       seeds.push({
-        prompt: `${PERSONS[person]} ___ (${verb.infinitive}, ${label})`,
+        prompt: `${person} ___ (${verb.infinitive}, ${label})`,
         answer,
         distractors,
       });
@@ -108,6 +130,16 @@ function seedsForTense(tense: ConjugaisonTense): QuizSeed[] {
   return seeds;
 }
 
-export const CONJUGAISON_PRESENT = seedsForTense("present");
-export const CONJUGAISON_IMPARFAIT = seedsForTense("imparfait");
-export const CONJUGAISON_FUTUR = seedsForTense("futur");
+export const CONJUGAISON_PRESENT = seedsFor("present", VERBS, SIX_PERSONS);
+export const CONJUGAISON_IMPARFAIT = seedsFor("imparfait", VERBS, SIX_PERSONS);
+export const CONJUGAISON_FUTUR = seedsFor("futur", VERBS, SIX_PERSONS);
+export const CONJUGAISON_ER = seedsFor(
+  "present",
+  VERBS.filter((verb) => ER_INFINITIVES.has(verb.infinitive)),
+  SIX_PERSONS,
+);
+export const CONJUGAISON_ETRE_AVOIR = seedsFor(
+  "present",
+  VERBS.filter((verb) => verb.infinitive === "être" || verb.infinitive === "avoir"),
+  ["je", "tu", "il", "elle", "nous", "vous", "ils", "elles"],
+);

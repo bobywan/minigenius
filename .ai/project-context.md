@@ -58,7 +58,7 @@ app/
         [slot]/page.tsx                   # Série de 10
         [slot]/libre/page.tsx
     francais/
-      page.tsx                            # 6 modules QCM
+      page.tsx                            # 3 familles : lecture, orthographe, grammaire
       [module]/
         page.tsx                          # Slots + jeu libre
         [slot]/page.tsx                   # Série de 10
@@ -81,7 +81,7 @@ lib/
   exercises/generators/math.ts
   exercises/generators/english.ts      # vocabulaire traduction
   exercises/generators/english-quiz/   # banks QCM (conjugaison, phrases, …)
-  exercises/generators/french/         # banks QCM + index
+  exercises/generators/french/         # banks QCM (CE1 inclus) + index
   exercises/generators/history/        # banks QCM primaire (périodes)
   store/progressStore.ts
   audio/
@@ -106,7 +106,7 @@ public/
 - Maths : module × difficulté (`saveResult("maths", "addition", "facile", …)` ; mixte maths = `"mixte"`)
 - Anglais traduction : thème × sens (`saveResult("anglais", "animaux", "en-fr", …)` ; tous les thèmes = `"tout"`)
 - Anglais QCM : module × slot (`saveResult("anglais", "conjugaison", "preterit", …)`)
-- Français : module × slot (`saveResult("francais", "homophones", "a-a", …)`)
+- Français : module × slot (`saveResult("francais", "homophones", "a-a", …)` ; CE1 : `"sons"/"oi"`, `"articles"/"un-une"`, `"lecture"/"vrai-faux"`, …)
 - Histoire : module × slot (`saveResult("histoire", "prehistoire", "mixte", …)`)
 - Tous les modules, thèmes, modes et difficultés sont jouables d'emblée (pas de verrou)
 - Progression dans localStorage (`minigenius-progress`, persist v2) — pas de reset dans l'UI
@@ -156,7 +156,7 @@ Fond `sky-800`, cartes blanches, sol vert ondulant (emerald). Six familles de co
 |---|---|
 | Maths | Actif — 4 opérations × 3 difficultés + mixte + jeu libre |
 | Anglais | Actif — traduction par thème + 6 modules QCM (conjugaison, phrases, pluriels, articles, contraires, lecture) |
-| Français | Actif — 6 modules QCM (homophones, nature, accords, vocabulaire, conjugaison, lecture) |
+| Français | Actif — hub en 3 familles. Lecture (textes, vrai/faux, intrus), orthographe (articles, s/x, sons, homophones, vocabulaire), grammaire (verbe, pronoms, conjugaison dont verbes en -er et être/avoir, nature) |
 | Mini-jeux | Actif — pendu, runner |
 | Histoire | Actif — 6 modules QCM (préhistoire, Rome et la Gaule, Moyen Âge, les rois, 1789, France récente) |
 
