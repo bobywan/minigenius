@@ -35,6 +35,7 @@ export default function FrenchLibrePage({
   const { item: question, correctCount, isInFeedback, onCorrect, onWrong } = useLibreGame(generate);
 
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const [missedQuestion, setMissedQuestion] = useState<typeof question>(null);
 
   const handleSelect = useCallback(
     (index: number) => {
@@ -42,9 +43,11 @@ export default function FrenchLibrePage({
       const isCorrect = index === question.answerIndex;
       setSelectedIdx(index);
       if (isCorrect) {
+        setMissedQuestion(null);
         playSuccess();
         onCorrect(() => setSelectedIdx(null));
       } else {
+        setMissedQuestion(question);
         playError();
         onWrong(() => setSelectedIdx(null));
       }
@@ -68,7 +71,7 @@ export default function FrenchLibrePage({
       </header>
 
       <div className="flex flex-col items-center gap-8 w-full max-w-md bg-white p-8 rounded-xl">
-        {frenchModule === "lecture" && question.passage ? (
+        {question.passage ? (
           <ReadingPrompt passage={question.passage} question={question.prompt} />
         ) : (
           <WordPrompt
@@ -86,6 +89,11 @@ export default function FrenchLibrePage({
           highlightCorrect={selectedIdx === question.answerIndex}
           onSelect={handleSelect}
         />
+        {missedQuestion === question && question.explain ? (
+          <p className="w-full rounded-[var(--radius-btn)] bg-amber-50 px-4 py-3 text-center font-body text-lg text-sky-800">
+            {question.explain}
+          </p>
+        ) : null}
       </div>
     </main>
   );

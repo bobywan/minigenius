@@ -99,3 +99,132 @@ export const ACCORD_FEMININ: QuizSeed[] = [
   { prompt: "faux → ___", answer: "fausse", distractors: ["fause", "fauxe", "fausses"] },
   { prompt: "roux → ___", answer: "rousse", distractors: ["rouse", "rouxes", "rous"] },
 ];
+
+export const ACCORD_SX: QuizSeed[] = [
+  {
+    prompt: "un chat → des ___",
+    answer: "chats",
+    distractors: ["chat", "chates", "chatx"],
+    explain: "Chat prend un s : chats.",
+  },
+  {
+    prompt: "un chien → des ___",
+    answer: "chiens",
+    distractors: ["chien", "chienes", "chienx"],
+    explain: "Chien prend un s : chiens.",
+  },
+  {
+    prompt: "une fille → des ___",
+    answer: "filles",
+    distractors: ["fille", "fillees", "fillex"],
+    explain: "Fille prend un s : filles.",
+  },
+  {
+    prompt: "une pomme → des ___",
+    answer: "pommes",
+    distractors: ["pomme", "pommees", "pommex"],
+    explain: "Pomme prend un s : pommes.",
+  },
+  {
+    prompt: "une fleur → des ___",
+    answer: "fleurs",
+    distractors: ["fleur", "fleures", "fleurx"],
+    explain: "Fleur prend un s : fleurs.",
+  },
+  {
+    prompt: "un livre → des ___",
+    answer: "livres",
+    distractors: ["livre", "livrees", "livrex"],
+    explain: "Livre prend un s : livres.",
+  },
+  {
+    prompt: "un ballon → des ___",
+    answer: "ballons",
+    distractors: ["ballon", "ballones", "ballonx"],
+    explain: "Ballon prend un s : ballons.",
+  },
+  {
+    prompt: "un crayon → des ___",
+    answer: "crayons",
+    distractors: ["crayon", "crayones", "crayonx"],
+    explain: "Crayon prend un s : crayons.",
+  },
+  {
+    prompt: "une table → des ___",
+    answer: "tables",
+    distractors: ["table", "tablees", "tablex"],
+    explain: "Table prend un s : tables.",
+  },
+  {
+    prompt: "une chaise → des ___",
+    answer: "chaises",
+    distractors: ["chaise", "chaisees", "chaisex"],
+    explain: "Chaise prend un s : chaises.",
+  },
+  {
+    prompt: "une porte → des ___",
+    answer: "portes",
+    distractors: ["porte", "portees", "portex"],
+    explain: "Porte prend un s : portes.",
+  },
+  {
+    prompt: "une vache → des ___",
+    answer: "vaches",
+    distractors: ["vache", "vachees", "vachex"],
+    explain: "Vache prend un s : vaches.",
+  },
+  {
+    prompt: "un lapin → des ___",
+    answer: "lapins",
+    distractors: ["lapin", "lapines", "lapinx"],
+    explain: "Lapin prend un s : lapins.",
+  },
+  {
+    prompt: "une maison → des ___",
+    answer: "maisons",
+    distractors: ["maison", "maisones", "maisonx"],
+    explain: "Maison prend un s : maisons.",
+  },
+  {
+    prompt: "un chou → des ___",
+    answer: "choux",
+    distractors: ["chous", "chou", "chouxes"],
+    explain: "Chou prend un x : choux.",
+  },
+  {
+    prompt: "un hibou → des ___",
+    answer: "hiboux",
+    distractors: ["hibous", "hibou", "hibouxes"],
+    explain: "Hibou prend un x : hiboux.",
+  },
+  {
+    prompt: "un genou → des ___",
+    answer: "genoux",
+    distractors: ["genous", "genou", "genouxes"],
+    explain: "Genou prend un x : genoux.",
+  },
+  {
+    prompt: "un caillou → des ___",
+    answer: "cailloux",
+    distractors: ["caillous", "caillou", "caillouxes"],
+    explain: "Caillou prend un x : cailloux.",
+  },
+  {
+    prompt: "un bijou → des ___",
+    answer: "bijoux",
+    distractors: ["bijous", "bijou", "bijouxes"],
+    explain: "Bijou prend un x : bijoux.",
+  },
+  {
+    prompt: "un joujou → des ___",
+    answer: "joujoux",
+    distractors: ["joujous", "joujou", "joujouxes"],
+    explain: "Joujou prend un x : joujoux.",
+  },
+  {
+    prompt: "un pou → des ___",
+    answer: "poux",
+    distractors: ["pous", "pou", "pouxes"],
+    explain: "Pou prend un x : poux.",
+  },
+];

@@ -29,19 +29,43 @@ export type FrenchModule =
   | "accords"
   | "vocabulaire"
   | "conjugaison"
-  | "lecture";
+  | "lecture"
+  | "intrus"
+  | "articles"
+  | "sons"
+  | "verbe"
+  | "pronoms";
 
 export type HomophoneSlot = "a-a" | "et-est" | "on-ont" | "son-sont" | "ou-ou" | "ces-ses" | "tout";
 
-export type AccordSlot = "pluriel" | "feminin" | "mixte";
+export type AccordSlot = "s-x" | "pluriel" | "feminin" | "mixte";
 
 export type VocabSlot = "synonymes" | "contraires" | "mixte";
 
-export type ConjugaisonSlot = "present" | "imparfait" | "futur" | "mixte";
+export type ConjugaisonSlot =
+  | "verbes-er"
+  | "etre-avoir"
+  | "present"
+  | "imparfait"
+  | "futur"
+  | "mixte";
 
 export type LectureSlot = "animaux" | "ecole" | "maison" | "quotidien" | "tout";
 
-export type FrenchSlot = HomophoneSlot | AccordSlot | VocabSlot | ConjugaisonSlot | LectureSlot;
+export type FrenchLectureSlot = LectureSlot | "vrai-faux";
+
+export type ArticleSlot = "un-une" | "le-la" | "mixte";
+
+export type SonSlot = "oi" | "ou" | "an" | "ch" | "gn" | "mixte";
+
+export type FrenchSlot =
+  | HomophoneSlot
+  | AccordSlot
+  | VocabSlot
+  | ConjugaisonSlot
+  | FrenchLectureSlot
+  | ArticleSlot
+  | SonSlot;
 
 export type EnglishQuizModule =
   | "conjugaison"
@@ -108,6 +132,7 @@ export interface QuizQuestion {
   enToFr?: boolean; // true = prompt anglais / choix français (anglais uniquement)
   passage?: string; // texte de lecture (français / lecture)
   highlightWord?: string; // sous-chaîne à coloriser dans le prompt (nature des mots)
+  explain?: string; // phrase affichée après une erreur
 }
 
 export interface SeriesResult {
@@ -174,12 +199,17 @@ export const ENGLISH_THEME_LABELS: Record<EnglishTheme, string> = {
 };
 
 export const FRENCH_MODULES: FrenchModule[] = [
-  "homophones",
-  "nature",
-  "accords",
-  "vocabulaire",
-  "conjugaison",
   "lecture",
+  "intrus",
+  "articles",
+  "accords",
+  "sons",
+  "homophones",
+  "vocabulaire",
+  "verbe",
+  "pronoms",
+  "conjugaison",
+  "nature",
 ];
 
 export const FRENCH_MODULE_LABELS: Record<FrenchModule, string> = {
@@ -189,15 +219,25 @@ export const FRENCH_MODULE_LABELS: Record<FrenchModule, string> = {
   vocabulaire: "Vocabulaire",
   conjugaison: "Conjugaison",
   lecture: "Lecture",
+  intrus: "L'intrus",
+  articles: "Articles",
+  sons: "Sons",
+  verbe: "Trouve le verbe",
+  pronoms: "Pronoms",
 };
 
 export const FRENCH_SLOTS: Record<FrenchModule, readonly FrenchSlot[]> = {
   homophones: ["a-a", "et-est", "on-ont", "son-sont", "ou-ou", "ces-ses", "tout"],
   nature: ["mixte"],
-  accords: ["pluriel", "feminin", "mixte"],
+  accords: ["s-x", "pluriel", "feminin", "mixte"],
   vocabulaire: ["synonymes", "contraires", "mixte"],
-  conjugaison: ["present", "imparfait", "futur", "mixte"],
-  lecture: ["animaux", "ecole", "maison", "quotidien", "tout"],
+  conjugaison: ["verbes-er", "etre-avoir", "present", "imparfait", "futur", "mixte"],
+  lecture: ["animaux", "ecole", "maison", "quotidien", "vrai-faux", "tout"],
+  intrus: ["mixte"],
+  articles: ["un-une", "le-la", "mixte"],
+  sons: ["oi", "ou", "an", "ch", "gn", "mixte"],
+  verbe: ["mixte"],
+  pronoms: ["mixte"],
 };
 
 export const FRENCH_SLOT_LABELS: Record<FrenchSlot, string> = {
@@ -207,11 +247,14 @@ export const FRENCH_SLOT_LABELS: Record<FrenchSlot, string> = {
   "son-sont": "son / sont",
   "ou-ou": "ou / où",
   "ces-ses": "ces / ses",
+  "s-x": "Avec s ou x",
   pluriel: "Pluriel",
   feminin: "Féminin",
   mixte: "Tout mélanger",
   synonymes: "Synonymes",
   contraires: "Contraires",
+  "verbes-er": "Verbes en -er",
+  "etre-avoir": "être et avoir",
   present: "Présent",
   imparfait: "Imparfait",
   futur: "Futur",
@@ -219,6 +262,14 @@ export const FRENCH_SLOT_LABELS: Record<FrenchSlot, string> = {
   ecole: "École",
   maison: "Maison",
   quotidien: "Quotidien",
+  "vrai-faux": "Vrai ou faux",
+  "un-une": "un / une",
+  "le-la": "le / la",
+  oi: "oi",
+  ou: "ou",
+  an: "an",
+  ch: "ch",
+  gn: "gn",
   tout: "Tout mélanger",
 };
 

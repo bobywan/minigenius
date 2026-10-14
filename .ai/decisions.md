@@ -249,3 +249,18 @@
 
 **Conséquences :** Ajouter un module histoire = une banque + une entrée dans `HISTORY_MODULES`. Les autres matières ne sont pas touchées.
 
+---
+
+## [2026-10-14] Français CE1 sur le QCM existant
+
+**Contexte :** Le français couvrait déjà six modules QCM (homophones, nature, accords irréguliers, vocabulaire, conjugaison avec imparfait et futur, lecture). Le palier CE1 demande des exercices plus courts : vrai/faux, l'intrus, articles, pluriel en s/x, sons, verbe, pronoms, présent des verbes en -er et de être/avoir.
+
+**Décision :** Pas de nouveau moteur de jeu et pas de fichiers JSON. On étend `QuizSeed` avec `explain?` (affiché seulement après une erreur) et on ajoute des banques dans `lib/exercises/generators/french/`. Les routes `[module]/[slot]` et le jeu libre restent celles du français. Le hub `/francais` est regroupé en trois familles. Les slots déjà joués (imparfait, futur, pluriels irréguliers, homophones) gardent leur id pour ne pas perdre les étoiles.
+
+**Alternatives écartées :**
+- Un `GameEngine` / `QuizContainer` partagé : la page de série française suffit déjà.
+- Remplacer l'imparfait, le futur et les homophones : le contenu plus avancé reste accessible.
+- Ajouter `vrai-faux` à `LectureSlot` : ce type est partagé avec l'anglais.
+
+**Conséquences :** Une nouvelle banque CE1 se branche dans `frenchPool` et `FRENCH_SLOTS`. Chaque slot doit avoir au moins 14 énoncés uniques. `vrai-faux` et les articles sont des QCM à 2 choix, comme les homophones binaires.
+
