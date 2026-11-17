@@ -1,6 +1,6 @@
 import type { QuizQuestion } from "../../../types.ts";
 
-export const SERIES_LENGTH = 10;
+const SERIES_LENGTH = 10;
 
 export type QuizSeed = {
   prompt: string;
@@ -22,7 +22,7 @@ export function shuffle<T>(items: readonly T[]): T[] {
   return out;
 }
 
-export function toQuestion(seed: QuizSeed): QuizQuestion {
+function toQuestion(seed: QuizSeed): QuizQuestion {
   const seen = new Set([seed.answer]);
   const extra: string[] = [];
   for (const distractor of seed.distractors) {

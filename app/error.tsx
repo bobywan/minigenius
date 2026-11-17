@@ -14,12 +14,12 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-6 p-8">
-      <h1 className="text-2xl font-semibold">Une erreur est survenue</h1>
-      <p className="text-foreground/60">{error.message || "Quelque chose s'est mal passé."}</p>
+      <h1 className="font-display text-3xl text-white">Oups, une erreur est survenue</h1>
+      <p className="text-white/90">Quelque chose s'est mal passé. Essaie encore !</p>
       <button
         type="button"
         onClick={reset}
-        className="rounded-lg bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
+        className="min-h-[56px] rounded-[var(--radius-btn)] border-2 border-emerald-400 bg-emerald-500 px-8 font-bold text-xl text-white shadow-[0_4px_0_#059669] active:translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
       >
         Réessayer
       </button>

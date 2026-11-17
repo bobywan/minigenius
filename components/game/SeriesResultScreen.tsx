@@ -102,6 +102,7 @@ export function SeriesResultScreen({
         origin: { y: 0.5 },
         colors,
         zIndex: 9999,
+        disableForReducedMotion: true,
       });
 
     burst();
