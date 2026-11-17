@@ -35,7 +35,7 @@ export function speak(text: string): void {
   stopAll();
 
   let usedFallback = false;
-  const useFallback = () => {
+  const playFallback = () => {
     if (usedFallback) return;
     usedFallback = true;
     fallbackSpeak(text);
@@ -45,7 +45,7 @@ export function speak(text: string): void {
   current = audio;
   audio.addEventListener("error", () => {
     if (current === audio) current = null;
-    useFallback();
+    playFallback();
   });
-  void audio.play().catch(useFallback);
+  void audio.play().catch(playFallback);
 }

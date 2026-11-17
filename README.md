@@ -21,15 +21,15 @@ Application éducative gamifiée pour les enfants — maths, français, anglais,
 
 ## Stack
 
-| Outil | Usage |
-|---|---|
-| Next.js 16 (App Router) | Framework fullstack |
-| TypeScript strict | Typage |
-| Tailwind CSS v4 | Styles |
-| Zustand | État de progression (localStorage) |
-| Framer Motion | Animations |
-| Lucide React | Icônes |
-| BiomeJS v2 | Lint + format |
+| Outil                   | Usage                              |
+| ----------------------- | ---------------------------------- |
+| Next.js 16 (App Router) | Framework fullstack                |
+| TypeScript strict       | Typage                             |
+| Tailwind CSS v4         | Styles                             |
+| Zustand                 | État de progression (localStorage) |
+| Framer Motion           | Animations                         |
+| Lucide React            | Icônes                             |
+| BiomeJS v2              | Lint + format                      |
 
 ## Démarrage
 
@@ -42,13 +42,13 @@ L'application est disponible sur [http://localhost:3000](http://localhost:3000).
 
 ## Scripts
 
-| Commande | Description |
-|---|---|
-| `npm run dev` | Serveur de développement |
-| `npm run build` | Build de production |
-| `npm run typecheck` | Vérification TypeScript |
-| `npm run lint` | Analyse Biome |
-| `npm run audio:en` | (Re)génère `public/audio/en/*.mp3` (Piper ou `say` + ffmpeg) |
+| Commande            | Description                                                  |
+| ------------------- | ------------------------------------------------------------ |
+| `npm run dev`       | Serveur de développement                                     |
+| `npm run build`     | Build de production                                          |
+| `npm run typecheck` | Vérification TypeScript                                      |
+| `npm run lint`      | Analyse Biome                                                |
+| `npm run audio:en`  | (Re)génère `public/audio/en/*.mp3` (Piper ou `say` + ffmpeg) |
 
 ## Structure
 
@@ -73,7 +73,7 @@ lib/
 
 La CI (lint, types, checks des exercices, audit, build) doit être verte avant le merge. Vercel publie une preview sur la pull request et la production au merge sur `main`.
 
-GitHub supprime la branche de la pull request dès le merge (réglage *Automatically delete head branches*). Une Action hebdomadaire retire en plus les branches déjà contenues dans `main` et inactives depuis 14 jours.
+GitHub supprime la branche de la pull request dès le merge (réglage _Automatically delete head branches_). Une Action hebdomadaire retire en plus les branches déjà contenues dans `main` et inactives depuis 14 jours.
 
 ## Licence
 

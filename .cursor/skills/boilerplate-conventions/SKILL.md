@@ -1,4 +1,5 @@
 ---
+
 name: boilerplate-conventions
 description: Guides the agent when adding features or files to this Next.js boilerplate. Use when adding a new page, component, API route, or utility; when setting up a new feature from scratch; or when the user asks how something should be structured in this project.
 ---
@@ -7,12 +8,12 @@ description: Guides the agent when adding features or files to this Next.js boil
 
 ## Stack rapide
 
-| Couche     | Outil                        |
-| ---------- | ---------------------------- |
-| Framework  | Next.js App Router           |
-| Styles     | Tailwind CSS v4              |
-| Lint/format | BiomeJS v2                  |
-| Runtime    | Node.js 24 LTS               |
+| Couche      | Outil              |
+| ----------- | ------------------ |
+| Framework   | Next.js App Router |
+| Styles      | Tailwind CSS v4    |
+| Lint/format | BiomeJS v2         |
+| Runtime     | Node.js 24 LTS     |
 
 ## Ajouter une nouvelle page
 

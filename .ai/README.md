@@ -4,10 +4,10 @@ Ce dossier contient la mémoire persistante du projet pour les agents IA (Cursor
 
 ## Fichiers
 
-| Fichier | Rôle |
-|---------|------|
+| Fichier              | Rôle                                                                 |
+| -------------------- | -------------------------------------------------------------------- |
 | `project-context.md` | Contexte général : objectif, stack, contraintes métier, architecture |
-| `decisions.md` | Journal des décisions d'architecture (ADR léger) |
+| `decisions.md`       | Journal des décisions d'architecture (ADR léger)                     |
 
 ## Comment utiliser ces fichiers
 
