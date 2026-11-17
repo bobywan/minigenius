@@ -23,6 +23,8 @@ export function ProgressDots({ total = SERIES_LENGTH, states, current }: Progres
     <div
       className="flex gap-2 items-center justify-center flex-wrap"
       role="progressbar"
+      aria-label="Progression de la série"
+      aria-valuemin={0}
       aria-valuenow={current}
       aria-valuemax={total}
     >

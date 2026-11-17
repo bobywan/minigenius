@@ -1,4 +1,5 @@
-const CACHE = "minigenius-v5";
+const CACHE = "minigenius-v6";
+const STATIC_PREFIXES = ["/_next/static/", "/audio/", "/icons/"];
 const PRECACHE = [
   "/",
   "/maths",
@@ -36,14 +37,16 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(request)
         .then((res) => {
-          const clone = res.clone();
-          caches.open(CACHE).then((cache) => cache.put(request, clone));
+          if (res.ok) {
+            const clone = res.clone();
+            caches.open(CACHE).then((cache) => cache.put(request, clone));
+          }
           return res;
         })
-        .catch(() => caches.match(request)),
+        .catch(() => caches.match(request).then((cached) => cached ?? caches.match("/"))),
     );
-  } else {
-    // Assets statiques : cache-first
+  } else if (STATIC_PREFIXES.some((p) => url.pathname.startsWith(p))) {
+    // Assets statiques immuables : cache-first (le reste, dont les requêtes RSC, passe au réseau)
     event.respondWith(
       caches.match(request).then((cached) => {
         if (cached) return cached;

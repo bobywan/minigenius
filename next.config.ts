@@ -1,10 +1,11 @@
 import type { NextConfig } from "next";
 
 // next/font auto-héberge les polices. 'unsafe-inline' : scripts/styles Next (pas de nonce).
+// 'unsafe-eval' : dev uniquement (HMR), absent en production.
 // blob: : workers Turbopack. ws:/wss: : HMR en dev. Pas d'upgrade-insecure-requests : localhost HTTP.
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:",
+  `script-src 'self' 'unsafe-inline' ${process.env.NODE_ENV === "production" ? "" : "'unsafe-eval' "}blob:`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",

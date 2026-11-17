@@ -31,7 +31,6 @@ export function AnswerInput({ value, state, placeholder = "?" }: AnswerInputProp
       ref={scope}
       role="status"
       aria-live="polite"
-      aria-label={`Réponse saisie : ${value || placeholder}`}
       className={[
         "min-w-[140px] min-h-[80px] px-6",
         "flex items-center justify-center",
@@ -41,7 +40,12 @@ export function AnswerInput({ value, state, placeholder = "?" }: AnswerInputProp
         stateMap[state],
       ].join(" ")}
     >
-      {value || <span className="opacity-40">{placeholder}</span>}
+      <span className="sr-only">Réponse saisie : </span>
+      {value || (
+        <span className="opacity-40" aria-hidden="true">
+          {placeholder}
+        </span>
+      )}
     </div>
   );
 }

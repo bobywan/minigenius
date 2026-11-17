@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Check, X } from "lucide-react";
 import { SpeakButton } from "@/components/ui/SpeakButton";
 
 interface ChoiceGridProps {
@@ -53,7 +54,11 @@ export function ChoiceGrid({
                       : "bg-sky-800 hover:bg-sky-800/80 cursor-pointer",
               ].join(" ")}
             >
+              {correct && <Check aria-hidden="true" className="mr-2 inline" size={24} />}
+              {wrong && <X aria-hidden="true" className="mr-2 inline" size={24} />}
               {choice}
+              {correct && <span className="sr-only"> (bonne réponse)</span>}
+              {wrong && <span className="sr-only"> (mauvaise réponse)</span>}
             </motion.button>
             {enableSpeech && <SpeakButton text={choice} />}
           </div>

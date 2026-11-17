@@ -1,4 +1,4 @@
-export function englishAudioSlug(word: string): string {
+function englishAudioSlug(word: string): string {
   return word.trim().toLowerCase().replace(/\s+/g, "-");
 }
 

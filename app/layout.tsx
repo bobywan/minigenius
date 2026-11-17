@@ -2,6 +2,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import { Nunito, Titan_One } from "next/font/google";
+import MotionProvider from "@/components/MotionProvider";
 import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
 
 import "./globals.css";
@@ -37,8 +38,6 @@ export const viewport: Viewport = {
   themeColor: "#075985",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
 };
 
 export default function RootLayout({
@@ -50,7 +49,7 @@ export default function RootLayout({
     <html lang="fr" className={`${titanOne.variable} ${nunito.variable}`}>
       <body className="bg-sky-800 min-w-[320px]">
         <ServiceWorkerRegistration />
-        {children}
+        <MotionProvider>{children}</MotionProvider>
         <Analytics />
         <SpeedInsights />
       </body>
