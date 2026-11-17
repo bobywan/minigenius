@@ -13,6 +13,7 @@
 **Décision :** BiomeJS v2 remplace à la fois ESLint et Prettier — un seul outil, une seule config (`biome.json`), une seule commande (`npm run check`).
 
 **Alternatives écartées :**
+
 - ESLint + Prettier : deux outils à maintenir, conflits de règles, plus lent
 - oxlint : performant mais moins mature, pas de formatter intégré
 
@@ -27,6 +28,7 @@
 **Décision :** Pas de `tailwind.config.js` ni `tailwind.config.ts`. Thème et customisations directement dans `app/globals.css`.
 
 **Alternatives écartées :**
+
 - Garder Tailwind v3 avec config file : moins moderne, pas aligné avec l'écosystème actuel
 
 **Conséquences :** Moins de fichiers de config. Nécessite de connaître la syntaxe `@theme` de Tailwind v4.
@@ -40,6 +42,7 @@
 **Décision :** Les deux coexistent — ils couvrent des besoins complémentaires. Headroom compresse les payloads entrants, Context Mode gère la persistance de session et les outils sandbox.
 
 **Alternatives écartées :**
+
 - Context Mode seul : perd la compression Headroom déjà en place
 - Headroom seul : pas de session persistante, pas de sandbox tools
 
@@ -54,6 +57,7 @@
 **Décision :** Copie directe de `.cursor/rules/ponytail.mdc` depuis le repo officiel. Aucune dépendance, aucun hook.
 
 **Alternatives écartées :**
+
 - Attendre un plugin Cursor natif : pas de date prévue
 - Ne pas intégrer Ponytail : perdre le bénéfice du YAGNI ladder
 
@@ -68,6 +72,7 @@
 **Décision :** Ajout de Serena comme serveur MCP avec `--context=ide --project-from-cwd`. Le contexte `ide` est recommandé pour Cursor/Windsurf — il désactive les outils Serena qui doublonnent les capacités natives (Shell, Read, search) pour éviter la surcharge de contexte.
 
 **Alternatives écartées :**
+
 - Ne pas ajouter Serena : perd le rename cross-file symbolique, les find-references et le refactoring sûr
 - Contexte `claude-code` : trop de doublons avec les outils Cursor natifs
 
@@ -80,6 +85,7 @@
 **Décision :** Service worker statique dans `public/sw.js` (API native browser, aucune dépendance). Enregistrement via un composant `"use client"` minimal (`components/ServiceWorkerRegistration.tsx`) injecté dans le root layout. Stratégie : network-first sur les navigations, cache-first sur les assets statiques.
 
 **Alternatives écartées :**
+
 - Désactiver Turbopack : perte des gains de performance en dev, contre l'intention du projet
 - `serwist` (successeur de next-pwa compatible Turbopack) : nouvelle dépendance non justifiée, le SW natif couvre 100% du besoin ici
 
@@ -92,6 +98,7 @@
 **Contexte :** L'ouverture de la matière Anglais introduit un format d'exercice absent du projet (choix multiples) et un besoin de prononciation. Le store et `SeriesResultScreen` étaient par ailleurs typés sur `MathModule`, ce qui bloquait toute matière non mathématique.
 
 **Décision :**
+
 - Introduction de `ModuleId = MathModule | EnglishModule` dans `lib/types.ts` ; `SubjectProgress` et les signatures de `progressStore` sont élargies à `ModuleId`. Aucune page maths impactée.
 - Les deux sens de traduction (`traduction-en-fr`, `traduction-fr-en`) sont des modules distincts et non un paramètre d'un module unique — ils ont donc leurs propres étoiles, et la liste `/anglais` reste extensible (Phrases, Conjugaison).
 - QCM générique en deux composants : `ChoiceGrid` (4 boutons, feedback vert/rouge repris du clavier du Pendu) et `WordPrompt`.
@@ -100,6 +107,7 @@
 - Vocabulaire (342 mots) et générateur dans un seul fichier `lib/exercises/generators/english.ts`, comme `math.ts` : le fichier reste exécutable directement par Node, ce qui permet à `english.check.mjs` de le vérifier sans résolution d'alias ni dépendance de test.
 
 **Alternatives écartées :**
+
 - Élargir le type des props mortes `module`/`difficulty` de `SeriesResultScreen` : elles n'étaient jamais lues, elles ont été supprimées.
 - Une bibliothèque de TTS : `speechSynthesis` couvre 100 % du besoin, aucune dépendance justifiée.
 - Vocabulaire dans un fichier séparé importé via `@/` : casse l'exécution directe sous Node (alias non résolu), donc le check exécutable.
@@ -113,6 +121,7 @@
 **Contexte :** Le projet a démarré avec un thème cartoon coloré (gradients magenta/rose, boutons néons multicolores avec 5 variantes) inspiré Fall Guys. Après itération et tests utilisateurs, ce design s'est révélé trop agressif visuellement pour une application éducative destinée aux enfants, avec des problèmes de contraste et de lisibilité, notamment sur tablette. Le dégradé bleu vif en fond fixe créait aussi une fatigue visuelle lors de sessions prolongées.
 
 **Décision :** Refonte complète vers un thème épuré blanc/emerald/amber :
+
 - Fond blanc avec effet de sol vert ondulant (emerald-500/600) via pseudo-éléments CSS `body::before` et `body::after`
 - Composants blancs avec effets hover emerald (shadow + scale + translation Y)
 - Accent amber pour boutons secondaires, étoiles de progression et highlights
@@ -122,11 +131,13 @@
 - Nouvelle page `/design` simplifiée documentant le design system v2
 
 **Alternatives écartées :**
+
 - Cohabitation des deux designs (pages nav en blanc, pages jeu en cartoon) : incohérence visuelle trop perturbante, impression de deux applications différentes
 - Garder le design cartoon original avec ajustements mineurs : les problèmes de contraste et de fatigue visuelle nécessitaient une refonte complète, pas des ajustements cosmétiques
 - Design noir/sombre : moins adapté à une application éducative enfant, contraste insuffisant pour la lecture prolongée
 
-**Conséquences :** 
+**Conséquences :**
+
 - 20 fichiers modifiés (pages + composants)
 - Design plus sobre et apaisant, meilleure lisibilité, contraste optimisé pour tablette
 - Cohérence visuelle complète sur toute l'application
@@ -141,12 +152,14 @@
 **Contexte :** Les règles d'étoiles étaient documentées mais les locks étaient des stubs. `"mixte"` n'existait que comme `EnglishModule` alors que les maths l'utilisent aussi. `PageTitle` construisait `text-${size}` (purge Tailwind). Le SW ne précachait que 3 hubs.
 
 **Décision :**
+
 - Fonctions pures dans `lib/progress/locks.ts` (check Node) ; le store les enveloppe.
 - `MixedModule = "mixte"` séparé ; `ModuleId = MathModule | EnglishModule | MixedModule`.
 - `PageTitle` : map de classes statiques. Metadata via layouts + `title.template` racine.
 - SW cache `minigenius-v2`, PRECACHE des hubs maths/anglais/mixte/mini-jeux.
 
 **Alternatives écartées :**
+
 - Redirect 404 sur URL d'un niveau verrouillé : flash SSR trop risqué ; le cadenas est sur le sélecteur uniquement.
 - Bouton reset de progression : toujours hors UI (contrainte métier).
 
@@ -205,6 +218,7 @@
 **Contexte :** Français était prévu sur l'accueil. L'anglais a montré qu'une matière non mathématique passe par `ModuleId` + QCM (`ChoiceGrid`, `useSeriesGame`). Six modules ont été retenus : homophones, nature des mots, accords, vocabulaire, conjugaison, lecture.
 
 **Décision :**
+
 - Hub `/francais` puis `[module]/[slot]` (série) et `[module]/[slot]/libre`. Une page de jeu dynamique pour tous les modules.
 - `FrenchModule` dans `ModuleId`, `FrenchSlot` dans `SeriesSlot`. Persist inchangé (ajout de clés, pas de migrate).
 - Banks dans `lib/exercises/generators/french/` (imports relatifs avec suffixe `.ts` pour Node). `allowImportingTsExtensions` est activé dans `tsconfig.json` (`noEmit` déjà vrai) pour que tsc accepte ces imports. Conjugaison générée depuis des tables de verbes. Lecture : `ReadingPrompt` + `QuizQuestion.passage`.
@@ -221,6 +235,7 @@
 **Contexte :** L'anglais n'avait que la traduction par thème. Le français a montré qu'on peut empiler des familles QCM (conjugaison, lecture, etc.) sans nouveau moteur de jeu.
 
 **Décision :**
+
 - Hub `/anglais` : traduction inchangée + six modules (conjugaison, phrases, pluriels, articles, contraires, lecture).
 - Routes `/anglais/[module]/[slot]` calquées sur le français. Le dossier statique `traduction/` gagne sur `[module]`.
 - Banks dans `lib/exercises/generators/english-quiz/`. Réutilisation de `pickSeries` / `QuizSeed` depuis `french/quiz.ts` (pas d'extraction, pas de `QuizSeriesGame`).
@@ -238,6 +253,7 @@
 **Contexte :** Histoire était prévu sur l'accueil. Le français et l'anglais QCM ont montré qu'une matière non mathématique passe par `ModuleId` + `ChoiceGrid` / `useSeriesGame`. Le contenu doit rester dans le programme d'histoire du primaire (CE2–CM2, programmes 2026), pas le collège.
 
 **Décision :**
+
 - Hub `/histoire` puis `[module]/[slot]` (série) et `[module]/[slot]/libre`, calqué sur le français.
 - Six modules par période : préhistoire, Rome et la Gaule, Moyen Âge, les rois, 1789, France récente. Un seul slot `mixte` chacun.
 - `HistoryModule` dans `ModuleId`. Persist inchangé (ajout de clés, pas de migrate).
@@ -258,9 +274,9 @@
 **Décision :** Pas de nouveau moteur de jeu et pas de fichiers JSON. On étend `QuizSeed` avec `explain?` (affiché seulement après une erreur) et on ajoute des banques dans `lib/exercises/generators/french/`. Les routes `[module]/[slot]` et le jeu libre restent celles du français. Le hub `/francais` est regroupé en trois familles. Les slots déjà joués (imparfait, futur, pluriels irréguliers, homophones) gardent leur id pour ne pas perdre les étoiles.
 
 **Alternatives écartées :**
+
 - Un `GameEngine` / `QuizContainer` partagé : la page de série française suffit déjà.
 - Remplacer l'imparfait, le futur et les homophones : le contenu plus avancé reste accessible.
 - Ajouter `vrai-faux` à `LectureSlot` : ce type est partagé avec l'anglais.
 
 **Conséquences :** Une nouvelle banque CE1 se branche dans `frenchPool` et `FRENCH_SLOTS`. Chaque slot doit avoir au moins 14 énoncés uniques. `vrai-faux` et les articles sont des QCM à 2 choix, comme les homophones binaires.
-

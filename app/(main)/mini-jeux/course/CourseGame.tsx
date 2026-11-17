@@ -53,7 +53,6 @@ function laneCenter(lane: number): number {
 
 class CourseEngine {
   private canvas: HTMLCanvasElement;
-  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: accessed via destructuring
   private ctx: CanvasRenderingContext2D;
   private dpr: number;
   private rafId = 0;

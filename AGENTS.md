@@ -14,6 +14,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## Project Memory
 
 Before proposing structural changes, read:
+
 - `.ai/project-context.md` — project objective, stack, constraints
 - `.ai/decisions.md` — past architecture decisions (don't re-open without reason)
 

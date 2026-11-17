@@ -52,7 +52,6 @@ type Coin = { x: number; y: number; r: number; taken: boolean };
 
 class VolEngine {
   private canvas: HTMLCanvasElement;
-  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: accessed via destructuring
   private ctx: CanvasRenderingContext2D;
   private dpr: number;
   private rafId = 0;

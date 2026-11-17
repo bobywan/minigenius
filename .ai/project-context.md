@@ -14,18 +14,18 @@ Elle propose des exercices de maths, français, anglais et histoire interactifs 
 
 ## Stack technique
 
-| Outil | Version | Rôle |
-|---|---|---|
-| Next.js | 16 (App Router) | Framework fullstack |
-| React | 19 | UI |
-| TypeScript | 5 (strict) | Typage |
-| Tailwind CSS | v4 | Styles (via CSS, sans config file) |
-| BiomeJS | v2 | Lint + format |
-| Zustand | v5 | État de progression (localStorage) |
-| Framer Motion | v12 | Animations |
-| Lucide React | — | Icônes (zéro emoji dans l'UI) |
-| canvas-confetti | — | Confettis fin de série |
-| Node.js | 24 LTS | Runtime |
+| Outil           | Version         | Rôle                               |
+| --------------- | --------------- | ---------------------------------- |
+| Next.js         | 16 (App Router) | Framework fullstack                |
+| React           | 19              | UI                                 |
+| TypeScript      | 5 (strict)      | Typage                             |
+| Tailwind CSS    | v4              | Styles (via CSS, sans config file) |
+| BiomeJS         | v2              | Lint + format                      |
+| Zustand         | v5              | État de progression (localStorage) |
+| Framer Motion   | v12             | Animations                         |
+| Lucide React    | —               | Icônes (zéro emoji dans l'UI)      |
+| canvas-confetti | —               | Confettis fin de série             |
+| Node.js         | 24 LTS          | Runtime                            |
 
 ---
 
@@ -91,6 +91,7 @@ public/
 ```
 
 **Principes :**
+
 - Server Components par défaut — `"use client"` uniquement si nécessaire (jeu, store)
 - Imports internes via l'alias `@/`
 - Pas de `var`, pas d'`any` explicite
@@ -117,21 +118,21 @@ public/
 
 Fond `sky-800`, cartes blanches, sol vert ondulant (emerald). Six familles de couleurs Tailwind :
 
-| Famille | Classes |
-|---|---|
-| Bleu nuit | `sky-800` / `cyan-900` |
+| Famille     | Classes                    |
+| ----------- | -------------------------- |
+| Bleu nuit   | `sky-800` / `cyan-900`     |
 | Vert menthe | `emerald-500` / `teal-500` |
 | Jaune ambre | `amber-500` / `orange-400` |
-| Framboise | `rose-700` / `pink-800` |
-| Pervenche | `indigo-400` / `slate-400` |
-| Corail | `orange-600` / `red-500` |
+| Framboise   | `rose-700` / `pink-800`    |
+| Pervenche   | `indigo-400` / `slate-400` |
+| Corail      | `orange-600` / `red-500`   |
 
-| Token | Valeur |
-|---|---|
+| Token            | Valeur    |
+| ---------------- | --------- |
 | `--font-display` | Titan One |
-| `--font-body` | Nunito |
-| `--radius-card` | `1.5rem` |
-| `--radius-btn` | `1rem` |
+| `--font-body`    | Nunito    |
+| `--radius-card`  | `1.5rem`  |
+| `--radius-btn`   | `1rem`    |
 
 **Composants UI :** `Card`, `Button`, `StarRating` (amber), `BackLink`, `Logo`, `PageTitle`, `PageSubtitle`, `DifficultyBadge`, `BadgeModule`.
 
@@ -152,13 +153,13 @@ Fond `sky-800`, cartes blanches, sol vert ondulant (emerald). Six familles de co
 
 ## Matières disponibles
 
-| Matière | Statut |
-|---|---|
-| Maths | Actif — 4 opérations × 3 difficultés + mixte + jeu libre |
-| Anglais | Actif — traduction par thème + 6 modules QCM (conjugaison, phrases, pluriels, articles, contraires, lecture) |
-| Français | Actif — hub en 3 familles. Lecture (textes, vrai/faux, intrus), orthographe (articles, s/x, sons, homophones, vocabulaire), grammaire (verbe, pronoms, conjugaison dont verbes en -er et être/avoir, nature) |
-| Mini-jeux | Actif — pendu, runner |
-| Histoire | Actif — 6 modules QCM (préhistoire, Rome et la Gaule, Moyen Âge, les rois, 1789, France récente) |
+| Matière   | Statut                                                                                                                                                                                                       |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Maths     | Actif — 4 opérations × 3 difficultés + mixte + jeu libre                                                                                                                                                     |
+| Anglais   | Actif — traduction par thème + 6 modules QCM (conjugaison, phrases, pluriels, articles, contraires, lecture)                                                                                                 |
+| Français  | Actif — hub en 3 familles. Lecture (textes, vrai/faux, intrus), orthographe (articles, s/x, sons, homophones, vocabulaire), grammaire (verbe, pronoms, conjugaison dont verbes en -er et être/avoir, nature) |
+| Mini-jeux | Actif — pendu, runner                                                                                                                                                                                        |
+| Histoire  | Actif — 6 modules QCM (préhistoire, Rome et la Gaule, Moyen Âge, les rois, 1789, France récente)                                                                                                             |
 
 ---
 
