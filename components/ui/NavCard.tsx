@@ -9,15 +9,28 @@ type NavCardProps = {
   title: string;
   description: string;
   className?: string;
+  meta?: ReactNode;
+  prominent?: boolean;
 };
 
-export function NavCard({ href, icon, title, description, className = "" }: NavCardProps) {
+export function NavCard({
+  href,
+  icon,
+  title,
+  description,
+  className = "",
+  meta,
+  prominent = false,
+}: NavCardProps) {
   return (
     <Link href={href} className={`group ${className}`}>
-      <Card>
+      <Card
+        backgroundColor={prominent ? "bg-accent-soft" : undefined}
+        className={prominent ? "border-accent" : ""}
+      >
         <span
           aria-hidden="true"
-          className="grid size-14 shrink-0 place-items-center rounded-[var(--radius-tile)] bg-accent-soft font-display text-3xl text-accent-ink"
+          className={`grid size-14 shrink-0 place-items-center rounded-[var(--radius-tile)] font-display text-3xl text-accent-ink ${prominent ? "bg-surface" : "bg-accent-soft"}`}
         >
           {icon}
         </span>
@@ -25,6 +38,7 @@ export function NavCard({ href, icon, title, description, className = "" }: NavC
           <p className="text-2xl font-display text-ink">{title}</p>
           <p className="text-lg text-ink-2 font-body">{description}</p>
         </div>
+        {meta}
         <ChevronRight
           size={24}
           aria-hidden="true"

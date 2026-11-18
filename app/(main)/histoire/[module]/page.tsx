@@ -70,9 +70,7 @@ export default function HistoryModulePage({ params }: { params: Promise<{ module
                   <Icon size={40} className="shrink-0" />
                   <div className="flex flex-col gap-1">
                     <p className="text-2xl font-display">{HISTORY_SLOT_LABELS[slot]}</p>
-                    <p className="text-base text-ink-2 font-body">
-                      {MODULE_DESC[historyModule]}
-                    </p>
+                    <p className="text-base text-ink-2 font-body">{MODULE_DESC[historyModule]}</p>
                   </div>
                 </div>
                 <StarRating stars={stars} size="sm" />

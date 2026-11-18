@@ -29,7 +29,7 @@ export function StarRating({
       {([1, 2, 3] as Stars[]).map((s) => {
         const filled = s <= stars;
         const star = (
-          <Star size={sz} className={filled ? "text-star fill-star" : "text-line-strong"} />
+          <Star key={s} size={sz} className={filled ? "text-star fill-star" : "text-line-strong"} />
         );
         return animate ? (
           <motion.span
