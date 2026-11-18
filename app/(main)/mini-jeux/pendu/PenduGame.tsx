@@ -288,9 +288,7 @@ export function PenduGame() {
 
         <p className="font-display text-ink text-lg" aria-live="polite">
           Erreurs :{" "}
-          <span className={game.errors >= 4 ? "text-danger" : "text-ink"}>
-            {game.errors} / 6
-          </span>
+          <span className={game.errors >= 4 ? "text-danger" : "text-ink"}>{game.errors} / 6</span>
         </p>
 
         {game.status !== "playing" && (
