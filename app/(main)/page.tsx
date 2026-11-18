@@ -1,8 +1,7 @@
 import { BookOpen, Calculator, Gamepad2, Globe, Landmark } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Card } from "@/components/ui/Card";
 import { Logo } from "@/components/ui/Logo";
+import { NavCard } from "@/components/ui/NavCard";
 import { PageSubtitle } from "@/components/ui/PageSubtitle";
 
 export const metadata: Metadata = {
@@ -50,30 +49,24 @@ const SUBJECTS = [
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center px-8 lg:px-16 py-16 gap-16">
-      <header className="text-center flex flex-col gap-4">
+    <main className="flex flex-col items-center px-6 lg:px-16 py-12 lg:py-16 gap-12">
+      <header className="text-center flex flex-col items-center gap-3">
         <Logo size="large" />
 
         <PageSubtitle>Choisis ta matière pour commencer !</PageSubtitle>
       </header>
 
       <section className="grid gap-4 w-full lg:grid-cols-2">
-        {SUBJECTS.map((s) => {
-          const Icon = s.icon;
-
-          return (
-            <Link key={s.id} href={s.href} className="group">
-              <Card>
-                <Icon size={40} className="shrink-0" />
-
-                <div className="flex flex-col content-center gap-1">
-                  <p className="text-2xl font-display">{s.label}</p>
-                  <p className="text-lg text-slate-700 font-body">{s.description}</p>
-                </div>
-              </Card>
-            </Link>
-          );
-        })}
+        {SUBJECTS.map(({ id, icon: Icon, label, description, href }) => (
+          <NavCard
+            key={id}
+            href={href}
+            className={`theme-${id}`}
+            icon={<Icon size={28} />}
+            title={label}
+            description={description}
+          />
+        ))}
       </section>
     </main>
   );

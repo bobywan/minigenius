@@ -122,7 +122,7 @@ function HangmanSVG({ errors }: { errors: number }) {
   return (
     <svg
       viewBox="0 0 200 220"
-      className="w-48 h-48 sm:w-56 sm:h-56 text-sky-800"
+      className="w-48 h-48 sm:w-56 sm:h-56 text-ink"
       aria-label={`Pendu : ${errors} erreur${errors > 1 ? "s" : ""} sur 6`}
       role="img"
     >
@@ -271,7 +271,7 @@ export function PenduGame() {
         <PageTitle>Le Pendu</PageTitle>
       </header>
 
-      <div className="flex flex-col items-center gap-8 w-full bg-white p-8 rounded-xl">
+      <div className="flex flex-col items-center gap-8 w-full bg-surface text-ink border border-line shadow-card p-8 rounded-[var(--radius-card)]">
         <HangmanSVG errors={game.errors} />
 
         <p className="sr-only" aria-live="polite">{`Mot : ${maskedWord.join(" ")}`}</p>
@@ -279,23 +279,23 @@ export function PenduGame() {
           {maskedWord.map((l, i) => (
             <span
               key={i}
-              className="w-8 h-10 flex items-end justify-center border-b-4 border-sky-800 text-2xl font-display text-sky-800"
+              className="w-8 h-10 flex items-end justify-center border-b-4 border-ink text-2xl font-display text-ink"
             >
               {l !== "_" ? l : ""}
             </span>
           ))}
         </div>
 
-        <p className="font-display text-sky-800 text-lg" aria-live="polite">
+        <p className="font-display text-ink text-lg" aria-live="polite">
           Erreurs :{" "}
-          <span className={game.errors >= 4 ? "text-red-500" : "text-sky-800"}>
+          <span className={game.errors >= 4 ? "text-danger" : "text-ink"}>
             {game.errors} / 6
           </span>
         </p>
 
         {game.status !== "playing" && (
           <div className="flex flex-col items-center gap-3">
-            <p className="text-2xl font-display text-sky-800 text-center">
+            <p className="text-2xl font-display text-ink text-center">
               {game.status === "win"
                 ? "Bravo ! Tu as gagné !"
                 : `Perdu ! Le mot était : ${game.word}`}
@@ -321,18 +321,20 @@ export function PenduGame() {
                 disabled={inactive}
                 aria-pressed={played}
                 aria-label={`Lettre ${letter}`}
-                whileTap={inactive ? undefined : { y: 4, boxShadow: "0 1px 0 #0f0826" }}
+                whileTap={inactive ? undefined : { scale: 0.96 }}
                 className={[
-                  "w-[46px] min-h-[52px] rounded-[var(--radius-btn)]",
-                  "font-body font-bold text-lg text-white select-none",
+                  "w-12 min-h-[52px] rounded-[var(--radius-btn)] border-2 shadow-card",
+                  "font-body font-bold text-lg select-none",
                   "transition-colors duration-100",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-800",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
                   "disabled:cursor-not-allowed",
                   correct
-                    ? "bg-emerald-500 opacity-70"
+                    ? "bg-success-soft border-success text-success-ink"
                     : wrong
-                      ? "bg-red-500 opacity-50"
-                      : "bg-sky-800 hover:bg-sky-800/80 cursor-pointer",
+                      ? "bg-danger-soft border-danger text-danger-ink opacity-70"
+                      : inactive
+                        ? "bg-surface border-line text-ink opacity-50"
+                        : "bg-surface border-line text-ink hover:border-accent hover:bg-accent-soft cursor-pointer",
                 ]
                   .filter(Boolean)
                   .join(" ")}

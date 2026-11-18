@@ -118,13 +118,13 @@ export default function FrenchQuizPage({
 
       <header className="grid gap-4 w-full text-center">
         <PageTitle>{FRENCH_SLOT_LABELS[frenchSlot]}</PageTitle>
-        <p className="font-bold font-display text-white">
+        <p className="font-bold font-display text-ink-2">
           {currentIdx + 1} / {series.length}
         </p>
         <ProgressDots total={SERIES_LENGTH} states={dotStates} current={currentIdx} />
       </header>
 
-      <div className="flex flex-col items-center gap-8 w-full max-w-md bg-white p-8 rounded-xl">
+      <div className="flex flex-col items-center gap-8 w-full max-w-md bg-surface text-ink border border-line shadow-card p-8 rounded-[var(--radius-card)]">
         {current && (
           <>
             {current.passage ? (
@@ -145,7 +145,7 @@ export default function FrenchQuizPage({
               onSelect={handleSelect}
             />
             {needsContinue && current.explain ? (
-              <p className="w-full rounded-[var(--radius-btn)] bg-amber-50 px-4 py-3 text-center font-body text-lg text-sky-800">
+              <p className="w-full rounded-[var(--radius-btn)] bg-star-soft px-4 py-3 text-center font-body text-lg text-ink">
                 {current.explain}
               </p>
             ) : null}

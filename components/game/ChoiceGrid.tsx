@@ -38,20 +38,20 @@ export function ChoiceGrid({
               type="button"
               onClick={() => onSelect(idx)}
               disabled={inactive}
-              whileTap={inactive ? undefined : { y: 4, boxShadow: "0 1px 0 #0c4a6e" }}
+              whileTap={inactive ? undefined : { scale: 0.98 }}
               className={[
-                "flex-1 min-h-[60px] p-4 rounded-[var(--radius-btn)]",
-                "font-bold text-xl text-white select-none",
+                "flex-1 min-h-[60px] p-4 rounded-[var(--radius-btn)] border-2 shadow-card",
+                "font-semibold text-xl select-none",
                 "transition-colors duration-100",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
                 "disabled:cursor-not-allowed",
                 correct
-                  ? "bg-emerald-500 border-emerald-400"
+                  ? "bg-success-soft border-success text-success-ink"
                   : wrong
-                    ? "bg-red-500 border-red-400"
+                    ? "bg-danger-soft border-danger text-danger-ink"
                     : dimmed
-                      ? "bg-neutral-900/80 opacity-40"
-                      : "bg-sky-800 hover:bg-sky-800/80 cursor-pointer",
+                      ? "bg-surface border-line-strong text-ink opacity-50"
+                      : "bg-surface border-line-strong text-ink hover:border-accent hover:bg-accent-soft cursor-pointer",
               ].join(" ")}
             >
               {correct && <Check aria-hidden="true" className="mr-2 inline" size={24} />}

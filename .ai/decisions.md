@@ -279,4 +279,21 @@
 - Remplacer l'imparfait, le futur et les homophones : le contenu plus avancé reste accessible.
 - Ajouter `vrai-faux` à `LectureSlot` : ce type est partagé avec l'anglais.
 
-**Conséquences :** Une nouvelle banque CE1 se branche dans `frenchPool` et `FRENCH_SLOTS`. Chaque slot doit avoir au moins 14 énoncés uniques. `vrai-faux` et les articles sont des QCM à 2 choix, comme les homophones binaires.
+**Conséquences :** Une nouvelle banque CE1 se branche dans `frenchPool` et `FRENCH_SLOTS`.
+
+---
+
+## [2026-11-17] Design system v3 — thème clair, tokens sémantiques, accent par matière
+
+**Contexte :** Le thème sombre (sky-800, collines vertes, Titan One, boutons 3D) paraissait jouet et peu professionnel ; les couleurs Tailwind brutes étaient codées en dur dans ~23 fichiers.
+
+**Décision :**
+
+- Thème clair, tokens sémantiques dans `@theme` (`bg`, `surface`, `line`, `ink*`, `brand*`, `success*`, `danger*`, `star*`, rayons, ombres). Aucune classe de palette brute (sky/emerald/amber/slate) dans l'UI.
+- Accent par matière via `.theme-maths|francais|anglais|histoire|mini-jeux` posé dans chaque layout de matière (`accent*` = variables runtime). Succès/erreur restent toujours success/danger, avec icône.
+- Polices : Fredoka (titres) + Nunito (texte). Cibles tactiles >= 48px, focus visible global, mouvement réduit respecté.
+- La page `/design` documente ce système.
+
+**Alternatives écartées :** Garder le sombre avec des retouches ; mode sombre (hors périmètre, les tokens le permettent plus tard).
+
+**Conséquences :** Icônes PWA (fond bleu) à régénérer. Toute nouvelle couleur passe par un token. Chaque slot doit avoir au moins 14 énoncés uniques. `vrai-faux` et les articles sont des QCM à 2 choix, comme les homophones binaires.

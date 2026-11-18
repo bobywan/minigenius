@@ -18,7 +18,8 @@ const WIDTHS: Record<DeviceMode, number> = {
   desktop: 1000,
 };
 
-const PILL = "text-sm font-body text-white rounded-full px-3 py-1 cursor-pointer border-0";
+const PILL =
+  "min-h-12 inline-flex items-center text-sm font-body font-semibold rounded-full px-4 cursor-pointer border";
 
 type DeviceContextValue = {
   mode: DeviceMode;
@@ -65,7 +66,9 @@ export function DevicePills() {
           onClick={() => ctx.setMode(item.id)}
           className={[
             PILL,
-            ctx.mode === item.id ? "bg-emerald-500" : "bg-sky-700 hover:bg-sky-600",
+            ctx.mode === item.id
+              ? "bg-brand-soft border-brand text-brand-strong"
+              : "bg-surface border-line text-ink hover:bg-brand-soft",
           ].join(" ")}
         >
           {item.label}

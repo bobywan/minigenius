@@ -1,16 +1,15 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
-import { Nunito, Titan_One } from "next/font/google";
+import { Fredoka, Nunito } from "next/font/google";
 import MotionProvider from "@/components/MotionProvider";
 import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
 
 import "./globals.css";
 
-const titanOne = Titan_One({
-  weight: "400",
+const fredoka = Fredoka({
   subsets: ["latin"],
-  variable: "--font-titan-one",
+  variable: "--font-fredoka",
   display: "swap",
 });
 
@@ -29,13 +28,13 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "black-translucent",
+    statusBarStyle: "default",
     title: "MiniGenius",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#075985",
+  themeColor: "#4F46E5",
   width: "device-width",
   initialScale: 1,
 };
@@ -46,8 +45,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${titanOne.variable} ${nunito.variable}`}>
-      <body className="bg-sky-800 min-w-[320px]">
+    <html lang="fr" className={`${fredoka.variable} ${nunito.variable}`}>
+      <body className="bg-bg text-ink font-body antialiased min-w-[320px]">
         <ServiceWorkerRegistration />
         <MotionProvider>{children}</MotionProvider>
         <Analytics />

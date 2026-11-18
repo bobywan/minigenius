@@ -61,7 +61,7 @@ export default function MiniJeuxPage() {
                 <Icon size={40} className="shrink-0" />
                 <div className="flex flex-col gap-1">
                   <p className="text-2xl font-display">{game.label}</p>
-                  <p className="text-lg text-slate-700 font-body">{game.description}</p>
+                  <p className="text-lg text-ink-2 font-body">{game.description}</p>
                 </div>
               </Card>
             </Link>

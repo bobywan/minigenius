@@ -6,5 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function AnglaisLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return <div className="theme-anglais min-h-screen">{children}</div>;
 }

@@ -5,5 +5,5 @@ interface PageSubtitleProps {
 }
 
 export function PageSubtitle({ children }: PageSubtitleProps) {
-  return <p className="text-white font-display text-xl drop-shadow-lg">{children}</p>;
+  return <p className="text-ink-2 text-lg font-body">{children}</p>;
 }

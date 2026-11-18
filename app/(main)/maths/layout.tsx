@@ -6,5 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function MathsLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return <div className="theme-maths min-h-screen">{children}</div>;
 }

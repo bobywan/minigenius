@@ -122,7 +122,7 @@ export default function EnglishQuizModulePage({ params }: { params: Promise<{ mo
                   <Icon size={40} className="shrink-0" />
                   <div className="flex flex-col gap-1">
                     <p className="text-2xl font-display">{slotLabel(quizModule, slot)}</p>
-                    <p className="text-base text-slate-700 font-body">
+                    <p className="text-base text-ink-2 font-body">
                       {slotDescription(quizModule, slot)}
                     </p>
                   </div>
@@ -145,7 +145,7 @@ export default function EnglishQuizModulePage({ params }: { params: Promise<{ mo
           <Card className="justify-center">
             <div className="flex flex-col gap-1 text-center">
               <p className="text-2xl font-display">Jeu libre</p>
-              <p className="text-base text-slate-700 font-body">
+              <p className="text-base text-ink-2 font-body">
                 Sans limite — réponds jusqu'à trouver la bonne réponse
               </p>
             </div>

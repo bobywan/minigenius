@@ -11,7 +11,7 @@ function PromptText({ prompt, highlightWord }: { prompt: string; highlightWord?:
   if (highlightWord && prompt.includes(highlightWord)) {
     return (
       <>
-        <span className="text-emerald-500 font-bold underline underline-offset-4 decoration-current decoration-4">
+        <span className="text-accent font-bold underline underline-offset-4 decoration-current decoration-4">
           {highlightWord}
         </span>
         {prompt.slice(prompt.indexOf(highlightWord) + highlightWord.length)}
@@ -25,7 +25,7 @@ function PromptText({ prompt, highlightWord }: { prompt: string; highlightWord?:
   return (
     <>
       {prompt.slice(0, blankAt)}
-      <span className="mx-1 inline-block min-w-10 border-b-4 border-sky-800 align-baseline">
+      <span className="mx-1 inline-block min-w-10 border-b-4 border-ink align-baseline">
         <span className="sr-only">trou</span>
       </span>
       {prompt.slice(blankAt + 3)}
@@ -44,7 +44,7 @@ export function WordPrompt({
   return (
     <div className="w-full">
       <div className="flex gap-3 flex-wrap items-center justify-center">
-        <p className={`${sizeClass} font-bold text-sky-800`}>
+        <p className={`${sizeClass} font-bold text-ink`}>
           <PromptText prompt={prompt} highlightWord={highlightWord} />
         </p>
         {speakText && <SpeakButton text={speakText} />}

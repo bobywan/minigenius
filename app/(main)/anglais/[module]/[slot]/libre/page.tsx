@@ -68,7 +68,7 @@ export default function EnglishQuizLibrePage({
         <PageSubtitle>{correctCount} bonnes réponses</PageSubtitle>
       </header>
 
-      <div className="flex flex-col items-center gap-8 w-full max-w-md bg-white p-8 rounded-xl">
+      <div className="flex flex-col items-center gap-8 w-full max-w-md bg-surface text-ink border border-line shadow-card p-8 rounded-[var(--radius-card)]">
         {quizModule === "lecture" && question.passage ? (
           <ReadingPrompt passage={question.passage} question={question.prompt} />
         ) : (

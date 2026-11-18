@@ -26,10 +26,12 @@ export const metadata: Metadata = {
 };
 
 const TOC = [
-  { href: "#series-result", label: "Écran résultat" },
+  { href: "#couleurs", label: "Couleurs" },
+  { href: "#typographie", label: "Typographie" },
+  { href: "#formes", label: "Formes" },
   { href: "#composants", label: "Composants" },
   { href: "#jeu", label: "Jeu" },
-  { href: "#tokens", label: "Tokens" },
+  { href: "#series-result", label: "Écran résultat" },
 ] as const;
 
 const SAMPLE_EXERCISE: Exercise = {
@@ -53,6 +55,79 @@ const PROGRESS_STATES = [
   "idle",
 ] as const;
 
+const COLOR_GROUPS: { title: string; swatches: { name: string; hex: string; cls: string }[] }[] = [
+  {
+    title: "Surfaces et lignes",
+    swatches: [
+      { name: "bg", hex: "#F5F6FB", cls: "bg-bg" },
+      { name: "surface", hex: "#FFFFFF", cls: "bg-surface" },
+      { name: "surface-2", hex: "#ECEEF8", cls: "bg-surface-2" },
+      { name: "line", hex: "#DDE1EE", cls: "bg-line" },
+      { name: "line-strong", hex: "#C3C9DD", cls: "bg-line-strong" },
+    ],
+  },
+  {
+    title: "Texte",
+    swatches: [
+      { name: "ink", hex: "#161A36", cls: "bg-ink" },
+      { name: "ink-2", hex: "#474D6E", cls: "bg-ink-2" },
+      { name: "ink-3", hex: "#646B8F", cls: "bg-ink-3" },
+    ],
+  },
+  {
+    title: "Marque",
+    swatches: [
+      { name: "brand", hex: "#4F46E5", cls: "bg-brand" },
+      { name: "brand-strong", hex: "#4338CA", cls: "bg-brand-strong" },
+      { name: "brand-soft", hex: "#EEF0FF", cls: "bg-brand-soft" },
+    ],
+  },
+  {
+    title: "Réussite",
+    swatches: [
+      { name: "success", hex: "#047857", cls: "bg-success" },
+      { name: "success-soft", hex: "#D1FAE5", cls: "bg-success-soft" },
+      { name: "success-ink", hex: "#065F46", cls: "bg-success-ink" },
+    ],
+  },
+  {
+    title: "Erreur",
+    swatches: [
+      { name: "danger", hex: "#DC2626", cls: "bg-danger" },
+      { name: "danger-strong", hex: "#B91C1C", cls: "bg-danger-strong" },
+      { name: "danger-soft", hex: "#FEE2E2", cls: "bg-danger-soft" },
+      { name: "danger-ink", hex: "#991B1B", cls: "bg-danger-ink" },
+    ],
+  },
+  {
+    title: "Étoiles",
+    swatches: [
+      { name: "star", hex: "#F59E0B", cls: "bg-star" },
+      { name: "star-soft", hex: "#FEF3C7", cls: "bg-star-soft" },
+    ],
+  },
+];
+
+const SUBJECTS = [
+  { theme: "theme-maths", label: "Maths" },
+  { theme: "theme-francais", label: "Français" },
+  { theme: "theme-anglais", label: "Anglais" },
+  { theme: "theme-histoire", label: "Histoire" },
+  { theme: "theme-mini-jeux", label: "Mini-jeux" },
+] as const;
+
+const SUBJECT_SWATCHES = [
+  { name: "accent", cls: "bg-accent" },
+  { name: "accent-strong", cls: "bg-accent-strong" },
+  { name: "accent-soft", cls: "bg-accent-soft" },
+  { name: "accent-ink", cls: "bg-accent-ink" },
+] as const;
+
+const PILL =
+  "min-h-12 inline-flex items-center text-sm font-body font-semibold rounded-full px-4 border border-line bg-surface text-ink hover:bg-brand-soft";
+
+const PANEL = "bg-surface rounded-[var(--radius-card)] p-4 border border-line shadow-card text-ink";
+
 function Section({
   id,
   title,
@@ -63,10 +138,8 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="flex flex-col gap-6">
-      <h2 className="text-3xl font-display text-sky-800 border-b-2 border-emerald-500 pb-2">
-        {title}
-      </h2>
+    <section id={id} className="flex flex-col gap-6 scroll-mt-6">
+      <h2 className="text-3xl font-display text-ink border-b-2 border-brand pb-2">{title}</h2>
       {children}
     </section>
   );
@@ -75,17 +148,18 @@ function Section({
 function CatalogItem({ name, children }: { name: string; children: React.ReactNode }) {
   return (
     <div>
-      <p className="text-sm text-white font-mono mb-3">{name}</p>
+      <p className="text-sm text-ink-2 font-mono mb-3">{name}</p>
       {children}
     </div>
   );
 }
 
-function Swatch({ name, className }: { name: string; className: string }) {
+function Swatch({ name, hex, className }: { name: string; hex?: string; className: string }) {
   return (
     <div className="flex flex-col gap-2 items-center">
-      <div className={`w-20 h-20 rounded-2xl border-2 border-slate-200 ${className}`} />
-      <p className="text-xs text-white text-center font-mono">{name}</p>
+      <div className={`w-20 h-20 rounded-[var(--radius-tile)] border border-line ${className}`} />
+      <p className="text-xs text-ink text-center font-mono">{name}</p>
+      {hex && <p className="text-xs text-ink-3 text-center font-mono">{hex}</p>}
     </div>
   );
 }
@@ -101,11 +175,7 @@ export default function DesignPage() {
           <PageSubtitle>Composants, tokens et playground des écrans de jeu</PageSubtitle>
           <nav aria-label="Sommaire" className="flex flex-wrap justify-center gap-3 mt-2">
             {TOC.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-sm font-body text-white bg-sky-700 rounded-full px-3 py-1 hover:bg-sky-600"
-              >
+              <Link key={item.href} href={item.href} className={PILL}>
                 {item.label}
               </Link>
             ))}
@@ -114,93 +184,95 @@ export default function DesignPage() {
         </header>
 
         <Section id="principes" title="Principes">
-          <div className="flex flex-col gap-3 text-white">
+          <div className="flex flex-col gap-3 text-ink-2 font-body">
             <p>
-              Le design system repose sur un fond <strong>sky-800</strong>, des cartes blanches et
-              six familles de couleurs.
+              Un système clair, calme et lisible, pensé pour la tablette : fond doux, cartes
+              blanches, une couleur de marque et un accent par matière.
             </p>
             <ul className="list-disc list-inside space-y-2 ml-4">
-              <li>Fond sky-800 avec sol vert ondulant (emerald-500/600) via pseudo-éléments CSS</li>
-              <li>Composants blancs avec effets hover emerald</li>
-              <li>
-                Six familles : bleu nuit, vert menthe, jaune ambre, framboise, pervenche, corail
-              </li>
-              <li>Typographie : Titan One (display) + Nunito (body)</li>
-              <li>Effets 3D cartoon avec ombres et translations</li>
+              <li>Contraste élevé : texte encre sur surfaces claires</li>
+              <li>Cibles tactiles de 48 px minimum</li>
+              <li>Bonne ou mauvaise réponse : jamais la couleur seule, toujours une icône</li>
+              <li>Typographie : Fredoka (titres) + Nunito (texte)</li>
             </ul>
           </div>
         </Section>
 
         <Section id="couleurs" title="Palette de couleurs">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
-            <div className="flex flex-col gap-3 items-center">
-              <p className="text-sm text-white font-body">Bleu nuit</p>
-              <div className="flex gap-4">
-                <Swatch name="Sky 800" className="bg-sky-800" />
-                <Swatch name="Cyan 900" className="bg-cyan-900" />
+          <div className="flex flex-col gap-8">
+            {COLOR_GROUPS.map((group) => (
+              <div key={group.title} className="flex flex-col gap-3">
+                <p className="text-sm text-ink font-display">{group.title}</p>
+                <div className="flex flex-wrap gap-4">
+                  {group.swatches.map((s) => (
+                    <Swatch key={s.name} name={s.name} hex={s.hex} className={s.cls} />
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col gap-3 items-center">
-              <p className="text-sm text-white font-body">Vert menthe</p>
-              <div className="flex gap-4">
-                <Swatch name="Emerald 500" className="bg-emerald-500" />
-                <Swatch name="Teal 500" className="bg-teal-500" />
-              </div>
-            </div>
-            <div className="flex flex-col gap-3 items-center">
-              <p className="text-sm text-white font-body">Jaune ambre</p>
-              <div className="flex gap-4">
-                <Swatch name="Amber 500" className="bg-amber-500" />
-                <Swatch name="Orange 400" className="bg-orange-400" />
-              </div>
-            </div>
-            <div className="flex flex-col gap-3 items-center">
-              <p className="text-sm text-white font-body">Framboise</p>
-              <div className="flex gap-4">
-                <Swatch name="Rose 700" className="bg-rose-700" />
-                <Swatch name="Pink 800" className="bg-pink-800" />
-              </div>
-            </div>
-            <div className="flex flex-col gap-3 items-center">
-              <p className="text-sm text-white font-body">Pervenche</p>
-              <div className="flex gap-4">
-                <Swatch name="Indigo 400" className="bg-indigo-400" />
-                <Swatch name="Slate 400" className="bg-slate-400" />
-              </div>
-            </div>
-            <div className="flex flex-col gap-3 items-center">
-              <p className="text-sm text-white font-body">Corail</p>
-              <div className="flex gap-4">
-                <Swatch name="Orange 600" className="bg-orange-600" />
-                <Swatch name="Red 500" className="bg-red-500" />
+            ))}
+
+            <div className="flex flex-col gap-3">
+              <p className="text-sm text-ink font-display">Accents par matière (runtime)</p>
+              <div className="grid gap-4 lg:grid-cols-2">
+                {SUBJECTS.map((subject) => (
+                  <div key={subject.theme} className={`${subject.theme} ${PANEL}`}>
+                    <p className="font-display text-lg text-accent-ink mb-3">{subject.label}</p>
+                    <div className="flex flex-wrap gap-4">
+                      {SUBJECT_SWATCHES.map((s) => (
+                        <Swatch key={s.name} name={s.name} className={s.cls} />
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </Section>
 
         <Section id="typographie" title="Typographie">
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 text-ink">
             <div>
-              <p className="text-sm text-white font-mono mb-2">font-display (Titan One)</p>
-              <p className="text-5xl font-display text-white">MiniGenius</p>
+              <p className="text-sm text-ink-2 font-mono mb-2">font-display (Fredoka)</p>
+              <p className="text-6xl font-display">MiniGenius</p>
+              <p className="text-4xl font-display">Titre de page</p>
+              <p className="text-2xl font-display">Titre de carte</p>
             </div>
             <div>
-              <p className="text-sm text-white font-mono mb-2">font-body (Nunito)</p>
-              <p className="text-xl font-body text-white">
+              <p className="text-sm text-ink-2 font-mono mb-2">font-body (Nunito)</p>
+              <p className="text-xl font-body font-semibold">
                 L'app éducative pour les petits génies !
               </p>
+              <p className="text-base font-body text-ink-2">Texte courant en encre secondaire.</p>
+              <p className="text-sm font-body text-ink-3">Légende et information tertiaire.</p>
             </div>
           </div>
         </Section>
 
-        <Section id="series-result" title="Écrans de jeu">
-          <CatalogItem name="SeriesResultScreen — playground">
-            <p className="text-sm font-body text-white mb-4">
-              Presets 3 / 6 / 8 / 10 pour les 4 paliers d&apos;étoiles. Le récap (Réussis / À
-              revoir) suit le score. Relancer recrée le composant (confettis + son).
-            </p>
-            <SeriesResultDemo />
-          </CatalogItem>
+        <Section id="formes" title="Rayons et ombres">
+          <div className="flex flex-col gap-8">
+            <div className="flex flex-wrap gap-6">
+              {[
+                { name: "radius-card 1.25rem", cls: "rounded-[var(--radius-card)]" },
+                { name: "radius-btn 0.875rem", cls: "rounded-[var(--radius-btn)]" },
+                { name: "radius-tile 1rem", cls: "rounded-[var(--radius-tile)]" },
+              ].map((r) => (
+                <div key={r.name} className="flex flex-col gap-2 items-center">
+                  <div className={`w-24 h-24 bg-brand-soft border-2 border-brand ${r.cls}`} />
+                  <p className="text-xs text-ink font-mono">{r.name}</p>
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-wrap gap-6 p-6 bg-bg rounded-[var(--radius-card)]">
+              {["shadow-card", "shadow-card-hover", "shadow-pop"].map((name) => (
+                <div key={name} className="flex flex-col gap-2 items-center">
+                  <div
+                    className={`w-24 h-24 bg-surface rounded-[var(--radius-card)] border border-line ${name}`}
+                  />
+                  <p className="text-xs text-ink font-mono">{name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </Section>
 
         <Section id="composants" title="Composants">
@@ -220,24 +292,38 @@ export default function DesignPage() {
               </div>
             </CatalogItem>
 
-            <CatalogItem name="Button">
-              <div className="flex flex-wrap gap-3">
+            <CatalogItem name="Button — variantes et tailles">
+              <div className="flex flex-wrap items-center gap-3">
                 <Button variant="primary" size="sm">
-                  Primary Small
+                  Primary sm
                 </Button>
                 <Button variant="primary" size="md">
-                  Primary Medium
+                  Primary md
                 </Button>
                 <Button variant="primary" size="lg">
-                  Primary Large
+                  Primary lg
                 </Button>
               </div>
-              <div className="flex flex-wrap gap-3 mt-3">
+              <div className="flex flex-wrap items-center gap-3 mt-3">
+                <Button variant="secondary" size="sm">
+                  Secondary sm
+                </Button>
                 <Button variant="secondary" size="md">
-                  Secondary
+                  Secondary md
+                </Button>
+                <Button variant="secondary" size="lg">
+                  Secondary lg
+                </Button>
+              </div>
+              <div className="flex flex-wrap items-center gap-3 mt-3">
+                <Button variant="ghost" size="sm">
+                  Ghost sm
                 </Button>
                 <Button variant="ghost" size="md">
-                  Ghost
+                  Ghost md
+                </Button>
+                <Button variant="ghost" size="lg">
+                  Ghost lg
                 </Button>
                 <Button variant="primary" size="md" disabled>
                   Disabled
@@ -250,15 +336,30 @@ export default function DesignPage() {
                 <Card>
                   <div className="flex-1">
                     <p className="text-2xl font-display">Carte standard</p>
-                    <p className="text-base text-slate-700">Avec hover effect emerald</p>
+                    <p className="text-base text-ink-2">Avec effet de survol</p>
                   </div>
                 </Card>
                 <Card disabled hover={false}>
                   <div className="flex-1">
                     <p className="text-2xl font-display">Carte désactivée</p>
-                    <p className="text-base text-slate-700">Sans hover, opacité réduite</p>
+                    <p className="text-base text-ink-2">Sans survol, opacité réduite</p>
                   </div>
                 </Card>
+              </div>
+            </CatalogItem>
+
+            <CatalogItem name="Cartes matière (accent runtime)">
+              <div className="grid gap-4 lg:grid-cols-2">
+                {SUBJECTS.map((subject) => (
+                  <div key={subject.theme} className={subject.theme}>
+                    <Card>
+                      <div className="flex-1">
+                        <p className="text-2xl font-display text-accent-ink">{subject.label}</p>
+                        <p className="text-base text-ink-2">{subject.theme}</p>
+                      </div>
+                    </Card>
+                  </div>
+                ))}
               </div>
             </CatalogItem>
 
@@ -294,20 +395,20 @@ export default function DesignPage() {
 
         <Section id="jeu" title="Composants jeu">
           <div className="flex flex-col gap-8">
-            <CatalogItem name="ChoiceGrid">
-              <div className="bg-white rounded-[var(--radius-card)] p-4 border-2 border-slate-200">
+            <CatalogItem name="ChoiceGrid (choisis une réponse : bonne = Chien)">
+              <div className={PANEL}>
                 <ChoiceGridDemo />
               </div>
             </CatalogItem>
 
             <CatalogItem name="NumPad">
-              <div className="bg-white rounded-[var(--radius-card)] p-4 border-2 border-slate-200">
+              <div className={PANEL}>
                 <NumPadDemo />
               </div>
             </CatalogItem>
 
             <CatalogItem name="ProgressDots">
-              <div className="bg-sky-700 rounded-[var(--radius-card)] p-4">
+              <div className={PANEL}>
                 <ProgressDots states={[...PROGRESS_STATES]} current={3} />
               </div>
             </CatalogItem>
@@ -316,7 +417,7 @@ export default function DesignPage() {
               <SpeakButton text="cat" />
             </CatalogItem>
 
-            <CatalogItem name="AnswerInput">
+            <CatalogItem name="AnswerInput — idle / correct / wrong">
               <div className="flex flex-wrap gap-4 items-center">
                 <AnswerInput value="" state="idle" />
                 <AnswerInput value="12" state="correct" />
@@ -325,19 +426,19 @@ export default function DesignPage() {
             </CatalogItem>
 
             <CatalogItem name="WordPrompt">
-              <div className="bg-white rounded-[var(--radius-card)] p-4 border-2 border-slate-200 text-sky-800">
+              <div className={PANEL}>
                 <WordPrompt prompt="Cat" speakText="cat" />
               </div>
             </CatalogItem>
 
             <CatalogItem name="ExerciseDisplay">
-              <div className="flex flex-col gap-6 bg-white rounded-[var(--radius-card)] p-4 border-2 border-slate-200">
+              <div className={`flex flex-col gap-6 ${PANEL}`}>
                 <div>
-                  <p className="text-xs font-mono text-slate-600 mb-2">trou</p>
+                  <p className="text-xs font-mono text-ink-3 mb-2">trou</p>
                   <ExerciseDisplay exercise={SAMPLE_EXERCISE} />
                 </div>
                 <div>
-                  <p className="text-xs font-mono text-slate-600 mb-2">reveal</p>
+                  <p className="text-xs font-mono text-ink-3 mb-2">reveal</p>
                   <ExerciseDisplay exercise={SAMPLE_EXERCISE} revealAnswer />
                 </div>
               </div>
@@ -345,30 +446,21 @@ export default function DesignPage() {
           </div>
         </Section>
 
-        <Section id="tokens" title="Tokens CSS">
-          <div className="bg-white rounded-xl p-6 border-2 border-slate-200">
-            <pre className="text-xs font-mono text-slate-700 overflow-x-auto">
-              {`/* Usage réel — Tailwind + tokens @theme */
-sky-800 / cyan-900          /* bleu nuit — fond, titres */
-emerald-500 / teal-500      /* vert menthe — actions, sol */
-amber-500 / orange-400      /* jaune ambre — secondaire, étoiles */
-rose-700 / pink-800         /* framboise */
-indigo-400 / slate-400      /* pervenche */
-orange-600 / red-500        /* corail */
-
---font-display: Titan One
---font-body: Nunito
---radius-card: 1.5rem
---radius-btn: 1rem`}
-            </pre>
-          </div>
+        <Section id="series-result" title="Écrans de jeu">
+          <CatalogItem name="SeriesResultScreen — playground">
+            <p className="text-sm font-body text-ink-2 mb-4">
+              Presets 3 / 6 / 8 / 10 pour les 4 paliers d&apos;étoiles. Le récap (Réussis / À
+              revoir) suit le score. Relancer recrée le composant (confettis + son).
+            </p>
+            <SeriesResultDemo />
+          </CatalogItem>
         </Section>
 
-        <footer className="text-center text-sm text-white pt-8 border-t border-slate-200">
+        <footer className="text-center text-sm text-ink-2 pt-8 border-t border-line">
           <p>
-            Design system MiniGenius — 6 familles, sol vert
+            Design system MiniGenius
             <br />
-            <Link href="/" className="text-white font-bold hover:underline">
+            <Link href="/" className="text-brand font-bold hover:underline">
               Retour à l'accueil
             </Link>
           </p>

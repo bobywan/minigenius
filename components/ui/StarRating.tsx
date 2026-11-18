@@ -28,6 +28,9 @@ export function StarRating({
     >
       {([1, 2, 3] as Stars[]).map((s) => {
         const filled = s <= stars;
+        const star = (
+          <Star size={sz} className={filled ? "text-star fill-star" : "text-line-strong"} />
+        );
         return animate ? (
           <motion.span
             key={s}
@@ -35,20 +38,10 @@ export function StarRating({
             animate={filled ? { scale: 1, rotate: 0 } : {}}
             transition={{ delay: (s - 1) * 0.15, type: "spring", stiffness: 400 }}
           >
-            {filled ? (
-              <Star size={sz} fill="currentColor" className="text-amber-500" />
-            ) : (
-              <Star size={sz} className="text-amber-500/40" />
-            )}
+            {star}
           </motion.span>
         ) : (
-          <span key={s}>
-            {filled ? (
-              <Star size={sz} fill="currentColor" className="text-amber-500" />
-            ) : (
-              <Star size={sz} className="text-amber-500" />
-            )}
-          </span>
+          <span key={s}>{star}</span>
         );
       })}
     </div>

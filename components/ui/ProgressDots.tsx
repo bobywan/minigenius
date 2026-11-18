@@ -13,9 +13,9 @@ interface ProgressDotsProps {
 }
 
 const dotColors: Record<DotState, string> = {
-  idle: "bg-white",
-  correct: "bg-emerald-500",
-  wrong: "bg-red-500",
+  idle: "bg-line-strong",
+  correct: "bg-success",
+  wrong: "bg-danger",
 };
 
 export function ProgressDots({ total = SERIES_LENGTH, states, current }: ProgressDotsProps) {
@@ -37,7 +37,7 @@ export function ProgressDots({ total = SERIES_LENGTH, states, current }: Progres
             className={[
               "rounded-full transition-colors duration-300",
               dotColors[state],
-              isActive ? "w-5 h-5" : "w-4 h-4",
+              isActive ? "w-5 h-5 ring-2 ring-accent ring-offset-2 ring-offset-bg" : "w-4 h-4",
             ].join(" ")}
             animate={isActive ? { scale: [1, 1.3, 1.15] } : {}}
             transition={{ duration: 0.3 }}

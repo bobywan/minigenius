@@ -48,7 +48,7 @@ export default function ModulePage({ params }: { params: Promise<{ module: strin
               <Card className="justify-between">
                 <div className="flex flex-col gap-1">
                   <DifficultyBadge difficulty={diff} />
-                  <p className="text-base text-slate-700 mt-1 font-body">{DIFFICULTY_DESC[diff]}</p>
+                  <p className="text-base text-ink-2 mt-1 font-body">{DIFFICULTY_DESC[diff]}</p>
                 </div>
                 <StarRating stars={stars} size="sm" />
               </Card>
@@ -60,7 +60,7 @@ export default function ModulePage({ params }: { params: Promise<{ module: strin
           <Card className="justify-center">
             <div className="flex flex-col gap-1 text-center">
               <p className="text-2xl font-display">Jeu libre</p>
-              <p className="text-base text-slate-700 font-body">
+              <p className="text-base text-ink-2 font-body">
                 Sans limite — réponds jusqu'à trouver la bonne réponse
               </p>
             </div>

@@ -70,7 +70,7 @@ export default function FrenchLibrePage({
         <PageSubtitle>{correctCount} bonnes réponses</PageSubtitle>
       </header>
 
-      <div className="flex flex-col items-center gap-8 w-full max-w-md bg-white p-8 rounded-xl">
+      <div className="flex flex-col items-center gap-8 w-full max-w-md bg-surface text-ink border border-line shadow-card p-8 rounded-[var(--radius-card)]">
         {question.passage ? (
           <ReadingPrompt passage={question.passage} question={question.prompt} />
         ) : (
@@ -90,7 +90,7 @@ export default function FrenchLibrePage({
           onSelect={handleSelect}
         />
         {missedQuestion === question && question.explain ? (
-          <p className="w-full rounded-[var(--radius-btn)] bg-amber-50 px-4 py-3 text-center font-body text-lg text-sky-800">
+          <p className="w-full rounded-[var(--radius-btn)] bg-star-soft px-4 py-3 text-center font-body text-lg text-ink">
             {question.explain}
           </p>
         ) : null}

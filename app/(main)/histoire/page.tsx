@@ -63,7 +63,7 @@ export default function HistoirePage() {
                 <Icon size={40} className="shrink-0" />
                 <div className="flex flex-col gap-1 flex-1">
                   <p className="text-2xl font-display">{HISTORY_MODULE_LABELS[mod.id]}</p>
-                  <p className="text-lg text-slate-700 font-body">{mod.description}</p>
+                  <p className="text-lg text-ink-2 font-body">{mod.description}</p>
                 </div>
               </Card>
             </Link>

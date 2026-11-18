@@ -152,7 +152,7 @@ export default function FrancaisPage() {
                     <Icon size={40} className="shrink-0" />
                     <div className="flex flex-col gap-1 flex-1">
                       <p className="text-2xl font-display">{card.label}</p>
-                      <p className="text-lg text-slate-700 font-body">{card.description}</p>
+                      <p className="text-lg text-ink-2 font-body">{card.description}</p>
                     </div>
                   </Card>
                 </Link>
