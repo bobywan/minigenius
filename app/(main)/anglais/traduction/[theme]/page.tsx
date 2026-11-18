@@ -67,7 +67,7 @@ export default function ThemePage({ params }: { params: Promise<{ theme: string 
                     <Icon size={40} className="shrink-0" />
                     <div className="flex flex-col gap-1">
                       <p className="text-2xl font-display">{ENGLISH_MODULE_LABELS[mode]}</p>
-                      <p className="text-base text-slate-700 font-body">{MODE_DESC[mode]}</p>
+                      <p className="text-base text-ink-2 font-body">{MODE_DESC[mode]}</p>
                     </div>
                   </div>
                   <StarRating stars={stars} size="sm" />
@@ -86,7 +86,7 @@ export default function ThemePage({ params }: { params: Promise<{ theme: string 
           <Card className="justify-center">
             <div className="flex flex-col gap-1 text-center">
               <p className="text-2xl font-display">Jeu libre</p>
-              <p className="text-base text-slate-700 font-body">
+              <p className="text-base text-ink-2 font-body">
                 Sans limite — réponds jusqu'à trouver la bonne réponse
               </p>
             </div>

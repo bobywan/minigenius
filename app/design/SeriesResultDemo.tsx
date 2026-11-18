@@ -47,7 +47,7 @@ export function SeriesResultDemo() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-4 bg-white rounded-[var(--radius-card)] p-4 border-2 border-slate-200 text-sky-800">
+      <div className="flex flex-col gap-4 bg-surface rounded-[var(--radius-card)] p-4 border border-line shadow-card text-ink">
         <div className="flex flex-wrap gap-2">
           {PRESETS.map((score) => (
             <Button
@@ -70,7 +70,7 @@ export function SeriesResultDemo() {
             step={1}
             value={correct}
             onChange={(event) => applyScore(Number(event.target.value))}
-            className="w-full accent-emerald-500 cursor-pointer"
+            className="w-full accent-brand cursor-pointer"
           />
         </label>
         <label className="flex items-center gap-2 font-body text-sm cursor-pointer">
@@ -78,7 +78,7 @@ export function SeriesResultDemo() {
             type="checkbox"
             checked={showNext}
             onChange={(event) => setShowNext(event.target.checked)}
-            className="size-4 accent-emerald-500"
+            className="size-4 accent-brand"
           />
           Afficher Continuer (nextHref)
         </label>

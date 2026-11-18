@@ -79,7 +79,7 @@ export default function TraductionPage() {
                 <Icon size={40} className="shrink-0" />
                 <div className="flex flex-col gap-1 flex-1">
                   <p className="text-2xl font-display">{ENGLISH_THEME_LABELS[id]}</p>
-                  <p className="text-lg text-slate-700 font-body">{THEME_DESC[id]}</p>
+                  <p className="text-lg text-ink-2 font-body">{THEME_DESC[id]}</p>
                 </div>
               </Card>
             </Link>

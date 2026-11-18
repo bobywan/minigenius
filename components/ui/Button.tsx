@@ -10,22 +10,19 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantMap: Record<Variant, string> = {
-  primary:
-    "bg-emerald-500 text-white border-2 border-emerald-400 shadow-[0_5px_0_#059669] hover:bg-emerald-400 active:translate-y-[4px] active:shadow-[0_1px_0_#059669]",
-  secondary:
-    "bg-amber-500 text-white border-2 border-amber-400 shadow-[0_5px_0_#d97706] hover:bg-amber-400 active:translate-y-[4px] active:shadow-[0_1px_0_#d97706]",
-  ghost:
-    "bg-white text-sky-800 border-2 border-sky-200 shadow-[0_5px_0_#0c4a6e] hover:bg-sky-50 active:translate-y-[4px] active:shadow-[0_1px_0_#0c4a6e]",
+  primary: "bg-brand text-white shadow-sm hover:bg-brand-strong",
+  secondary: "bg-brand-soft text-brand-strong hover:bg-brand/15",
+  ghost: "bg-surface text-ink border border-line hover:bg-surface-2",
 };
 
 const sizeMap: Record<Size, string> = {
-  sm: "px-4 py-2 text-sm",
-  md: "px-6 py-3 text-base",
-  lg: "px-8 py-4 text-lg",
+  sm: "min-h-10 px-4 text-sm",
+  md: "min-h-12 px-6 text-base",
+  lg: "min-h-14 px-8 text-lg",
 };
 
 const BASE_CLS =
-  "rounded-[var(--radius-btn)] font-display font-bold transition-all duration-100 cursor-pointer select-none disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none";
+  "inline-flex items-center justify-center gap-2 rounded-[var(--radius-btn)] font-display font-semibold transition duration-150 cursor-pointer select-none active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none";
 
 export function Button({
   children,

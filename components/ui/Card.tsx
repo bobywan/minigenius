@@ -18,26 +18,25 @@ const paddingMap = {
 
 export function Card({
   children,
-  backgroundColor = "bg-white",
-  textColor = "text-sky-800",
+  backgroundColor = "bg-surface",
+  textColor = "text-ink",
   className = "",
   disabled = false,
   padding = "md",
   hover = true,
 }: CardProps) {
+  const interactive = hover && !disabled;
+
   return (
     <div
       className={[
         "flex flex-row items-center gap-4",
-        "rounded-[var(--radius-card)]",
+        "rounded-[var(--radius-card)] border border-line shadow-card",
         paddingMap[padding],
         backgroundColor,
         textColor,
-        "transition-all duration-200",
-        hover && !disabled && "hover:scale-[1.02]",
-        hover && !disabled && "hover:shadow-[0_8px_0_0]",
-        hover && !disabled && "hover:shadow-emerald-500",
-        hover && !disabled && "hover:translate-y-[-4px]",
+        "transition duration-150",
+        interactive && "hover:-translate-y-0.5 hover:shadow-card-hover hover:border-accent/40",
         disabled && "opacity-40 cursor-not-allowed",
         className,
       ]

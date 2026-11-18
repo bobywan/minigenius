@@ -92,7 +92,7 @@ export default function AnglaisPage() {
                 <Icon size={40} className="shrink-0" />
                 <div className="flex flex-col gap-1 flex-1">
                   <p className="text-2xl font-display">{mode.label}</p>
-                  <p className="text-lg text-slate-700 font-body">{mode.description}</p>
+                  <p className="text-lg text-ink-2 font-body">{mode.description}</p>
                 </div>
               </Card>
             </Link>

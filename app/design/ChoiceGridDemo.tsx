@@ -22,7 +22,7 @@ export function ChoiceGridDemo() {
         <button
           type="button"
           onClick={() => setSelectedIdx(null)}
-          className="text-sm font-body text-slate-700 underline cursor-pointer"
+          className="min-h-12 text-sm font-body text-ink-2 underline cursor-pointer"
         >
           Réinitialiser
         </button>

@@ -24,7 +24,7 @@ export function SpeakButton({ text, label = "Écouter la prononciation" }: Speak
       onClick={() => speak(text)}
       aria-label={label}
       title={label}
-      className="shrink-0 grid place-items-center size-11 rounded-full bg-red-600 text-white active:translate-y-[3px] transition-translate duration-100 cursor-pointer"
+      className="shrink-0 grid place-items-center size-12 rounded-full border border-line bg-surface text-accent shadow-card transition duration-150 hover:bg-accent-soft active:scale-[0.96] cursor-pointer"
     >
       <Volume2 size={20} />
     </button>

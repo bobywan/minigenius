@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Check, Delete } from "lucide-react";
 
 interface NumPadProps {
   value: string;
@@ -32,30 +33,28 @@ export function NumPad({ value, onChange, onValidate, disabled = false }: NumPad
           <motion.button
             key={key}
             type="button"
-            whileTap={{
-              y: 4,
-              boxShadow: isValidate
-                ? "0 1px 0 #059669"
-                : isDelete
-                  ? "0 1px 0 #b91c1c"
-                  : "0 1px 0 #0c4a6e",
-            }}
+            whileTap={{ scale: 0.97 }}
             onClick={() => handleKey(key)}
             disabled={disabled || (isValidate && value.length === 0)}
             aria-label={isValidate ? "Valider" : isDelete ? "Effacer" : key}
             className={[
-              "rounded-[var(--radius-btn)] font-body font-bold text-3xl",
-              "min-h-[68px] select-none",
-              "transition-colors duration-100",
-              "disabled:opacity-30 disabled:cursor-not-allowed",
+              "grid place-items-center rounded-[var(--radius-btn)] font-display font-semibold text-3xl",
+              "min-h-16 select-none transition-colors duration-150",
+              "disabled:opacity-40 disabled:cursor-not-allowed",
               isValidate
-                ? "bg-emerald-500 text-white border-2 border-emerald-400 shadow-[0_4px_0_#059669] hover:bg-emerald-400"
+                ? "bg-success text-white shadow-card hover:bg-success-ink"
                 : isDelete
-                  ? "bg-red-500 text-white border-2 border-red-400 shadow-[0_4px_0_#b91c1c] hover:bg-red-400"
-                  : "bg-sky-800 text-white border-2 border-sky-700 shadow-[0_4px_0_#0c4a6e] hover:bg-sky-700",
+                  ? "bg-surface-2 text-danger-ink hover:bg-danger-soft"
+                  : "bg-surface text-ink border border-line shadow-card hover:bg-surface-2",
             ].join(" ")}
           >
-            {key}
+            {isValidate ? (
+              <Check size={32} aria-hidden="true" />
+            ) : isDelete ? (
+              <Delete size={32} aria-hidden="true" />
+            ) : (
+              key
+            )}
           </motion.button>
         );
       })}

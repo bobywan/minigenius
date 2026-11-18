@@ -22,27 +22,27 @@ const HIT_PADDING = 4;
 const LS_KEY = "vol_hiscore";
 
 const COLOR = {
-  skyTop: "#e0f2fe",
-  skyBottom: "#7dd3fc",
-  sun: "#f59e0b",
-  sunGlow: "#fde68a",
-  mountains: "#94a3b8",
-  hills: "#6ee7b7",
-  ground: "#10b981",
-  groundDark: "#059669",
-  player: "#10b981",
-  playerDark: "#059669",
-  playerGameOver: "#ef4444",
-  obstacleTall: "#f59e0b",
-  obstacleTallDark: "#d97706",
-  obstacle: "#0369a1",
-  obstacleDark: "#075985",
-  coin: "#f59e0b",
-  coinInner: "#fde68a",
-  text: "#075985",
+  skyTop: "#EEF0FF",
+  skyBottom: "#ECEEF8",
+  sun: "#F59E0B",
+  sunGlow: "#FEF3C7",
+  mountains: "#DDE1EE",
+  hills: "#C3C9DD",
+  ground: "#646B8F",
+  groundDark: "#474D6E",
+  player: "#4F46E5",
+  playerDark: "#4338CA",
+  playerGameOver: "#DC2626",
+  obstacleTall: "#F59E0B",
+  obstacleTallDark: "#B45309",
+  obstacle: "#DC2626",
+  obstacleDark: "#B91C1C",
+  coin: "#F59E0B",
+  coinInner: "#FEF3C7",
+  text: "#161A36",
   overlay: "rgba(255, 255, 255, 0.82)",
-  title: "#10b981",
-  gameOver: "#ef4444",
+  title: "#4F46E5",
+  gameOver: "#B91C1C",
 } as const;
 
 type GameState = "IDLE" | "RUNNING" | "GAMEOVER";
@@ -536,7 +536,7 @@ export function RunnerGame() {
         <BackLink href="/mini-jeux" />
         <PageTitle>Vol</PageTitle>
       </div>
-      <div className="w-full min-h-[55dvh] h-[calc(100dvh-7rem)] rounded-xl overflow-hidden bg-white landscape:min-h-[75dvh]">
+      <div className="w-full min-h-[55dvh] h-[calc(100dvh-7rem)] rounded-[var(--radius-card)] border border-line shadow-card overflow-hidden bg-surface landscape:min-h-[75dvh]">
         <canvas
           ref={canvasRef}
           className="w-full h-full"

@@ -6,5 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function HistoireLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return <div className="theme-histoire min-h-screen">{children}</div>;
 }

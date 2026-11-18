@@ -1,6 +1,7 @@
 "use client";
 
 import { useAnimate } from "framer-motion";
+import { Check, X } from "lucide-react";
 import { useEffect } from "react";
 
 type InputState = "idle" | "correct" | "wrong";
@@ -12,9 +13,9 @@ interface AnswerInputProps {
 }
 
 const stateMap: Record<InputState, string> = {
-  idle: "border-sky-300 text-sky-800 bg-sky-50",
-  correct: "border-emerald-500 text-emerald-700 bg-emerald-100",
-  wrong: "border-red-500 text-red-700 bg-red-100",
+  idle: "border-line-strong text-ink bg-surface",
+  correct: "border-success text-success-ink bg-success-soft",
+  wrong: "border-danger text-danger-ink bg-danger-soft",
 };
 
 export function AnswerInput({ value, state, placeholder = "?" }: AnswerInputProps) {
@@ -34,7 +35,7 @@ export function AnswerInput({ value, state, placeholder = "?" }: AnswerInputProp
       className={[
         "min-w-[140px] min-h-[80px] px-6",
         "flex items-center justify-center",
-        "rounded-[var(--radius-card)] border-4",
+        "gap-3 rounded-[var(--radius-card)] border-2 shadow-card",
         "text-5xl font-display tracking-wider",
         "transition-colors duration-200",
         stateMap[state],
@@ -46,6 +47,8 @@ export function AnswerInput({ value, state, placeholder = "?" }: AnswerInputProp
           {placeholder}
         </span>
       )}
+      {state === "correct" && <Check size={32} aria-hidden="true" />}
+      {state === "wrong" && <X size={32} aria-hidden="true" />}
     </div>
   );
 }

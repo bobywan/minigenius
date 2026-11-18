@@ -11,7 +11,7 @@ const SIZE_CLASS = {
 
 export function PageTitle({ children, size = "4xl" }: PageTitleProps) {
   return (
-    <h1 className={`${SIZE_CLASS[size]} font-display text-white first-letter:text-emerald-500`}>
+    <h1 className={`${SIZE_CLASS[size]} font-display font-semibold tracking-tight text-ink`}>
       {children}
     </h1>
   );

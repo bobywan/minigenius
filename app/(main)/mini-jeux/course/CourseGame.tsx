@@ -21,25 +21,25 @@ const DOUBLE_LANE_AFTER = 900;
 const LS_KEY = "course_hiscore";
 
 const COLOR = {
-  skyTop: "#e0f2fe",
-  skyBottom: "#7dd3fc",
-  laneA: "#ecfdf5",
-  laneB: "#d1fae5",
-  ground: "#10b981",
-  groundDark: "#059669",
-  player: "#10b981",
-  playerDark: "#059669",
-  playerGameOver: "#ef4444",
-  hurdle: "#f59e0b",
-  hurdleDark: "#d97706",
-  wall: "#0369a1",
-  wallDark: "#075985",
-  coin: "#f59e0b",
-  coinInner: "#fde68a",
-  text: "#075985",
+  skyTop: "#EEF0FF",
+  skyBottom: "#ECEEF8",
+  laneA: "#FFFFFF",
+  laneB: "#F5F6FB",
+  ground: "#DDE1EE",
+  groundDark: "#C3C9DD",
+  player: "#4F46E5",
+  playerDark: "#4338CA",
+  playerGameOver: "#DC2626",
+  hurdle: "#F59E0B",
+  hurdleDark: "#B45309",
+  wall: "#DC2626",
+  wallDark: "#B91C1C",
+  coin: "#F59E0B",
+  coinInner: "#FEF3C7",
+  text: "#161A36",
   overlay: "rgba(255, 255, 255, 0.82)",
-  title: "#10b981",
-  gameOver: "#ef4444",
+  title: "#4F46E5",
+  gameOver: "#B91C1C",
 } as const;
 
 type GameState = "IDLE" | "RUNNING" | "GAMEOVER";
@@ -506,7 +506,7 @@ export function CourseGame() {
         <BackLink href="/mini-jeux" />
         <PageTitle>Course</PageTitle>
       </div>
-      <div className="w-full min-h-[55dvh] h-[calc(100dvh-7rem)] rounded-xl overflow-hidden bg-white landscape:min-h-[75dvh]">
+      <div className="w-full min-h-[55dvh] h-[calc(100dvh-7rem)] rounded-[var(--radius-card)] border border-line shadow-card overflow-hidden bg-surface landscape:min-h-[75dvh]">
         <canvas
           ref={canvasRef}
           className="w-full h-full"

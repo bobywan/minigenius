@@ -119,13 +119,13 @@ export default function GamePage({
 
       <header className="grid gap-4 w-full text-center">
         <PageTitle>{`${MODULE_LABELS[mathMod]} — ${DIFFICULTY_LABELS[difficulty]}`}</PageTitle>
-        <p className="font-bold font-display text-white">
+        <p className="font-bold font-display text-ink-2">
           {currentIdx + 1} / {series.length}
         </p>
         <ProgressDots total={SERIES_LENGTH} states={dotStates} current={currentIdx} />
       </header>
 
-      <div className="flex flex-col items-center gap-8 w-full max-w-md bg-white p-8 rounded-xl">
+      <div className="flex flex-col items-center gap-8 w-full max-w-md bg-surface text-ink border border-line shadow-card p-8 rounded-[var(--radius-card)]">
         {current && <ExerciseDisplay exercise={current} revealAnswer={inputState !== "idle"} />}
 
         <AnswerInput value={inputValue} state={inputState} />
