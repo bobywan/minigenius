@@ -3,14 +3,12 @@
 import { notFound } from "next/navigation";
 import { use, useCallback, useEffect, useState } from "react";
 import { ChoiceGrid } from "@/components/game/ChoiceGrid";
+import { GameHeader } from "@/components/game/GameHeader";
 import { GamePendingShell } from "@/components/game/GamePendingShell";
 import { ReadingPrompt } from "@/components/game/ReadingPrompt";
 import { SeriesResultScreen } from "@/components/game/SeriesResultScreen";
 import { WordPrompt } from "@/components/game/WordPrompt";
-import { BackLink } from "@/components/ui/BackLink";
 import { Button } from "@/components/ui/Button";
-import { PageTitle } from "@/components/ui/PageTitle";
-import { ProgressDots } from "@/components/ui/ProgressDots";
 import { playError, playSuccess } from "@/lib/audio/sounds";
 import { generateFrenchQuiz } from "@/lib/exercises/generators/french";
 import { useSeriesGame } from "@/lib/hooks/useSeriesGame";
@@ -114,15 +112,13 @@ export default function FrenchQuizPage({
 
   return (
     <main className="flex flex-col items-center px-8 lg:px-16 py-8 lg:py-16 gap-8">
-      <BackLink href={backHref} />
-
-      <header className="grid gap-4 w-full text-center">
-        <PageTitle>{FRENCH_SLOT_LABELS[frenchSlot]}</PageTitle>
-        <p className="font-bold font-display text-ink-2">
-          {currentIdx + 1} / {series.length}
-        </p>
-        <ProgressDots total={SERIES_LENGTH} states={dotStates} current={currentIdx} />
-      </header>
+      <GameHeader
+        title={FRENCH_SLOT_LABELS[frenchSlot]}
+        exitHref={backHref}
+        states={dotStates}
+        current={currentIdx}
+        total={SERIES_LENGTH}
+      />
 
       <div className="flex flex-col items-center gap-8 w-full max-w-md bg-surface text-ink border border-line shadow-card p-8 rounded-[var(--radius-card)]">
         {current && (
